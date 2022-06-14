@@ -1,22 +1,17 @@
 <template>
   <div>
-    <post-page></post-page>
+    <main-rcmd></main-rcmd>
   </div>
 </template>
 
 <script>
-import PostPage from "./pages/PostPage.vue";
+import MainRcmd from "./pages/MainRcmd.vue";
 export default {
-  components: { PostPage },
-  name: "App",
-  data() {
-    return {
-      state: "",
-    };
-  },
-  component() {
-    PostPage
-  },
+    name: "App",
+    data() {
+        return {};
+    },
+    components: { MainRcmd }
 };
 </script>
 
