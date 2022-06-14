@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     updatedInfos(json) {
-      //用于更新gameInfos的函数
+      //用于更新gameInfos的函数,给Android调用
       this.gameInfos = JSON.parse(json).gameInfos;
     },
   },
