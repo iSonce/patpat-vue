@@ -1,56 +1,9 @@
 <template>
   <div class="PostPage">
-    <div class="PostHeader">
-      <button id="post-back" @click="ClickBack()">back</button>
-      <span>PatPat</span>
-      <button id="post-more" @click="ClickMore()">more</button>
-    </div>
-    <div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
-      <div>HH</div>
+    <div id="header">
+      <button id="back" @click="ClickBack()">back</button>
+      <span id="username">PatPat</span>
+      <button id="more" @click="ClickMore()">more</button>
     </div>
   </div>
 </template>
@@ -66,14 +19,16 @@ export default {
 </script>
 <style>
 .PostPage {
-
   text-align: center;
 }
-.PostHeader {
+.PostPage #header {
+  position: sticky;
+  top: 10px;
+  z-index: 100;
+  justify-content: space-between;
+  display: flex;
   width: 100%;
   background-color: white;
-  position: fixed;
-  display: flex;
   box-shadow: 0 -10px #fff;
 }
 </style>

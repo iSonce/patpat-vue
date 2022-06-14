@@ -15,7 +15,7 @@ export default {
     };
   },
   component() {
-    PostPage;
+    PostPage
   },
 };
 </script>
