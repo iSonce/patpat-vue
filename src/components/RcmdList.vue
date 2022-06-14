@@ -6,7 +6,7 @@
       :key="gameInfo.id"
       v-for="gameInfo in gameInfos"
     >
-      <img src="../assets/mario.jpg" alt="Game Poster" id="poster" />
+      <img src="../assets/mariopost.jpg" alt="Game Poster" id="poster" />
       <div class="content">
         <div class="text">
           <h1 id="name">{{ gameInfo.name }}</h1>

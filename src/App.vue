@@ -1,17 +1,17 @@
 <template>
   <div>
-    <main-rcmd></main-rcmd>
+    <main-top></main-top>
   </div>
 </template>
 
 <script>
-import MainRcmd from "./pages/MainRcmd.vue";
+import MainTop from "./pages/MainTop.vue";
 export default {
-    name: "App",
-    data() {
-        return {};
-    },
-    components: { MainRcmd }
+  name: "App",
+  data() {
+    return {};
+  },
+  components: { MainTop },
 };
 </script>
 
