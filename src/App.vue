@@ -1,8 +1,8 @@
 <template>
   <div>
     <!--这里用于单page测试-->
-    <main-top v-if="true"></main-top>
-    <main-rcmd v-if="false"></main-rcmd>
+    <main-top v-if="false"></main-top>
+    <main-rcmd v-if="true"></main-rcmd>
   </div>
 </template>
 

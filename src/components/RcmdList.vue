@@ -68,7 +68,7 @@ export default {
 .rcmd-card #poster {
   border-radius: var(--card-redius) var(--card-redius) 0 0;
   object-fit: cover;
-  /*使用百分比一定要写!important */
+  /*使用百分比一定要写!important,否则会失效 */
   width: 100% !important;
 }
 
