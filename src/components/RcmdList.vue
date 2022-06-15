@@ -28,10 +28,10 @@ export default {
     return {
       gameInfos: [
         { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
       ],
     };
   },
@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style>
+/* Todo */
+/* 将grid布局改为flex */
+/* 适配不同手机 */
 .rcmd-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -65,8 +68,7 @@ export default {
 .rcmd-card #poster {
   border-radius: 25px 25px 0 0;
   object-fit: cover;
-  width: 100%;
-  height: 100%;
+  max-width: 349px;
 }
 
 .rcmd-card .content {

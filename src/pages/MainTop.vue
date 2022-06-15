@@ -1,13 +1,13 @@
 <template>
   <div class="recommend">
-    <top-list></top-list>
+    <rcmd-list-vue></rcmd-list-vue>
   </div>
 </template>
 
 <script>
-import TopList from "../components/TopList.vue";
+import RcmdListVue from "@/components/RcmdList.vue";
 export default {
-  components: { TopList },
+  components: { RcmdListVue },
   name: "MainTop",
 };
 </script>
