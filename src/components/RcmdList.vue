@@ -45,15 +45,15 @@ export default {
 </script>
 
 <style>
-/* Todo */
-/* 将grid布局改为flex */
-/* 适配不同手机 */
+:root {
+  --card-redius: 25px;
+}
+
 .rcmd-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   grid-gap: 20px;
-  padding: 5px;
-  padding-block-end: 15px;
+  margin: 10px;
 }
 
 .rcmd-card {
@@ -61,14 +61,15 @@ export default {
   text-decoration: none;
   display: grid;
   grid-template-rows: max-content 100px 1fr;
-  border-radius: 25px 25px;
+  border-radius: var(--card-redius) var(--card-redius);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .rcmd-card #poster {
-  border-radius: 25px 25px 0 0;
+  border-radius: var(--card-redius) var(--card-redius) 0 0;
   object-fit: cover;
-  max-width: 349px;
+  /*使用百分比一定要写!important */
+  width: 100% !important;
 }
 
 .rcmd-card .content {
@@ -101,5 +102,6 @@ export default {
 .rcmd-card .content .score #num {
   color: red;
   font-size: larger;
+  font-weight: bold;
 }
 </style>
