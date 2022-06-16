@@ -1,10 +1,11 @@
 <template>
   <a class="rcmd-cards">
+    <button @click="refresh()">刷新</button>
     <a
       class="rcmd-card"
       href="www.baidu.com"
       :key="gameInfo.id"
-      v-for="gameInfo in gameInfos"
+      v-for="gameInfo in gameList"
     >
       <img src="../assets/mariopost.jpg" alt="Game Poster" id="poster" />
       <div class="content">
@@ -18,27 +19,51 @@
         </div>
       </div>
     </a>
+    <button @click="additem()">add</button>
   </a>
 </template>
 
 <script>
+/** Todo: 图片未加载显示白色，需要固定图片大小*/
+/** Todo: 实现上拉刷新下滑到底部加载新项*/
+/** Todo: 获取后端数据*/
+// import { GetGameList } from "@/api/getApi";
 export default {
   name: "RcmdList",
   data() {
     return {
-      gameInfos: [
+      gameList: [
         { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
         { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
         { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
         { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
         { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 6, name: "super mario", discribe: "good game", score: "9.0" },
       ],
     };
   },
   methods: {
-    updatedInfos(json) {
-      //用于更新gameInfos的函数,给Android调用
-      this.gameInfos = JSON.parse(json).gameInfos;
+    additem() {
+      this.gameList.push.apply(this.gameList, [
+        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 6, name: "super mario", discribe: "good game", score: "9.0" },
+      ]);
+      console.log(this.gameList);
+    },
+    refresh() {
+      this.gameList = [
+        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 6, name: "super mario", discribe: "good game", score: "9.0" },
+      ];
+      console.log(this.gameList);
     },
   },
 };

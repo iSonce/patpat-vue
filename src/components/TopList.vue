@@ -1,13 +1,18 @@
 <template>
   <div class="top-list">
-    <a class="top-item" :key="TopInfo.id" v-for="TopInfo in TopInfos" href="baidu.com">
+    <a
+      class="top-item"
+      :key="TopInfo.id"
+      v-for="TopInfo in TopInfos"
+      href="baidu.com"
+    >
       <p id="num">{{ TopInfo.id }}</p>
       <img src="../assets/marioicon.png" alt="icon" id="icon" />
       <div class="content">
-        <h3 id="name">{{TopInfo.name}}</h3>
+        <h3 id="name">{{ TopInfo.name }}</h3>
         <div class="score">
           <img src="../assets/heart.png" alt="heart" id="heart" />
-          <p id="num">{{TopInfo.score}}</p>
+          <p id="num">{{ TopInfo.score }}</p>
         </div>
       </div>
     </a>
@@ -24,7 +29,7 @@ export default {
         { id: 3, name: "mario2", score: "6.0" },
       ],
     };
-  },
+  }
 };
 </script>
 
