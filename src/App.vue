@@ -14,9 +14,19 @@ import LoginPage from "./pages/LoginPage.vue";
 export default {
   name: "App",
   data() {
-    return {};
+    return {
+      num: 50,
+    };
   },
   components: { MainTop, MainRcmd, LoginPage },
+  methods: {
+    addNum() {
+      this.num += 10;
+    },
+    reset() {
+      this.num = 50;
+    },
+  },
 };
 </script>
 

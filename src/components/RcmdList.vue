@@ -1,13 +1,15 @@
 <template>
-  <a class="rcmd-cards">
-    <button @click="refresh()">刷新</button>
+  <div class="rcmd-cards" id="rcmd-cards">
+    <div class="refreshImg">
+      <img src="../assets/loading.gif" alt="loading" v-show="display.head" />
+    </div>
     <a
       class="rcmd-card"
       href="www.baidu.com"
       :key="gameInfo.id"
       v-for="gameInfo in gameList"
     >
-      <img src="../assets/mariopost.jpg" alt="Game Poster" id="poster" />
+      <img src="../assets/op.webp" alt="Game Poster" id="poster" />
       <div class="content">
         <div class="text">
           <h1 id="name">{{ gameInfo.name }}</h1>
@@ -19,13 +21,14 @@
         </div>
       </div>
     </a>
-    <button @click="additem()">add</button>
-  </a>
+    <div class="refreshImg">
+      <img src="../assets/loading.gif" alt="loading" v-show="display.end" />
+    </div>
+  </div>
 </template>
 
 <script>
 /** Todo: 图片未加载显示白色，需要固定图片大小*/
-/** Todo: 实现上拉刷新下滑到底部加载新项*/
 /** Todo: 获取后端数据*/
 // import { GetGameList } from "@/api/getApi";
 export default {
@@ -33,35 +36,90 @@ export default {
   data() {
     return {
       gameList: [
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 6, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ],
+      display: {
+        head: false,
+        end: false,
+      },
     };
+  },
+  mounted() {
+    window.addEventListener("scroll", () => {
+      let scrollTop = document.documentElement.scrollTop;
+      let scrollHeight = document.documentElement.scrollHeight;
+      let clientHeight = document.documentElement.clientHeight;
+      if (scrollHeight - clientHeight - scrollTop < 1) {
+        this.display.end = true;
+        window.setTimeout(() => {
+          this.display.end = false;
+          this.additem();
+        }, 1000);
+      }
+    });
+    var _element = document.getElementById("rcmd-cards"),
+      _startPos = 0, // 初始的值
+      _transitionHeight = 0; // 移动的距离
+
+    _element.addEventListener(
+      "touchstart",
+      (e) => {
+        _startPos = e.touches[0].pageY; // 记录初始位置
+        _element.style.position = "relative";
+        _element.style.transition = "transform 0s";
+      },
+      false
+    );
+
+    _element.addEventListener(
+      "touchmove",
+      (e) => {
+        // e.touches[0].pageY 当前位置
+        _transitionHeight = e.touches[0].pageY - _startPos; // 记录差值
+
+        if (_transitionHeight > 0 && _transitionHeight < 40) {
+          this.display.head = true;
+          _element.style.transform = "translateY(" + _transitionHeight + "px)";
+        }
+      },
+      false
+    );
+
+    _element.addEventListener(
+      "touchend",
+      () => {
+        _element.style.transition = "transform 0.5s ease 1s";
+        _element.style.transform = "translateY(0px)";
+        this.refresh();
+        setTimeout(() => {
+          this.display.head = false;
+        }, 1000);
+      },
+      false
+    );
   },
   methods: {
     additem() {
       this.gameList.push.apply(this.gameList, [
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 6, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ]);
       console.log(this.gameList);
     },
     refresh() {
       this.gameList = [
-        { id: 1, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 2, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 3, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 4, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 5, name: "super mario", discribe: "good game", score: "9.0" },
-        { id: 6, name: "super mario", discribe: "good game", score: "9.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ];
       console.log(this.gameList);
     },
@@ -74,11 +132,20 @@ export default {
   --card-redius: 25px;
 }
 
+.refreshImg {
+  text-align: center;
+}
+
+.refreshImg img {
+  height: 40px;
+}
+
 .rcmd-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   grid-gap: 20px;
   margin: 10px;
+  margin-top: 0;
 }
 
 .rcmd-card {
