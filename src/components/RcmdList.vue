@@ -5,7 +5,7 @@
     </div>
     <a
       class="rcmd-card"
-      href="www.baidu.com"
+      href="http://www.baidu.com"
       :key="gameInfo.id"
       v-for="gameInfo in gameList"
     >
@@ -65,42 +65,35 @@ export default {
       _startPos = 0, // 初始的值
       _transitionHeight = 0; // 移动的距离
 
-    _element.addEventListener(
-      "touchstart",
-      (e) => {
-        _startPos = e.touches[0].pageY; // 记录初始位置
-        _element.style.position = "relative";
-        _element.style.transition = "transform 0s";
-      },
-      false
-    );
+    _element.addEventListener("touchstart", (e) => {
+      _startPos = e.touches[0].pageY; // 记录初始位置
+      _element.style.position = "relative";
+      _element.style.transition = "transform 0s";
+    });
 
-    _element.addEventListener(
-      "touchmove",
-      (e) => {
-        // e.touches[0].pageY 当前位置
-        _transitionHeight = e.touches[0].pageY - _startPos; // 记录差值
+    _element.addEventListener("touchmove", (e) => {
+      _transitionHeight = e.touches[0].pageY - _startPos; // 记录差值
+      if (
+        _transitionHeight > 0 &&
+        _transitionHeight < 40 &&
+        document.documentElement.scrollTop == 0
+      ) {
+        this.display.head = true;
+        _element.style.transform = "translateY(" + _transitionHeight + "px)";
+      }
+    });
 
-        if (_transitionHeight > 0 && _transitionHeight < 40) {
-          this.display.head = true;
-          _element.style.transform = "translateY(" + _transitionHeight + "px)";
-        }
-      },
-      false
-    );
-
-    _element.addEventListener(
-      "touchend",
-      () => {
+    _element.addEventListener("touchend", () => {
+      if (document.documentElement.scrollTop == 0) {
+        //这里需要检测是否在顶部
         _element.style.transition = "transform 0.5s ease 1s";
         _element.style.transform = "translateY(0px)";
         this.refresh();
         setTimeout(() => {
           this.display.head = false;
         }, 1000);
-      },
-      false
-    );
+      }
+    });
   },
   methods: {
     additem() {
@@ -111,7 +104,6 @@ export default {
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ]);
-      console.log(this.gameList);
     },
     refresh() {
       this.gameList = [
@@ -121,7 +113,6 @@ export default {
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ];
-      console.log(this.gameList);
     },
   },
 };
