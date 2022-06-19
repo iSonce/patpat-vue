@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="container">
     <!--这里用于单page测试-->
-    <main-top v-if="true"></main-top>
+    <main-top v-if="false"></main-top>
     <main-rcmd v-if="false"></main-rcmd>
     <login-page v-if="false"></login-page>
+    <dscv-page v-if="true"></dscv-page>
   </div>
 </template>
 
@@ -11,6 +12,7 @@
 import MainTop from "./pages/MainTop.vue";
 import MainRcmd from "./pages/MainRcmd.vue";
 import LoginPage from "./pages/LoginPage.vue";
+import DscvPage from "./pages/DscvPage.vue";
 export default {
   name: "App",
   data() {
@@ -18,7 +20,7 @@ export default {
       num: 50,
     };
   },
-  components: { MainTop, MainRcmd, LoginPage },
+  components: { MainTop, MainRcmd, LoginPage, DscvPage },
   methods: {
     addNum() {
       this.num += 10;
@@ -29,6 +31,5 @@ export default {
   },
 };
 </script>
-
 <style>
 </style>
