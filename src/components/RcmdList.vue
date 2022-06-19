@@ -111,6 +111,7 @@ export default {
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ]);
+      console.log(this.gameList.length)
     },
     refresh() {
       console.log("刷新");
@@ -121,6 +122,7 @@ export default {
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
       ];
+      console.log(this.gameList.length)
     },
   },
 };
