@@ -46,6 +46,8 @@ export default {
         head: false,
         end: false,
       },
+      //用于防止加载两次，相当于加个锁
+      busy: false,
     };
   },
   mounted() {
@@ -53,11 +55,15 @@ export default {
       let scrollTop = document.documentElement.scrollTop;
       let scrollHeight = document.documentElement.scrollHeight;
       let clientHeight = document.documentElement.clientHeight;
-      if (scrollHeight - clientHeight - scrollTop < 1) {
+      if (scrollHeight - clientHeight - scrollTop < 1 && !this.busy) {
+        //加锁
+        this.busy = true
         this.display.end = true;
         window.setTimeout(() => {
           this.display.end = false;
           this.additem();
+          //解锁
+          this.busy = false
         }, 1000);
       }
     });
@@ -97,6 +103,7 @@ export default {
   },
   methods: {
     additem() {
+      console.log("加载");
       this.gameList.push.apply(this.gameList, [
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
@@ -106,6 +113,7 @@ export default {
       ]);
     },
     refresh() {
+      console.log("刷新");
       this.gameList = [
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
         { id: 1, name: "op", discribe: "good game", score: "10.0" },
