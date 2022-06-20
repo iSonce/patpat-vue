@@ -2,15 +2,15 @@
   <div class="container">
     <!--这里用于单page测试-->
     <main-top v-if="false"></main-top>
-    <main-rcmd v-if="true"></main-rcmd>
-    <login-page v-if="false"></login-page>
+    <main-rcmd v-if="false"></main-rcmd>
+    <search-page v-if="true"></search-page>
   </div>
 </template>
 
 <script>
 import MainTop from "./pages/MainTop.vue";
 import MainRcmd from "./pages/MainRcmd.vue";
-import LoginPage from "./pages/LoginPage.vue";
+import SearchPage from "./pages/SearchPage.vue";
 export default {
   name: "App",
   data() {
@@ -18,7 +18,7 @@ export default {
       num: 50,
     };
   },
-  components: { MainTop, MainRcmd, LoginPage },
+  components: { MainTop, MainRcmd, SearchPage },
   methods: {
     addNum() {
       this.num += 10;
