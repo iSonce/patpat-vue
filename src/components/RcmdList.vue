@@ -9,7 +9,7 @@
       :key="gameInfo.id"
       v-for="gameInfo in gameList"
     >
-      <img src="../assets/op.webp" alt="Game Poster" id="poster" />
+      <img v-lazy="require('../assets/op.webp')" alt="Game Poster" id="poster" />
       <div class="content">
         <div class="text">
           <h1 id="name">{{ gameInfo.name }}</h1>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-/** Todo: 图片未加载显示白色，需要固定图片大小*/
 /** Todo: 获取后端数据*/
 // import { GetGameList } from "@/api/getApi";
 export default {
