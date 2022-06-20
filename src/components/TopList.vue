@@ -3,12 +3,7 @@
     <div class="refreshImg">
       <img src="../assets/loading.gif" alt="loading" v-show="display.head" />
     </div>
-    <a
-      class="top-item"
-      :key="TopInfo.id"
-      v-for="TopInfo in gameList"
-      href="baidu.com"
-    >
+    <a class="top-item" :key="TopInfo.id" v-for="TopInfo in gameList" href="baidu.com">
       <p id="num">{{ TopInfo.id }}</p>
       <img src="../assets/marioicon.png" alt="icon" id="icon" />
       <div class="content">

@@ -1,30 +1,23 @@
 <template>
   <div class="loading">
-    <a
-      :key="key"
-      v-for="(value, key) in map"
-      @click="clickFunc(value.name)"
-    >
-      <div
-        id="content"
-        v-if="
-          [
-            '4',
-            '5',
-            '8',
-            '9',
-            '10',
-            '12',
-            '13',
-            '14',
-            '16',
-            '17',
-            '18',
-            '21',
-            '22',
-          ].includes(key)
-        "
-      >
+    <a :key="key" v-for="(value, key) in map" @click="clickFunc(value.name)">
+      <div id="content" v-if="
+        [
+          '4',
+          '5',
+          '8',
+          '9',
+          '10',
+          '12',
+          '13',
+          '14',
+          '16',
+          '17',
+          '18',
+          '21',
+          '22',
+        ].includes(key)
+      ">
         <img :src="value.imgName" alt="MOBA" />
         <p>{{ value.name }}</p>
       </div>

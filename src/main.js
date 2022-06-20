@@ -8,7 +8,6 @@ createApp(App)
         preLoad: 1.3,
         error: require('./assets/blank.png'),
         loading: require('./assets/blank.png'),
-        attempt: 1,
-        listenEvents: ['scroll']
+        attempt: 1
     })
     .mount('#app')

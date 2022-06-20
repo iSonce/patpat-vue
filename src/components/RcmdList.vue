@@ -3,16 +3,13 @@
     <div class="refreshImg">
       <img src="../assets/loading.gif" alt="loading" v-show="display.head" />
     </div>
-    <a
-      class="rcmd-card"
-      href="http://www.baidu.com"
-      :key="gameInfo.id"
-      v-for="gameInfo in gameList"
-    >
-      <img v-lazy="require('../assets/op.webp')" alt="Game Poster" id="poster" />
+    <a class="rcmd-card" href="http://www.baidu.com" :key="gameInfo.id" v-for="gameInfo in gameList">
+      <img v-lazy="gameInfo.img" alt="Game Poster" id="poster" />
       <div class="content">
         <div class="text">
-          <h1 id="name">{{ gameInfo.name }}</h1>
+          <div id="nameAndType">
+            <div id="name">{{ gameInfo.name }}</div>
+          </div>
           <p id="discribe">{{ gameInfo.discribe }}</p>
         </div>
         <div class="score">
@@ -35,11 +32,11 @@ export default {
   data() {
     return {
       gameList: [
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "原神", discribe: "感觉不如", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "马里奥", discribe: "good game", score: "10.0", img: require("../assets/marioposter.jpg") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
       ],
       display: {
         head: false,
@@ -104,22 +101,22 @@ export default {
     additem() {
       console.log("加载");
       this.gameList.push.apply(this.gameList, [
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
       ]);
       console.log(this.gameList.length)
     },
     refresh() {
       console.log("刷新");
       this.gameList = [
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
-        { id: 1, name: "op", discribe: "good game", score: "10.0" },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
       ];
       console.log(this.gameList.length)
     },
@@ -152,7 +149,7 @@ export default {
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   display: grid;
-  grid-template-rows: max-content 100px 1fr;
+  grid-template-rows: max-content 80px 1fr;
   border-radius: var(--card-redius) var(--card-redius);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -165,12 +162,25 @@ export default {
 }
 
 .rcmd-card .content {
-  margin: 0px 20px;
+  margin: 0px 15px;
   justify-content: space-between;
   display: flex;
 }
 
-.rcmd-card .content .text #name {
+.rcmd-card .content .text #nameAndType {
+  margin-top: 10px;
+  display: flex;
+}
+
+.rcmd-card .content .text #nameAndType #name {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0px 10px 0px 0px;
+  color: black;
+}
+
+.rcmd-card .content .text #nameAndType #type_container {
+  display: flex;
   margin: 10px 0px 0px 0px;
   color: black;
 }
@@ -178,6 +188,7 @@ export default {
 .rcmd-card .content .text #discribe {
   margin: 10px 0px 0px 0px;
   color: grey;
+  font-size: small;
 }
 
 .rcmd-card .content .score {
@@ -187,8 +198,9 @@ export default {
 }
 
 .rcmd-card .content .score #heart {
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
+  margin-right: 5px;
 }
 
 .rcmd-card .content .score #num {
