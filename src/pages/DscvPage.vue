@@ -1,6 +1,10 @@
 <template>
   <div class="loading">
-    <a :key="key" v-for="(value, key) in map" @click="clickFunc" href="https://www.37.com/">
+    <a
+      :key="key"
+      v-for="(value, key) in map"
+      @click="clickFunc(value.name)"
+    >
       <div
         id="content"
         v-if="
@@ -22,6 +26,7 @@
         "
       >
         <img :src="value.imgName" alt="MOBA" />
+        <p>{{ value.name }}</p>
       </div>
     </a>
   </div>
@@ -33,25 +38,65 @@ export default {
   data() {
     return {
       map: {
-        4: {name: "Sandbox",imgName: require("../assets/GameType/Sandbox.png")},
-        5: { name: "MOBA", imgName: require("../assets/GameType/MOBA.png") },
-        8: { name: "Card", imgName: require("../assets/GameType/Card.png") },
-        9: { name: "Online", imgName: require("../assets/GameType/Online.png") },
-        10: { name: "Music", imgName: require("../assets/GameType/Music.png") },
-        12: { name: "Place", imgName: require("../assets/GameType/Place.png") },
-        13: { name: "Pixel", imgName: require("../assets/GameType/Pixel.png") },
-        14: { name: "Yizhi", imgName: require("../assets/GameType/Yizhi.png") },
-        16: { name: "Shooting", imgName: require("../assets/GameType/Shooting.png") },
-        17: { name: "Puzzle", imgName: require("../assets/GameType/Puzzle.png") },
-        18: { name: "Speed", imgName: require("../assets/GameType/Speed.png") },
-        21: { name: "Story", imgName: require("../assets/GameType/Story.png") },
-        22: { name: "Survival", imgName: require("../assets/GameType/Survival.png") },
+        4: {
+          name: "沙盒",
+          imgName: require("../assets/GameType/Sandbox.png"),
+        },
+        5: {
+          name: "MOBA",
+          imgName: require("../assets/GameType/MOBA.png"),
+        },
+        8: {
+          name: "卡牌",
+          imgName: require("../assets/GameType/Card.png"),
+        },
+        9: {
+          name: "多人",
+          imgName: require("../assets/GameType/Online.png"),
+        },
+        10: {
+          name: "音游",
+          imgName: require("../assets/GameType/Music.png"),
+        },
+        12: {
+          name: "放置",
+          imgName: require("../assets/GameType/Place.png"),
+        },
+        13: {
+          name: "像素",
+          imgName: require("../assets/GameType/Pixel.png"),
+        },
+        14: {
+          name: "益智",
+          imgName: require("../assets/GameType/Yizhi.png"),
+        },
+        16: {
+          name: "射击",
+          imgName: require("../assets/GameType/Shooting.png"),
+        },
+        17: {
+          name: "解谜",
+          imgName: require("../assets/GameType/Puzzle.png"),
+        },
+        18: {
+          name: "速度",
+          imgName: require("../assets/GameType/Speed.png"),
+        },
+        21: {
+          name: "剧情",
+          imgName: require("../assets/GameType/Story.png"),
+        },
+        22: {
+          name: "生存",
+          imgName: require("../assets/GameType/Survival.png"),
+        },
       },
     };
   },
   methods: {
-    clickFunc() {
-      console.log("click");
+    clickFunc(type) {
+      console.log(type);
+      //将type传到Android端
     },
   },
   mounted() {
@@ -72,7 +117,7 @@ html {
 }
 
 body {
-  background-color: pink;
+  background-color: rgba(255, 192, 203, 0.418);
   padding: 0;
   margin: 0;
   height: 100vh;
@@ -84,37 +129,41 @@ body {
 
 .loading {
   transform: rotate(-45deg);
-  width: 500px;
-  height: 500px;
+  width: 440px;
+  height: 440px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 10px;
 }
 
 .loading a {
+  text-decoration: none;
   padding: 0;
   margin: 0;
   display: flex;
-  background-color: pink;
   --shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
   align-items: center;
   justify-content: center;
-  width: 92px;
-  height: 92px;
 }
 
 .loading a #content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   transform: rotate(45deg);
 }
 
 .loading a #content img {
-  width: 50px;
+  width: 40px;
 }
 
 .loading a #content p {
   font-size: small;
   padding: 0;
   margin: 0;
+  color: rgb(247, 165, 178);
+  font-size: small;
 }
 
 .loading a:nth-child(-n + 5):nth-child(n + 4) {
