@@ -7,10 +7,8 @@
       <img v-lazy="gameInfo.img" alt="Game Poster" id="poster" />
       <div class="content">
         <div class="text">
-          <div id="nameAndType">
-            <div id="name">{{ gameInfo.name }}</div>
-          </div>
-          <p id="discribe">{{ gameInfo.discribe }}</p>
+          <div id="name">{{ gameInfo.name }}</div>
+          <div id="discribe">{{ gameInfo.discribe }}</div>
         </div>
         <div class="score">
           <img src="../assets/heart.png" alt="heart" id="heart" />
@@ -32,7 +30,7 @@ export default {
   data() {
     return {
       gameList: [
-        { id: 1, name: "原神", discribe: "感觉不如", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "超级马里奥之感觉不如原神，画质", discribe: "感觉不如原神感觉不如原神感觉不如原神感觉不如原神感觉不如原神感觉不如原神", score: "10.0", img: require("../assets/op.webp") },
         { id: 1, name: "马里奥", discribe: "good game", score: "10.0", img: require("../assets/marioposter.jpg") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
@@ -149,7 +147,7 @@ export default {
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   display: grid;
-  grid-template-rows: max-content 80px 1fr;
+  grid-template-rows: max-content 85px 1fr;
   border-radius: var(--card-redius) var(--card-redius);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -162,7 +160,7 @@ export default {
 }
 
 .rcmd-card .content {
-  margin: 0px 15px;
+  margin: 0px 12px;
   justify-content: space-between;
   display: flex;
 }
@@ -172,23 +170,17 @@ export default {
   display: flex;
 }
 
-.rcmd-card .content .text #nameAndType #name {
-  font-size: 20px;
+.rcmd-card .content .text #name {
+  font-size: 15px;
   font-weight: 800;
-  margin: 0px 10px 0px 0px;
   color: black;
-}
-
-.rcmd-card .content .text #nameAndType #type_container {
-  display: flex;
-  margin: 10px 0px 0px 0px;
-  color: black;
+  margin-top: 10px;
 }
 
 .rcmd-card .content .text #discribe {
   margin: 10px 0px 0px 0px;
   color: grey;
-  font-size: small;
+  font-size: 10px;
 }
 
 .rcmd-card .content .score {
@@ -198,14 +190,14 @@ export default {
 }
 
 .rcmd-card .content .score #heart {
-  width: 45px;
-  height: 45px;
+  width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 
 .rcmd-card .content .score #num {
   color: red;
-  font-size: larger;
+  font-size: 15px;
   font-weight: bold;
 }
 </style>
