@@ -51,8 +51,9 @@ export default {
                 head: false,
                 end: false,
             },
-            busy: false,
+            loadBusy: false,
             curnum: 15,
+            isRefresh: false
         };
     },
     mounted() {
@@ -60,7 +61,7 @@ export default {
             let scrollTop = document.documentElement.scrollTop;
             let scrollHeight = document.documentElement.scrollHeight;
             let clientHeight = document.documentElement.clientHeight;
-            if (scrollHeight - clientHeight - scrollTop < 1 && !this.busy) {
+            if (scrollHeight - clientHeight - scrollTop < 1 && !this.loadBusy) {
                 //加锁
                 this.busy = true;
                 this.display.end = true;
@@ -90,12 +91,13 @@ export default {
                 document.documentElement.scrollTop == 0
             ) {
                 this.display.head = true;
+                this.refresh = true;
                 _element.style.transform = "translateY(" + _transitionHeight + "px)";
             }
         });
 
         _element.addEventListener("touchend", () => {
-            if (document.documentElement.scrollTop == 0) {
+            if (document.documentElement.scrollTop == 0 && this.refresh == true) {
                 //这里需要检测是否在顶部
                 _element.style.transition = "transform 0.5s ease 1s";
                 _element.style.transform = "translateY(0px)";
@@ -103,6 +105,7 @@ export default {
                 setTimeout(() => {
                     this.display.head = false;
                 }, 1000);
+                this.isRefresh = false
             }
         });
     },
@@ -168,6 +171,7 @@ export default {
     font-size: medium;
     font-weight: 500;
     width: 20px;
+    padding-right: 8px;
 }
 
 .top-item #icon {
@@ -178,6 +182,7 @@ export default {
 }
 
 .top-item #download {
+    margin-left: auto;
     text-decoration: none;
     color: rgb(187, 71, 90);
     float: right;
@@ -188,10 +193,6 @@ export default {
     padding: 5px 0px 5px 0px;
     font-size: 16px;
     font-weight: bolder;
-}
-
-.top-item #download {
-    margin-left: auto;
 }
 
 .top-item .content #name {
@@ -213,6 +214,7 @@ export default {
 .top-item .content .score #type_container .type {
     color: gray;
     font-size: 13px;
+    padding-right: 5px;
 }
 
 .top-item .content .score #heart {
