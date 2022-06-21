@@ -1,28 +1,25 @@
 <template>
   <div class="rcmd-cards" id="rcmd-cards">
-    <div class="refreshImg">
-      <img src="../assets/loading.gif" alt="loading" v-show="display.head" />
-    </div>
-    <a class="rcmd-card" href="http://www.baidu.com" :key="gameInfo.id" v-for="gameInfo in gameList">
-      <img v-lazy="gameInfo.img" alt="Game Poster" id="poster" />
-      <div class="content">
-        <div class="text">
-          <div id="name">{{ gameInfo.name }}</div>
-          <div id="discribe">{{ gameInfo.discribe }}</div>
+    <LoadRefresh @refresh="refresh()" @load="additem()">
+      <a class="rcmd-card" href="http://www.baidu.com" :key="gameInfo.id" v-for="gameInfo in gameList">
+        <img v-lazy="gameInfo.img" alt="Game Poster" id="poster" />
+        <div class="content">
+          <div class="text">
+            <div id="name">{{ gameInfo.name }}</div>
+            <div id="discribe">{{ gameInfo.discribe }}</div>
+          </div>
+          <div class="score">
+            <img src="../assets/heart.png" alt="heart" id="heart" />
+            <div id="num">{{ gameInfo.score }}</div>
+          </div>
         </div>
-        <div class="score">
-          <img src="../assets/heart.png" alt="heart" id="heart" />
-          <div id="num">{{ gameInfo.score }}</div>
-        </div>
-      </div>
-    </a>
-    <div class="refreshImg">
-      <img src="../assets/loading.gif" alt="loading" v-show="display.end" />
-    </div>
+      </a>
+    </LoadRefresh>
   </div>
 </template>
 
 <script>
+import LoadRefresh from './LoadRefresh.vue';
 /** Todo: 获取后端数据*/
 // import { GetGameList } from "@/api/getApi";
 export default {
@@ -36,64 +33,10 @@ export default {
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
       ],
-      display: {
-        head: false,
-        end: false,
-      },
-      //用于防止加载两次，相当于加个锁
-      busy: false,
     };
   },
   mounted() {
-    window.addEventListener("scroll", () => {
-      let scrollTop = document.documentElement.scrollTop;
-      let scrollHeight = document.documentElement.scrollHeight;
-      let clientHeight = document.documentElement.clientHeight;
-      if (scrollHeight - clientHeight - scrollTop < 1 && !this.busy) {
-        //加锁
-        this.busy = true
-        this.display.end = true;
-        window.setTimeout(() => {
-          this.display.end = false;
-          this.additem();
-          //解锁
-          this.busy = false
-        }, 1000);
-      }
-    });
-    var _element = document.getElementById("rcmd-cards"),
-      _startPos = 0, // 初始的值
-      _transitionHeight = 0; // 移动的距离
 
-    _element.addEventListener("touchstart", (e) => {
-      _startPos = e.touches[0].pageY; // 记录初始位置
-      _element.style.position = "relative";
-      _element.style.transition = "transform 0s";
-    });
-
-    _element.addEventListener("touchmove", (e) => {
-      _transitionHeight = e.touches[0].pageY - _startPos; // 记录差值
-      if (
-        _transitionHeight > 0 &&
-        _transitionHeight < 40 &&
-        document.documentElement.scrollTop == 0
-      ) {
-        this.display.head = true;
-        _element.style.transform = "translateY(" + _transitionHeight + "px)";
-      }
-    });
-
-    _element.addEventListener("touchend", () => {
-      if (document.documentElement.scrollTop == 0) {
-        //这里需要检测是否在顶部
-        _element.style.transition = "transform 0.5s ease 1s";
-        _element.style.transform = "translateY(0px)";
-        this.refresh();
-        setTimeout(() => {
-          this.display.head = false;
-        }, 1000);
-      }
-    });
   },
   methods: {
     additem() {
@@ -105,20 +48,21 @@ export default {
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
       ]);
-      console.log(this.gameList.length)
+      console.log(this.gameList.length);
     },
     refresh() {
       console.log("刷新");
       this.gameList = [
-        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
-        { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "超级马里奥之感觉不如原神，画质", discribe: "感觉不如原神感觉不如原神感觉不如原神感觉不如原神感觉不如原神感觉不如原神", score: "10.0", img: require("../assets/op.webp") },
+        { id: 1, name: "马里奥", discribe: "good game", score: "10.0", img: require("../assets/marioposter.jpg") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
         { id: 1, name: "op", discribe: "good game", score: "10.0", img: require("../assets/op.webp") },
       ];
-      console.log(this.gameList.length)
+      console.log(this.gameList.length);
     },
   },
+  components: { LoadRefresh }
 };
 </script>
 
@@ -127,20 +71,12 @@ export default {
   --card-redius: 25px;
 }
 
-.refreshImg {
-  text-align: center;
-}
-
-.refreshImg img {
-  height: 40px;
-}
-
 .rcmd-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   grid-gap: 20px;
-  margin: 10px;
-  margin-top: 0;
+  margin-top: 20px;
+  padding: 0px 10px 0 10px;
 }
 
 .rcmd-card {
@@ -150,6 +86,7 @@ export default {
   grid-template-rows: max-content 85px 1fr;
   border-radius: var(--card-redius) var(--card-redius);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 20px;
 }
 
 .rcmd-card #poster {

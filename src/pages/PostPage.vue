@@ -1,5 +1,5 @@
 <template>
-    <div id="post">
+    <div id="post" style="margin-top:10px">
         <div :key="i" v-for="i in 10" style="margin-bottom:10px" class="post_item">
             <div class="user_info">
                 <img src="../assets/user_icon.png" alt="user_icon" class="user_icon" @click="toUser()">
@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             PostList: [
-                { pid: 123, content: "感觉不如原神", fid: "超级马里奥", post_time: "n天前", like: 1, review: 1 }
+                { pid: 123, content: "感觉不如原神", fid: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require('../assets/user_icon.png') }
             ]
         }
     },
@@ -60,7 +60,7 @@ export default {
         addLike() {
             console.log('addLike')
         },
-        share(){
+        share() {
             console.log('share')
         }
     }

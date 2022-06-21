@@ -4,7 +4,6 @@
     <main-top v-if="false"></main-top>
     <main-rcmd v-if="false"></main-rcmd>
     <search-page v-if="false"></search-page>
-    <main-top v-if="false"></main-top>
     <post-page v-if="true"></post-page>
   </div>
 </template>
@@ -18,17 +17,16 @@ export default {
   name: "App",
   data() {
     return {
-      num: 50,
     };
   },
-  components: { MainTop, MainRcmd, SearchPage, PostPage },
+  components: { MainTop, MainRcmd, SearchPage, PostPage},
   methods: {
-    addNum() {
-      this.num += 10;
+    refresh() {
+      console.log('refresh')
     },
-    reset() {
-      this.num = 50;
-    },
+    load() {
+      console.log('load')
+    }
   },
 };
 </script>

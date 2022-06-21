@@ -1,33 +1,30 @@
 <template>
   <div class="top-list" id="top-list">
-    <div class="refreshImg">
-      <img src="../assets/loading.gif" alt="loading" v-show="display.head" />
-    </div>
-    <a class="top-item" :key="TopInfo.id" v-for="TopInfo in gameList" :href="TopInfo.url">
-      <p id="rank" v-if="rankShow">{{ TopInfo.id }}</p>
-      <img src="../assets/marioicon.png" alt="icon" id="icon" />
-      <div class="content">
-        <h3 id="name">{{ TopInfo.name }}</h3>
-        <div class="score">
-          <img src="../assets/heart.png" alt="heart" id="heart" />
-          <p id="num">{{ TopInfo.score }}</p>
-          <div id="type_container">
-            <div :key="index" v-for="(value, index) in TopInfo.type">
-              <div v-if="index == 0 || index == 1" class="type">{{ (index == 0) ? value + ' · ' : value }}
+    <LoadRefresh @refresh="refresh()" @load="additem()">
+      <a class="top-item" :key="TopInfo.id" v-for="TopInfo in gameList" :href="TopInfo.url">
+        <p id="rank" v-if="rankShow">{{ TopInfo.id }}</p>
+        <img src="../assets/marioicon.png" alt="icon" id="icon" />
+        <div class="content">
+          <h3 id="name">{{ TopInfo.name }}</h3>
+          <div class="score">
+            <img src="../assets/heart.png" alt="heart" id="heart" />
+            <p id="num">{{ TopInfo.score }}</p>
+            <div id="type_container">
+              <div :key="index" v-for="(value, index) in TopInfo.type">
+                <div v-if="index == 0 || index == 1" class="type">{{ (index == 0) ? value + ' · ' : value }}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="download">官网</div>
-    </a>
-    <div class="refreshImg">
-      <img src="../assets/loading.gif" alt="loading" v-show="display.end" />
-    </div>
+        <div id="download">官网</div>
+      </a>
+    </LoadRefresh>
   </div>
 </template>
 
 <script>
+import LoadRefresh from './LoadRefresh.vue';
 export default {
   props: {
     rankShow: Boolean
@@ -61,57 +58,6 @@ export default {
     };
   },
   mounted() {
-    window.addEventListener("scroll", () => {
-      let scrollTop = document.documentElement.scrollTop;
-      let scrollHeight = document.documentElement.scrollHeight;
-      let clientHeight = document.documentElement.clientHeight;
-      if (scrollHeight - clientHeight - scrollTop < 1 && !this.loadBusy) {
-        //加锁
-        this.busy = true;
-        this.display.end = true;
-        window.setTimeout(() => {
-          this.display.end = false;
-          this.additem();
-          //解锁
-          this.busy = false;
-        }, 1000);
-      }
-    });
-    var _element = document.getElementById("top-list"),
-      _startPos = 0, // 初始的值
-      _transitionHeight = 0; // 移动的距离
-
-    _element.addEventListener("touchstart", (e) => {
-      _startPos = e.touches[0].pageY; // 记录初始位置
-      _element.style.position = "relative";
-      _element.style.transition = "transform 0s";
-    });
-
-    _element.addEventListener("touchmove", (e) => {
-      _transitionHeight = e.touches[0].pageY - _startPos; // 记录差值
-      if (
-        _transitionHeight > 0 &&
-        _transitionHeight < 40 &&
-        document.documentElement.scrollTop == 0
-      ) {
-        this.display.head = true;
-        this.isRefresh = true;
-        _element.style.transform = "translateY(" + _transitionHeight + "px)";
-      }
-    });
-
-    _element.addEventListener("touchend", () => {
-      if (document.documentElement.scrollTop == 0 && this.isRefresh == true) {
-        //这里需要检测是否在顶部
-        _element.style.transition = "transform 0.5s ease 1s";
-        _element.style.transform = "translateY(0px)";
-        this.refresh();
-        setTimeout(() => {
-          this.display.head = false;
-        }, 1000);
-        this.isRefresh = false
-      }
-    });
   },
   methods: {
     additem() {
@@ -146,18 +92,11 @@ export default {
       console.log(this.gameList.length);
     },
   },
+  components: { LoadRefresh }
 };
 </script>
 
 <style>
-.refreshImg {
-  text-align: center;
-}
-
-.refreshImg img {
-  height: 40px;
-}
-
 .top-list {
   padding: 5px;
 }
