@@ -1,6 +1,6 @@
 <template>
   <div class="recommend">
-    <top-list></top-list>
+    <top-list rankShow="true"></top-list>
   </div>
 </template>
 

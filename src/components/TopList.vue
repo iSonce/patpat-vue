@@ -4,7 +4,7 @@
       <img src="../assets/loading.gif" alt="loading" v-show="display.head" />
     </div>
     <a class="top-item" :key="TopInfo.id" v-for="TopInfo in gameList" :href="TopInfo.url">
-      <p id="num">{{ TopInfo.id }}</p>
+      <p id="rank" v-if="rankShow">{{ TopInfo.id }}</p>
       <img src="../assets/marioicon.png" alt="icon" id="icon" />
       <div class="content">
         <h3 id="name">{{ TopInfo.name }}</h3>
@@ -29,6 +29,9 @@
 
 <script>
 export default {
+  props: {
+    rankShow: Boolean
+  },
   data() {
     return {
       gameList: [
@@ -148,85 +151,85 @@ export default {
 
 <style>
 .refreshImg {
-    text-align: center;
+  text-align: center;
 }
 
 .refreshImg img {
-    height: 40px;
+  height: 40px;
 }
 
 .top-list {
-    padding: 5px;
+  padding: 5px;
 }
 
 .top-item {
-    align-items: center;
-    text-decoration: none;
-    display: flex;
-    padding-block-end: 15px;
-    -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+  padding-block-end: 15px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.top-item #num {
-    color: black;
-    font-size: medium;
-    font-weight: 500;
-    width: 20px;
-    padding-right: 8px;
+.top-item #rank {
+  color: black;
+  font-size: medium;
+  font-weight: 500;
+  width: 20px;
+  padding-right: 8px;
 }
 
 .top-item #icon {
-    width: 65px;
-    height: 65px;
-    border-radius: 15px;
-    margin: 0 10px 0 0px;
+  width: 65px;
+  height: 65px;
+  border-radius: 15px;
+  margin: 0 10px 0 0px;
 }
 
 .top-item #download {
-    margin-left: auto;
-    text-decoration: none;
-    color: rgb(187, 71, 90);
-    float: right;
-    background-color: rgba(255, 192, 203, 0.549);
-    border-radius: 18px;
-    text-align: center;
-    width: 80px;
-    padding: 5px 0px 5px 0px;
-    font-size: 16px;
-    font-weight: bolder;
+  margin-left: auto;
+  text-decoration: none;
+  color: rgb(187, 71, 90);
+  float: right;
+  background-color: rgba(255, 192, 203, 0.549);
+  border-radius: 18px;
+  text-align: center;
+  width: 80px;
+  padding: 5px 0px 5px 0px;
+  font-size: 16px;
+  font-weight: bolder;
 }
 
 .top-item .content #name {
-    color: black;
-    margin: 0;
+  color: black;
+  margin: 0;
 }
 
 .top-item .content .score {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 
 .top-item .content .score #type_container {
-    margin-left: 10px;
-    display: flex;
+  margin-left: 10px;
+  display: flex;
 }
 
 .top-item .content .score #type_container .type {
-    color: gray;
-    font-size: 13px;
-    padding-right: 5px;
+  color: gray;
+  font-size: 13px;
+  padding-right: 5px;
 }
 
 .top-item .content .score #heart {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .top-item .content .score #num {
-    color: red;
-    font-weight: 800;
-    margin: 0;
-    width: auto;
+  color: red;
+  font-weight: 800;
+  margin: 0;
+  width: auto;
 }
 </style>

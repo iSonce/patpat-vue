@@ -3,8 +3,8 @@
     <!--这里用于单page测试-->
     <main-top v-if="false"></main-top>
     <main-rcmd v-if="false"></main-rcmd>
-    <search-page v-if="false"></search-page>
-    <main-top v-if="true"></main-top>
+    <search-page v-if="true"></search-page>
+    <main-top v-if="false"></main-top>
   </div>
 </template>
 

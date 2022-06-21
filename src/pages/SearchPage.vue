@@ -1,15 +1,15 @@
 <template>
     <div id="container">
-        <SearchList></SearchList>
+        <TopList ranShow="false"></TopList>
     </div>
 </template>
 
 <script>
-import SearchList from "@/components/SearchList.vue";
+import TopList from "@/components/TopList.vue";
 export default {
     name: "SearchPage",
     components: {
-        SearchList
+        TopList
     }
 }
 
