@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <TopList ranShow="false"></TopList>
+        <TopList :rankShow='false'></TopList>
     </div>
 </template>
 
