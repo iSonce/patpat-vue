@@ -1,19 +1,19 @@
 import instance from "./axios";
 
-export function GetRcmdList(data) {
+export function GetGames(data) {
     return instance.request({
         method: "get",
-        url: "/RcmdList",
-        // data example { type: "fight"}
+        url: "/games",
+        // data example { type: "多人联机", num: 10}
         params: data,
     })
 }
 
-export function GetTopList(data) {
+export function GetRank(data) {
     return instance.request({
         method: "get",
-        url: "/topList",
-        // data example { begin: 15 }
+        url: "game/rank",
+        // data example { startNum: 15, num: 10 }
         params: data
     })
 }

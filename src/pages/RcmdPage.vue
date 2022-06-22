@@ -1,13 +1,13 @@
 <template>
   <div class="recommend">
-    <rcmd-list></rcmd-list>
+    <card-list></card-list>
   </div>
 </template>
 
 <script>
-import RcmdList from "../components/RcmdList.vue";
+import CardList from "../components/CardList.vue";
 export default {
-  components: { RcmdList },
+  components: { CardList },
   name: "MainRcmd",
 };
 </script>

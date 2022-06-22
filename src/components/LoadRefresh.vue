@@ -1,3 +1,4 @@
+<!-- Todo: 根据滑动距离更改动画 -->
 <template>
     <div id="load-refresh">
         <div class="refreshImg">
@@ -21,6 +22,8 @@ export default {
             },
             //用于防止加载两次，相当于加个锁
             is_load_busy: false,
+            //判断是否刷新
+            is_refresh: false,
         };
     },
     mounted() {
@@ -58,14 +61,18 @@ export default {
                 _transitionHeight < 30 &&
                 document.documentElement.scrollTop == 0
             ) {
-                this.load_refresh_img_show.head = true;
                 _element.style.transform = "translateY(" + _transitionHeight + "px)";
+                if (_transitionHeight > 10) {
+                    this.load_refresh_img_show.head = true;
+                    this.is_refresh = true;
+                }
             }
         });
 
-        _element.addEventListener("touchend", () => {
-            if (document.documentElement.scrollTop == 0) {
+        _element.addEventListener("touchend", async () => {
+            if (document.documentElement.scrollTop == 0 && this.is_refresh) {
                 //这里需要检测是否在顶部
+                this.is_refresh = false;
                 _element.style.transition = "transform 0.5s ease 1s";
                 _element.style.transform = "translateY(0px)";
                 this.$emit('refresh');

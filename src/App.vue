@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <!--这里用于单page测试-->
-    <rcmd-page v-if="false"></rcmd-page>
+    <rcmd-page v-if="true"></rcmd-page>
     <top-page v-if="false"></top-page>
     <search-page v-if="false"></search-page>
-    <post-page v-if="true"></post-page>
+    <post-page v-if="false"></post-page>
   </div>
 </template>
 

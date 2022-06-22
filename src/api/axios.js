@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://192.168.2.212:8199/lmw",
-    timeout: 1000
+    baseURL: "url", //后端提供的地址
+    timeout: 3000
 });
 
 instance.interceptors.response.use(

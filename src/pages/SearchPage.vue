@@ -1,15 +1,15 @@
 <template>
     <div id="container">
-        <TopList :rankShow='false'></TopList>
+        <simple-list :rankShow='true'></simple-list>
     </div>
 </template>
 
 <script>
-import TopList from "@/components/TopList.vue";
+import SimpleList from "@/components/SimpleList.vue";
 export default {
     name: "SearchPage",
     components: {
-        TopList
+        SimpleList
     }
 }
 

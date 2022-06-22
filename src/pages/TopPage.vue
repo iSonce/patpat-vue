@@ -1,13 +1,13 @@
 <template>
   <div class="recommend">
-    <top-list :rankShow='true'></top-list>
+    <simple-list :rankShow='true'></simple-list>
   </div>
 </template>
 
 <script>
-import TopList from "@/components/TopList.vue";
+import SimpleList from "@/components/SimpleList.vue";
 export default {
-  components: { TopList },
+  components: { SimpleList },
   name: "MainTop",
 };
 </script>
