@@ -8,7 +8,7 @@
 import SimpleList from "@/components/SimpleList.vue";
 export default {
   components: { SimpleList },
-  name: "MainTop",
+  name: "TopPage",
 };
 </script>
 

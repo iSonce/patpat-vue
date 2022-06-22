@@ -1,6 +1,6 @@
 <template>
   <div class="top-list" id="top-list">
-    <LoadRefresh @refresh="refresh()" @load="additem()">
+    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
       <a class="top-item" :key="game.gid" v-for="(game, index) in GameList" :href="game.url">
         <p id="rank" v-if="rankShow">{{ index + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
@@ -10,7 +10,7 @@
             <img src="../assets/heart.png" alt="heart" id="heart" />
             <p id="num">{{ (game.score).toFixed(1) }}</p>
             <div id="type_container">
-              <div :key="index" v-for="(value, index) in game.types">
+              <div :key="index" v-for="(value, index) in divideTypes(game.types)">
                 <div v-if="index == 0 || index == 1" class="type">{{ (index == 0) ? value + ' · ' : value }}
                 </div>
               </div>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { GetRank } from '@/api/getApi';
 import LoadRefresh from './LoadRefresh.vue';
 export default {
   name: "SimpleList",
@@ -32,350 +33,53 @@ export default {
   },
   data() {
     return {
-      GameList: [
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.taptap.com/app/193994',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-      ],
+      GameList: [],
       display: {
         head: false,
         end: false,
       },
       loadBusy: false,
-      isRefresh: false
+      isRefresh: false,
+      type: null
     };
   },
   mounted() {
+    this.getInitData()
   },
   methods: {
-    additem() {
-      console.log("加载");
-      this.GameList.push.apply(this.GameList, [
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-      ]);
-      console.log(this.GameList.length);
+    divideTypes(types) {
+      if (types == null) {
+        return null
+      }
+      return types.split(',')
     },
-    refresh() {
-      console.log("刷新");
-      this.GameList = [
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          types: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-      ],
-      this.curnum = 15;
-      console.log(this.GameList.length);
+    async refreshEmit() {
+      return await this.getInitData()
+    },
+    async loadingEmit() {
+      return await this.getLoadData()
+    },
+    async getInitData() {
+      //设置随机offset
+      GetRank({
+        pageSize: 15,
+        offset: this.offset,
+      }).then((response) => {
+        //GameList重设为结果
+        this.GameList = response.data.data
+      })
+    },
+    async getLoadData() {
+      GetRank({
+        pageSize: 15,
+        offset: this.GameList.length
+      }).then((response) => {
+        //GameList重设为结果
+        if (response.data.data == null) {
+          throw (new Error("没有更多数据了！"))
+        }
+        this.GameList.push.apply(this.GameList, response.data.data)
+      }).catch(err => console.log(err))
     },
   },
   components: { LoadRefresh }

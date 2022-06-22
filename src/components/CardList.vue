@@ -1,6 +1,6 @@
 <template>
   <div class="game-cards" id="rcmd-cards">
-    <LoadRefresh @refresh="refresh()" @load="additem()">
+    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
       <a class="game-card" :href="game.url" :key="game.gid" v-for="game in GameList">
         <img v-lazy="game.picture" alt="Game Poster" id="poster" />
         <div class="content">
@@ -10,7 +10,7 @@
           </div>
           <div class="score">
             <img src="../assets/heart.png" alt="heart" id="heart" />
-            <div id="num">{{ game.score }}</div>
+            <div id="num">{{ game.score.toFixed(1) }}</div>
           </div>
         </div>
       </a>
@@ -21,61 +21,16 @@
 <script>
 import { GetGames } from '@/api/getApi';
 import LoadRefresh from './LoadRefresh.vue';
-/** Todo: 获取后端数据*/
 export default {
   name: "CardList",
   data() {
     return {
-      GameList: [
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        }
-      ],
+      GameList: [],
+      offset: 0,
     };
   },
   async mounted() {
-    // this.getInitData()
+    this.getInitData()
   },
   methods: {
     async refreshEmit() {
@@ -85,123 +40,27 @@ export default {
       return await this.getLoadData()
     },
     async getInitData() {
+      //设置随机offset
+      this.offset = Math.floor(Math.random() * 101);
       GetGames({
-        type: "",
-        num: 10
+        pageSize: 10,
+        offset: this.offset,
       }).then((response) => {
         //GameList重设为结果
-        console.log(response)
+        this.GameList = response.data.data
       })
     },
     async getLoadData() {
       GetGames({
-        type: "",
-        num: 10
+        pageSize: 10,
+        offset: this.offset + this.GameList.length
       }).then((response) => {
-        //将结果拼接在GameList后面
-        console.log(response)
-      })
-    },
-
-    additem() {
-      console.log("加载");
-      this.GameList.push.apply(this.GameList, [
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
+        //GameList重设为结果
+        if (response.data.data == null) {
+          throw (new Error("没有更多数据了！"))
         }
-      ]);
-      console.log(this.GameList.length);
-    },
-    refresh() {
-      console.log("刷新");
-      this.GameList = [
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        },
-        {
-          name: "原神",
-          score: 10.0,
-          hot: 0,
-          url: 'https://www.37.com',
-          intro: "感觉不如",
-          picture: "https://img.tapimg.com/market/images/01b89c80ba2181e1cf31eea84c7c5cf9.jpg?imageView2/0/w/1080/h/9999/q/80/format/jpg/interlace/1/ignore-error/1",
-          icon: "https://img.tapimg.com/market/lcs/6bf4ed787c07d8dd9e3ae5a6ffc96815_360.png?imageMogr2/auto-orient/strip",
-          type: ["高画质", "开放世界", "多人联机"],
-          gid: 12345
-        }
-      ]
-      console.log(this.GameList.length);
+        this.GameList.push.apply(this.GameList, response.data.data)
+      }).catch(err => console.log(err))
     },
   },
   components: { LoadRefresh }

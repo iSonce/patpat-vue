@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <!--这里用于单page测试-->
-    <rcmd-page v-if="true"></rcmd-page>
+    <rcmd-page v-if="false"></rcmd-page>
     <top-page v-if="false"></top-page>
-    <search-page v-if="false"></search-page>
+    <search-page v-if="true"></search-page>
     <post-page v-if="false"></post-page>
   </div>
 </template>

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "url", //后端提供的地址
+    baseURL: "http://172.21.140.162/", //后端提供的地址
     timeout: 3000
 });
 

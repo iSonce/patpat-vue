@@ -8,7 +8,7 @@
 import CardList from "../components/CardList.vue";
 export default {
   components: { CardList },
-  name: "MainRcmd",
+  name: "RcmdPage",
 };
 </script>
 

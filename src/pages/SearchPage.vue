@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <simple-list :rankShow='true'></simple-list>
+        <simple-list :rankShow='false'></simple-list>
     </div>
 </template>
 
