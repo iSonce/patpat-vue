@@ -32,6 +32,7 @@ export default {
                 //加锁
                 this.is_load_busy = true
                 this.load_refresh_img_show.end = true;
+                scroll(0, scrollHeight)
                 window.setTimeout(() => {
                     this.load_refresh_img_show.end = false;
                     this.$emit('load')
@@ -54,7 +55,7 @@ export default {
             _transitionHeight = e.touches[0].pageY - _startPos; // 记录差值
             if (
                 _transitionHeight > 0 &&
-                _transitionHeight < 15 &&
+                _transitionHeight < 30 &&
                 document.documentElement.scrollTop == 0
             ) {
                 this.load_refresh_img_show.head = true;
@@ -79,10 +80,10 @@ export default {
 
 <style>
 .refreshImg {
-  text-align: center;
+    text-align: center;
 }
 
 .refreshImg img {
-  height: 40px;
+    height: 40px;
 }
 </style>
