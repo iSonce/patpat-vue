@@ -1,6 +1,6 @@
 <template>
   <div class="loading">
-    <a :key="key" v-for="(value, key) in map" @click="clickFunc(value.name)">
+    <router-link :to="'/discover/' + value.name" :key="key" v-for="(value, key) in map">
       <div id="content" v-if="
         [
           '4',
@@ -21,7 +21,7 @@
         <img :src="value.imgName" alt="MOBA" />
         <p>{{ value.name }}</p>
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 
@@ -93,33 +93,21 @@ export default {
     },
   },
   mounted() {
+    document.querySelector('body').setAttribute('style',
+      'background-color: rgba(255, 192, 203, 0.418); align-items: center; justify-content: center;overflow-x: hidden; padding: 0; margin: 0; height: 100vh; width: 100vw; display: flex;')
     for (let i = 1; i <= 25; i++) {
       if (![4, 5, 8, 9, 10, 12, 13, 14, 16, 17, 18, 21, 22].includes(i)) {
         this.map[i] = {};
       }
     }
   },
+  unmounted() {
+    document.body.removeAttribute('style')
+  }
 };
 </script>
 
 <style>
-body,
-html {
-  /* 消除右侧间距 */
-  overflow-x: hidden;
-}
-
-body {
-  background-color: rgba(255, 192, 203, 0.418);
-  padding: 0;
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .loading {
   transform: rotate(-45deg);
   width: 440px;

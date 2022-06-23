@@ -29,7 +29,8 @@ import LoadRefresh from './LoadRefresh.vue';
 export default {
   name: "SimpleList",
   props: {
-    rankShow: Boolean
+    rankShow: Boolean,
+    type: String,
   },
   data() {
     return {
@@ -40,7 +41,6 @@ export default {
       },
       loadBusy: false,
       isRefresh: false,
-      type: null
     };
   },
   mounted() {
