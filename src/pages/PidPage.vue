@@ -11,7 +11,7 @@
             </div>
             <div style="display:flex;margin-left: auto;align-items: center;">
                 <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
-                    style="width:40px;height: 40px;margin-right: 15px;">
+                    style="width:40px;height: 40px;margin-right: 15px;" @click="this.$router.back(-1)">
                 <button id="script_button">已关注</button>
             </div>
         </header>
