@@ -1,17 +1,17 @@
 <template>
   <div class="top-list" id="top-list">
     <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
-      <a class="top-item" :key="game.gid" v-for="(game, index) in GameList" :href="game.url">
-        <p id="rank" v-if="rankShow">{{ index + 1 }}</p>
+      <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList" :href="game.url">
+        <p id="rank" v-if="rankShow">{{ index1 + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
         <div class="content">
-          <h3 id="name">{{ (game.name.length > 9) ? game.name.substr(0, 9) + '...' : game.name }}</h3>
+          <h3 id="name">{{ (game.name.length > 8) ? game.name.substr(0, 8) + '...' : game.name }}</h3>
           <div class="score">
             <img src="../assets/heart.png" alt="heart" id="heart" />
             <p id="num">{{ (game.score).toFixed(1) }}</p>
             <div id="type_container">
-              <div :key="index" v-for="(value, index) in divideTypes(game.types)">
-                <div v-if="index == 0 || index == 1" class="type">{{ (index == 0) ? value + ' · ' : value }}
+              <div :key="index2" v-for="(value, index2) in divideTypes(game.types)">
+                <div v-if="index2 == 0 || index2 == 1" class="type">{{ (index2 == 0) ? value + ' · ' : value }}
                 </div>
               </div>
             </div>
@@ -31,6 +31,7 @@ export default {
   props: {
     rankShow: Boolean,
     type: String,
+    keyWord: String,
   },
   data() {
     return {
@@ -63,7 +64,7 @@ export default {
       (this.type == undefined) ?
         GetGamesByRank({
           pageSize: 15,
-          offset: this.offset,
+          offset: 0,
         }).then((response) => {
           //GameList重设为结果
           this.GameList = response.data.data
@@ -72,7 +73,7 @@ export default {
         GetGamesByType({
           type: this.type,
           pageSize: 15,
-          offset: this.offset,
+          offset: 0,
         }).then((response) => {
           //GameList重设为结果
           this.GameList = response.data.data
@@ -80,17 +81,17 @@ export default {
     },
     async getLoadData() {
       (this.type == undefined) ?
-      GetGamesByRank({
-        pageSize: 15,
-        offset: this.GameList.length
-      }).then((response) => {
-        if (response.data.data == null) {
-          throw (new Error("没有更多数据了！"))
-        }
-        //拼接上新数据
-        this.GameList.push.apply(this.GameList, response.data.data)
-      }).catch(err => console.log(err))
-      :
+        GetGamesByRank({
+          pageSize: 15,
+          offset: this.GameList.length
+        }).then((response) => {
+          if (response.data.data == null) {
+            throw (new Error("没有更多数据了！"))
+          }
+          //拼接上新数据
+          this.GameList.push.apply(this.GameList, response.data.data)
+        }).catch(err => console.log(err))
+        :
         GetGamesByType({
           type: this.type,
           pageSize: 15,
@@ -138,7 +139,7 @@ export default {
   text-decoration: none;
   color: rgb(187, 71, 90);
   float: right;
-  background-color: rgba(255, 192, 203, 0.549);
+  background-color: #ffeced;
   border-radius: 18px;
   text-align: center;
   width: 80px;
@@ -165,8 +166,8 @@ export default {
 
 .top-item .content .score #type_container .type {
   color: gray;
-  font-size: 13px;
-  padding-right: 5px;
+  font-size: 12px;
+  padding-right: 3px;
 }
 
 .top-item .content .score #heart {

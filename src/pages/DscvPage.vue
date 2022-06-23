@@ -94,7 +94,7 @@ export default {
   },
   mounted() {
     document.querySelector('body').setAttribute('style',
-      'background-color: rgba(255, 192, 203, 0.418); align-items: center; justify-content: center;overflow-x: hidden; padding: 0; margin: 0; height: 100vh; width: 100vw; display: flex;')
+      'background-color: #ffeced; align-items: center; justify-content: center;overflow-x: hidden; padding: 0; margin: 0; height: 100vh; width: 100vw; display: flex;')
     document.querySelector('html').setAttribute('style',
       'overflow-x: hidden;'
     )
