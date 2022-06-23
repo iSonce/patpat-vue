@@ -5,7 +5,7 @@
         <p id="rank" v-if="rankShow">{{ index + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
         <div class="content">
-          <h3 id="name">{{ (game.name.length > 9) ? game.name.substr(0, 9)+'...' : game.name }}</h3>
+          <h3 id="name">{{ (game.name.length > 9) ? game.name.substr(0, 9) + '...' : game.name }}</h3>
           <div class="score">
             <img src="../assets/heart.png" alt="heart" id="heart" />
             <p id="num">{{ (game.score).toFixed(1) }}</p>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { GetRank } from '@/api/getApi';
+import { GetGamesByRank, GetGamesByType } from '@/api/getApi';
 import LoadRefresh from './LoadRefresh.vue';
 export default {
   name: "SimpleList",
@@ -60,25 +60,45 @@ export default {
       return await this.getLoadData()
     },
     async getInitData() {
-      GetRank({
-        pageSize: 15,
-        offset: this.offset,
-      }).then((response) => {
-        //GameList重设为结果
-        this.GameList = response.data.data
-      })
+      (this.type == undefined) ?
+        GetGamesByRank({
+          pageSize: 15,
+          offset: this.offset,
+        }).then((response) => {
+          //GameList重设为结果
+          this.GameList = response.data.data
+        })
+        :
+        GetGamesByType({
+          type: this.type,
+          pageSize: 15,
+          offset: this.offset,
+        }).then((response) => {
+          //GameList重设为结果
+          this.GameList = response.data.data
+        })
     },
     async getLoadData() {
-      GetRank({
+      (this.type == undefined) ?
+      GetGamesByRank({
         pageSize: 15,
         offset: this.GameList.length
       }).then((response) => {
-        //GameList重设为结果
         if (response.data.data == null) {
           throw (new Error("没有更多数据了！"))
         }
+        //拼接上新数据
         this.GameList.push.apply(this.GameList, response.data.data)
       }).catch(err => console.log(err))
+      :
+        GetGamesByType({
+          type: this.type,
+          pageSize: 15,
+          offset: this.offset,
+        }).then((response) => {
+          //拼接上新数据
+          this.GameList.push.apply(this.GameList, response.data.data)
+        })
     },
   },
   components: { LoadRefresh }

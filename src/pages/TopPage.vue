@@ -1,6 +1,6 @@
 <template>
-  <div class="recommend">
-    <simple-list :rankShow='true'></simple-list>
+  <div class="top">
+    <simple-list :rankShow="true"></simple-list>
   </div>
 </template>
 
