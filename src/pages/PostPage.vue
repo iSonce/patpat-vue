@@ -17,12 +17,12 @@
                     </div>
                 </div>
                 <div>
-                    <div @click="toPost()">
+                    <router-link :to="'/post/' + item.pid">
                         <div class="title">
                             {{ item.title }}
                         </div>
                         <img v-lazy="item.post_img" alt="op" class="post_img">
-                    </div>
+                    </router-link>
                     <div class="button">
                         <img src="../assets/ButtonUI/ShareButton.png" alt="share" style="width:20px" @click="share()">
                         <div style="display: flex" @click="toPost()">
@@ -92,6 +92,14 @@ export default {
 }
 </script>
 <style>
+.router-link-active {
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}
+
 #post .user_info {
     display: flex;
 }
@@ -132,6 +140,7 @@ export default {
     padding: 5px;
     font-size: large;
     font-weight: bolder;
+    color: black;
 }
 
 #post .line {
