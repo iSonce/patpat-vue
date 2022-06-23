@@ -12,7 +12,7 @@ import PostPage from './pages/PostPage.vue'
 const routes = [
     { path: '/discover', name: 'discover', component: DscvPage },
     { path: '/discover/:type', name: 'type', component: TypePage },
-    { path: '/', name: 'recommand', component: RcmdPage },
+    { path: '/recommend', name: 'recommend', component: RcmdPage },
     { path: '/search', name: 'search', component: SearchPage },
     { path: '/top', name: 'top', component: TopPage },
     { path: '/post', name: 'post', component: PostPage }

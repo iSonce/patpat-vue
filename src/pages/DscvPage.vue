@@ -95,6 +95,9 @@ export default {
   mounted() {
     document.querySelector('body').setAttribute('style',
       'background-color: rgba(255, 192, 203, 0.418); align-items: center; justify-content: center;overflow-x: hidden; padding: 0; margin: 0; height: 100vh; width: 100vw; display: flex;')
+    document.querySelector('html').setAttribute('style',
+      'overflow-x: hidden;'
+    )
     for (let i = 1; i <= 25; i++) {
       if (![4, 5, 8, 9, 10, 12, 13, 14, 16, 17, 18, 21, 22].includes(i)) {
         this.map[i] = {};
@@ -103,6 +106,7 @@ export default {
   },
   unmounted() {
     document.body.removeAttribute('style')
+    document.querySelector('html').removeAttribute('style')
   }
 };
 </script>
