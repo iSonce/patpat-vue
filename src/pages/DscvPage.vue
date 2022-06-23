@@ -32,56 +32,56 @@ export default {
     return {
       map: {
         4: {
-          name: "沙盒",
-          imgName: require("../assets/GameType/Sandbox.png"),
+          name: "养成",
+          imgName: require("../assets/GameType/养成.png"),
         },
         5: {
-          name: "MOBA",
-          imgName: require("../assets/GameType/MOBA.png"),
+          name: "策略",
+          imgName: require("../assets/GameType/策略.png"),
         },
         8: {
-          name: "卡牌",
-          imgName: require("../assets/GameType/Card.png"),
+          name: "单机",
+          imgName: require("../assets/GameType/单机.png"),
         },
         9: {
-          name: "多人",
-          imgName: require("../assets/GameType/Online.png"),
+          name: "角色扮演",
+          imgName: require("../assets/GameType/角色扮演.png"),
         },
         10: {
-          name: "音游",
-          imgName: require("../assets/GameType/Music.png"),
+          name: "冒险",
+          imgName: require("../assets/GameType/冒险.png"),
         },
         12: {
-          name: "放置",
-          imgName: require("../assets/GameType/Place.png"),
+          name: "多人联机",
+          imgName: require("../assets/GameType/多人联机.png"),
         },
         13: {
-          name: "像素",
-          imgName: require("../assets/GameType/Pixel.png"),
+          name: "卡牌",
+          imgName: require("../assets/GameType/卡牌.png"),
         },
         14: {
-          name: "益智",
-          imgName: require("../assets/GameType/Yizhi.png"),
+          name: "竖屏",
+          imgName: require("../assets/GameType/竖屏.png"),
         },
         16: {
-          name: "射击",
-          imgName: require("../assets/GameType/Shooting.png"),
+          name: "休闲",
+          imgName: require("../assets/GameType/休闲.png"),
         },
         17: {
-          name: "解谜",
-          imgName: require("../assets/GameType/Puzzle.png"),
+          name: "放置",
+          imgName: require("../assets/GameType/放置.png"),
         },
         18: {
-          name: "速度",
-          imgName: require("../assets/GameType/Speed.png"),
+          name: "二次元",
+          imgName: require("../assets/GameType/二次元.png"),
         },
         21: {
-          name: "剧情",
-          imgName: require("../assets/GameType/Story.png"),
+          name: "收集",
+          imgName: require("../assets/GameType/收集.png"),
         },
         22: {
-          name: "生存",
-          imgName: require("../assets/GameType/Survival.png"),
+          name: "动作",
+          imgName: require("../assets/GameType/动作.png"),
         },
       },
     };
