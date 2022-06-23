@@ -8,6 +8,7 @@ import RcmdPage from './pages/RcmdPage.vue'
 import SearchPage from './pages/SearchPage.vue'
 import TopPage from './pages/TopPage.vue'
 import PostPage from './pages/PostPage.vue'
+import PidPage from './pages/PidPage.vue'
 
 const routes = [
     { path: '/discover', name: 'discover', component: DscvPage },
@@ -15,7 +16,8 @@ const routes = [
     { path: '/recommend', name: 'recommend', component: RcmdPage },
     { path: '/search', name: 'search', component: SearchPage },
     { path: '/top', name: 'top', component: TopPage },
-    { path: '/post', name: 'post', component: PostPage }
+    { path: '/post', name: 'post', component: PostPage },
+    { path: '/post/:pid', name:'pid', component: PidPage}
 ]
 
 const router = createRouter({
