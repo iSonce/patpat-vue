@@ -5,7 +5,7 @@
         <p id="rank" v-if="rankShow">{{ index + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
         <div class="content">
-          <h3 id="name">{{ game.name }}</h3>
+          <h3 id="name">{{ (game.name.length > 9) ? game.name.substr(0, 9)+'...' : game.name }}</h3>
           <div class="score">
             <img src="../assets/heart.png" alt="heart" id="heart" />
             <p id="num">{{ (game.score).toFixed(1) }}</p>
@@ -60,7 +60,6 @@ export default {
       return await this.getLoadData()
     },
     async getInitData() {
-      //设置随机offset
       GetRank({
         pageSize: 15,
         offset: this.offset,
