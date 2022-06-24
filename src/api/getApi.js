@@ -3,7 +3,7 @@ import instance from "./axios";
 export function GetGames(data) {
     return instance.request({
         method: "get",
-        url: "/games",
+        url: "/game/list",
         // data example { pageSize: 10, offset: 10 }
         params: data,
     })
