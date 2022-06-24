@@ -3,7 +3,7 @@
         <header class="header">
             <img src="../assets/user_icon.png" alt="user_icon" style="width:50px;height: 50px;margin-right: 10px;">
             <div>
-                <div style="font-size:large;font-weight: 800;margin-bottom: 4px;">{{postInfo.uid}}</div>
+                <div style="font-size:large;font-weight: 800;margin-bottom: 4px;">{{ postInfo.uid }}</div>
                 <div style="display:flex;color: gray;font-size:small">
                     <div style="margin-right: 5px;">n小时前</div>
                     <div>2000浏览</div>
@@ -17,7 +17,7 @@
         </header>
         <div class="main">
             <div class="content">
-                <div class="text">{{postInfo.content}}</div>
+                <div class="text">{{ postInfo.content }}</div>
                 <img v-lazy="postInfo.image" alt="op" class="img">
                 <div class="forum">
                     <img src="../assets/op.webp" alt="op" class="picture">
@@ -64,6 +64,7 @@
                             </div>
                         </div>
                     </div>
+                    <hr style="background-color: rgb(214, 214, 214); border-width:0px; height: 1px;">
                 </div>
             </div>
         </div>
