@@ -25,8 +25,11 @@
                             <img v-lazy="item.post_img" alt="op" class="post_img">
                         </router-link>
                         <div class="button">
-                            <img src="../assets/ButtonUI/ShareButton.png" alt="share" style="width:20px"
-                                @click="share()">
+                            <div style="display: flex" @click="toPost()">
+                                <img src="../assets/ButtonUI/Star.png" alt="star_button" style="width:20px"
+                                    @click="share()">
+                                <div style="width: 0px; color:gray">{{ item.review }}</div>
+                            </div>
                             <div style="display: flex" @click="toPost()">
                                 <img src="../assets/ButtonUI/ReviewButton.png" alt="message" style="width:20px">
                                 <div style="width: 0px; color:gray">{{ item.review }}</div>
@@ -52,10 +55,10 @@ export default {
     data() {
         return {
             PostList: [
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
+                { pid: 1, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
+                { pid: 2, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
+                { pid: 3, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
+                { pid: 4, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
             ]
         };
     },
