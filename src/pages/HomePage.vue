@@ -10,5 +10,7 @@
 <style scoped>
 a{
     margin: 5px;
+    text-decoration: none;
+    color: black;
 }
 </style>
