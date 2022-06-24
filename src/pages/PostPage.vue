@@ -1,37 +1,40 @@
 <template>
     <div id="post" style="margin-top:10px">
         <LoadRefresh @refresh="refresh()" @load="additem()">
-            <div :key="item.pid" v-for="item in PostList" style="margin-bottom:10px" class="post_item">
-                <div class="user_info">
-                    <img v-lazy="item.usericon" alt="user_icon" class="user_icon" @click="toUser()">
-                    <div style="padding-top: 2px">
-                        <div id="user_name">{{ item.username }}</div>
-                        <div style="display:flex">
-                            <div class="time">
-                                {{ item.post_time }}
-                            </div>
-                            <div class="forum">
-                                {{ item.forum_name }}
+            <div :key="item.pid" v-for="item in PostList" class="post_item">
+                <div style="padding: 0px 10px;">
+                    <div class="user_info">
+                        <img v-lazy="item.usericon" alt="user_icon" class="user_icon" @click="toUser()">
+                        <div style="padding-top: 2px">
+                            <div id="user_name">{{ item.username }}</div>
+                            <div style="display:flex">
+                                <div class="time">
+                                    {{ item.post_time }}
+                                </div>
+                                <div class="forum">
+                                    {{ item.forum_name }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <router-link :to="'/post/' + item.pid">
-                        <div class="title">
-                            {{ item.title }}
-                        </div>
-                        <img v-lazy="item.post_img" alt="op" class="post_img">
-                    </router-link>
-                    <div class="button">
-                        <img src="../assets/ButtonUI/ShareButton.png" alt="share" style="width:20px" @click="share()">
-                        <div style="display: flex" @click="toPost()">
-                            <img src="../assets/ButtonUI/ReviewButton.png" alt="message" style="width:20px">
-                            <div style="width: 0px; color:gray">{{ item.review }}</div>
-                        </div>
-                        <div style="display:flex" @click="addLike()">
-                            <img src="../assets/ButtonUI/LikeButton.png" alt="star" style="width:20px">
-                            <div style="width: 0px; color:gray">{{ item.like }}</div>
+                    <div>
+                        <router-link :to="'/post/' + item.pid">
+                            <div class="title">
+                                {{ item.title }}
+                            </div>
+                            <img v-lazy="item.post_img" alt="op" class="post_img">
+                        </router-link>
+                        <div class="button">
+                            <img src="../assets/ButtonUI/ShareButton.png" alt="share" style="width:20px"
+                                @click="share()">
+                            <div style="display: flex" @click="toPost()">
+                                <img src="../assets/ButtonUI/ReviewButton.png" alt="message" style="width:20px">
+                                <div style="width: 0px; color:gray">{{ item.review }}</div>
+                            </div>
+                            <div style="display:flex" @click="addLike()">
+                                <img src="../assets/ButtonUI/LikeButton.png" alt="star" style="width:20px">
+                                <div style="width: 0px; color:gray">{{ item.like }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,10 +91,20 @@ export default {
             console.log("load");
         }
     },
-    components: { LoadRefresh }
+    components: { LoadRefresh },
+    mounted() {
+        document.querySelector('body').setAttribute('style', 'margin:0')
+    },
+    unmounted() {
+        document.body.removeAttribute('style')
+    },
 }
 </script>
 <style>
+.post_item {
+    padding: 5px 0px;
+}
+
 .router-link-active {
     text-decoration: none;
 }
@@ -144,7 +157,9 @@ a {
 }
 
 #post .line {
-    width: 95%;
-    border-top: 1px solid #d0d0d5;
+    height: 5px;
+    background-color: rgb(241, 236, 236);
+    border-style: none;
+    margin: 0;
 }
 </style>
