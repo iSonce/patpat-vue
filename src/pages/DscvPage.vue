@@ -111,7 +111,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .loading {
   transform: rotate(-45deg);
   width: 440px;

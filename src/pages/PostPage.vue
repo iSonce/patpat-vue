@@ -100,7 +100,7 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
 .post_item {
     padding: 5px 0px;
 }

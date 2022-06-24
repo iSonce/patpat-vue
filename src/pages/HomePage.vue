@@ -7,7 +7,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 a{
     margin: 5px;
 }
