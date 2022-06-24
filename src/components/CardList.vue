@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { GetGames } from '@/api/getApi';
+import { GetGames } from '@/api/GameApi';
 import LoadRefresh from './LoadRefresh.vue';
 export default {
   name: "CardList",

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { GetGamesByRank, GetGamesByType } from '@/api/getApi';
+import { GetGamesByRank, GetGamesByType } from '@/api/GameApi';
 import LoadRefresh from './LoadRefresh.vue';
 export default {
   name: "SimpleList",
