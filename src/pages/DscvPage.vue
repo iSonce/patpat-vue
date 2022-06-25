@@ -87,10 +87,6 @@ export default {
     };
   },
   methods: {
-    clickFunc(type) {
-      console.log(type);
-      //将type传到Android端
-    },
   },
   mounted() {
     document.querySelector('body').setAttribute('style',

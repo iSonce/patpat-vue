@@ -9,6 +9,12 @@ import SimpleList from "@/components/SimpleList.vue";
 export default {
   components: { SimpleList },
   name: "TypePage",
+  mounted(){
+    window.jsAdapter.goToTypePage(this.$route.params.type)
+  },
+  unmounted() {
+    window.jsAdapter.backToDscvPage()
+  },
 };
 </script>
 
