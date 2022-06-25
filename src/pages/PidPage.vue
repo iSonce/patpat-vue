@@ -12,7 +12,7 @@
             </div>
             <div style="display:flex;margin-left: auto;align-items: center;">
                 <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
-                    style="width:40px;height: 40px;margin-right: 15px;" @click="this.$router.back(-1)">
+                    style="width:40px;height: 40px;margin-right: 15px;" @click="backToPostList()">
                 <button id="script_button">{{ (PostInfo.isFollowed) ? '已关注 ' : '关注' }}</button>
             </div>
         </header>
@@ -124,6 +124,9 @@ export default {
         document.body.removeAttribute('style')
     },
     methods: {
+        backToPostList(){
+            window.jsAdapter.finishCurrentActivity()
+        },
         async handleLikeReply(item){
             (!item.isLike) ?
                 LikeReply({
