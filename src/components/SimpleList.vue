@@ -1,7 +1,7 @@
 <template>
   <div class="top-list" id="top-list">
     <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
-      <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList" :href="game.url">
+      <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList"  @click="goToUrl(game.url)">
         <p id="rank" v-if="rankShow">{{ index1 + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
         <div class="content">
@@ -48,6 +48,9 @@ export default {
     this.getInitData()
   },
   methods: {
+    goToUrl(url){
+      window.jsAdapter.goToUrl(url)
+    },
     divideTypes(types) {
       if (types == null) {
         return null

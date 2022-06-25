@@ -1,7 +1,7 @@
 <template>
   <div class="game-cards" id="rcmd-cards">
     <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
-      <a class="game-card" :href="game.url" :key="game.gid" v-for="game in GameList">
+      <a class="game-card" :key="game.gid" v-for="game in GameList" @click="goToUrl(game.url)">
         <img v-lazy="game.picture" alt="Game Poster" id="poster" />
         <div class="content">
           <div class="text">
@@ -33,6 +33,9 @@ export default {
     this.getInitData()
   },
   methods: {
+    goToUrl(url){
+      window.jsAdapter.goToUrl(url)
+    },
     async refreshEmit() {
       return await this.getInitData()
     },
