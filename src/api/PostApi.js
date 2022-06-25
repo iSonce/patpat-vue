@@ -33,35 +33,39 @@ export function PublishPost(data) {
     })
 }
 
-export function CollectPost(data) {
+export function CollectPost(data, headers) {
     return instance.request({
         method: "post",
         url: "/post/collect",
-        params: data
+        params: data,
+        headers: headers
     })
 }
 
-export function CancelCollect(data) {
+export function CancelCollect(data, headers) {
     return instance.request({
         method: "delete",
         url: "/post/collect",
-        params: data
+        params: data,
+        headers: headers
     })
 }
 
-export function LikePost(data) {
+export function LikePost(data, headers) {
     return instance.request({
         method: "post",
         url: "/post/like",
-        params: data
+        params: data,
+        headers: headers
     })
 }
 
-export function CancelLike(data) {
+export function CancelLike(data, headers) {
     return instance.request({
         method: "delete",
         url: "/post/like",
-        params: data
+        params: data,
+        headers: headers
     })
 }
 
