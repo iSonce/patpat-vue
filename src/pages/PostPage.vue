@@ -55,7 +55,7 @@
 import LoadRefresh from '@/components/LoadRefresh.vue'
 import { GetPosts } from '@/api/UserApi'
 import config from '@/api/config'
-import { LikePost, CancelLike } from '@/api/PostApi'
+import { LikePost, CancelLikePost } from '@/api/PostApi'
 export default {
     name: "PostPage",
     data() {
@@ -93,7 +93,7 @@ export default {
                     item.likeNum++
                 })
                 :
-                CancelLike({
+                CancelLikePost({
                     uid: this.user.uid,
                     pid: item.pid,
                 }, {

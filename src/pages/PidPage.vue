@@ -1,7 +1,7 @@
 <template>
     <div class="Pid" v-if="PostInfo">
         <header class="header">
-            <img v-lazy='(PostInfo.avatar)?(url + PostInfo.avatar):require("../assets/icon.png")' alt="user_icon"
+            <img v-lazy='(PostInfo.avatar) ? (url + PostInfo.avatar) : require("../assets/icon.png")' alt="user_icon"
                 style="width:50px;height: 50px;margin-right: 10px;border-radius: 50px;">
             <div>
                 <div style="font-size:large;font-weight: 800;margin-bottom: 4px;">{{ PostInfo.nickname }}</div>
@@ -58,8 +58,8 @@
                                         id="review_button" style="margin-right:5px">
                                     <div style="font-size:13px">{{ reply.replyNum }}</div>
                                 </div>
-                                <div style="display:flex">
-                                    <img src="../assets/ButtonUI/LikeButton.png" alt="like_button" id="like_button"
+                                <div style="display:flex" @click="handleLikeReply(reply)">
+                                    <img :src='(reply.isLike) ? require("../assets/ButtonUI/LikeButtonOn.png") : require("../assets/ButtonUI/LikeButton.png")' alt="like_button" id="like_button"
                                         style="margin-right:5px">
                                     <div style="font-size:13px;color: gray;">{{ reply.likeNum }}</div>
                                 </div>
@@ -74,7 +74,7 @@
         <div class="footer">
             <button id="review">发表你的看法</button>
             <div id="button" style="flex:50%;justify-content: space-evenly;">
-                <div style="text-align:center" @click="handleCollect(PostInfo)">
+                <div style="text-align:center" @click="handleCollectPost(PostInfo)">
                     <img :src='(PostInfo.isCollect) ? require("../assets/ButtonUI/StarOn.png") : require("../assets/ButtonUI/Star.png")'
                         alt="star_button" id="star_button">
                     <div style="font-size:13px;color: gray;">{{ PostInfo.collectNum }}</div>
@@ -83,7 +83,7 @@
                     <img src="../assets/ButtonUI/ReviewButton.png" alt="review_button" id="review_button">
                     <div style="font-size:13px;color: gray;">{{ PostInfo.replyNum }}</div>
                 </div>
-                <div style="text-align:center" @click="handleLike(PostInfo)">
+                <div style="text-align:center" @click="handleLikePost(PostInfo)">
                     <img :src='(PostInfo.isLike) ? require("../assets/ButtonUI/LikeButtonOn.png") : require("../assets/ButtonUI/LikeButton.png")'
                         alt="like_button" id="like_button">
                     <div style="font-size:13px;color: gray;">{{ PostInfo.likeNum }}</div>
@@ -97,7 +97,8 @@
 import config from '@/api/config'
 import { GetPost, GetPostReply } from '@/api/PostApi'
 import { GetForum } from '@/api/ForumApi'
-import { LikePost, CancelLike,CollectPost,CancelCollect } from '@/api/PostApi'
+import { LikePost, CancelLikePost, CollectPost, CancelCollectPost } from '@/api/PostApi'
+import {LikeReply,CancelLikeReply} from '@/api/ReplyApi'
 export default {
     data() {
         return {
@@ -123,7 +124,32 @@ export default {
         document.body.removeAttribute('style')
     },
     methods: {
-        async handleLike(item) {
+        async handleLikeReply(item){
+            (!item.isLike) ?
+                LikeReply({
+                    uid: this.user.uid,
+                    rid: item.rid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = true
+                    item.likeNum++
+                })
+                :
+                CancelLikeReply({
+                    uid: this.user.uid,
+                    rid: item.rid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = false
+                    item.likeNum--
+                })
+        },
+
+        async handleLikePost(item) {
             (!item.isLike) ?
                 LikePost({
                     uid: this.user.uid,
@@ -136,7 +162,7 @@ export default {
                     item.likeNum++
                 })
                 :
-                CancelLike({
+                CancelLikePost({
                     uid: this.user.uid,
                     pid: this.PostInfo.pid,
                 }, {
@@ -147,7 +173,7 @@ export default {
                     item.likeNum--
                 })
         },
-        async handleCollect(item){
+        async handleCollectPost(item) {
             (!item.isCollect) ?
                 CollectPost({
                     uid: this.user.uid,
@@ -160,7 +186,7 @@ export default {
                     item.collectNum++
                 })
                 :
-                CancelCollect({
+                CancelCollectPost({
                     uid: this.user.uid,
                     pid: this.PostInfo.pid,
                 }, {
@@ -220,9 +246,10 @@ export default {
 </script>
 
 <style scoped>
-.Pid{
+.Pid {
     height: 100vh;
 }
+
 .header {
     display: flex;
     padding: 8px 10px;

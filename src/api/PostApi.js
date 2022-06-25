@@ -42,7 +42,7 @@ export function CollectPost(data, headers) {
     })
 }
 
-export function CancelCollect(data, headers) {
+export function CancelCollectPost(data, headers) {
     return instance.request({
         method: "delete",
         url: "/post/collect",
@@ -60,7 +60,7 @@ export function LikePost(data, headers) {
     })
 }
 
-export function CancelLike(data, headers) {
+export function CancelLikePost(data, headers) {
     return instance.request({
         method: "delete",
         url: "/post/like",
