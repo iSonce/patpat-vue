@@ -1,7 +1,7 @@
 <template>
-    <div class="type">
-        <simple-list :rankShow="false" :type="$route.params.type"></simple-list>
-    </div>
+  <div class="type">
+    <simple-list :rankShow="false" :type="$route.params.type" v-if="false"></simple-list>
+  </div>
 </template>
 
 <script>
@@ -9,11 +9,15 @@ import SimpleList from "@/components/SimpleList.vue";
 export default {
   components: { SimpleList },
   name: "TypePage",
-  mounted(){
-    window.jsAdapter.goToTypePage(this.$route.params.type)
+  mounted() {
+    console.log('goToGameList: ', this.$route.params.type)
+    window.jsAdapter.goToGameList(this.$route.params.type)
   },
-  unmounted() {
-    window.jsAdapter.backToDscvPage()
+  unmounted(){
+    console.log('backToAllType')
+    window.jsAdapter.backToGameList()
+  },
+  methods: {
   },
 };
 </script>
