@@ -7,11 +7,3 @@ export function GetPosts(data) {
         params: data
     })
 }
-
-export function GetForum(data, fid) {
-    return instance.request({
-        method: "get",
-        url: "/forum/" + fid,
-        params: data
-    })
-}
