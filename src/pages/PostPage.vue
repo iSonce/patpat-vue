@@ -1,42 +1,45 @@
 <template>
-    <div id="post" style="margin-top:10px">
-        <LoadRefresh @refresh="refresh()" @load="additem()">
+    <div id="post" style="margin-top:10px" v-if="PostList">
+        <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
             <div :key="item.pid" v-for="item in PostList" class="post_item">
                 <div style="padding: 0px 10px;">
                     <div class="user_info">
-                        <img v-lazy="item.usericon" alt="user_icon" class="user_icon" @click="toUser()">
+                        <img v-lazy='(item.avatar) ? (url + item.avatar) : require("../assets/icon.png")'
+                            alt="user_icon" class="user_icon">
                         <div style="padding-top: 2px">
-                            <div id="user_name">{{ item.username }}</div>
+                            <div id="user_name">{{ item.nickname }}</div>
                             <div style="display:flex">
                                 <div class="time">
-                                    {{ item.post_time }}
+                                    {{ item.postTime }}
                                 </div>
                                 <div class="forum">
-                                    {{ item.forum_name }}
+                                    {{ item.forumName }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <router-link :to="'/post/' + item.pid">
+                        <a @click="goToPost(item.pid)">
                             <div class="title">
                                 {{ item.title }}
                             </div>
-                            <img v-lazy="item.post_img" alt="op" class="post_img">
-                        </router-link>
+                            <img v-lazy='url + item.picture' alt="post_img" class="post_img" v-if="item.picture">
+                        </a>
                         <div class="button">
-                            <div style="display: flex" @click="toPost()">
-                                <img src="../assets/ButtonUI/Star.png" alt="star_button" style="width:20px"
-                                    @click="share()">
-                                <div style="width: 0px; color:gray">{{ item.review }}</div>
-                            </div>
-                            <div style="display: flex" @click="toPost()">
-                                <img src="../assets/ButtonUI/ReviewButton.png" alt="message" style="width:20px">
-                                <div style="width: 0px; color:gray">{{ item.review }}</div>
-                            </div>
-                            <div style="display:flex" @click="addLike()">
-                                <img src="../assets/ButtonUI/LikeButton.png" alt="star" style="width:20px">
-                                <div style="width: 0px; color:gray">{{ item.like }}</div>
+                            <!-- <div style="display: flex" @click="collect(item)">
+                                <img src="../assets/ButtonUI/Star.png" alt="star_button"
+                                    style="width:20px;padding-right: 5px;">
+                                <div style="width: 0px; color:gray">{{ 0 }}</div>
+                            </div> -->
+                            <a @click="goToPost(item.pid)" style="display: flex">
+                                <img src="../assets/ButtonUI/ReviewButton.png" alt="message"
+                                    style="width:20px;padding-right: 5px;">
+                                <div style="width: 0px; color:gray">{{ item.replyNum }}</div>
+                            </a>
+                            <div style="display:flex" @click="handleLike(item)">
+                                <img :src="(item.isLike) ? require('../assets/ButtonUI/LikeButtonOn.png') : require('../assets/ButtonUI/LikeButton.png')"
+                                    alt="star" style="width:20px;padding-right: 5px;">
+                                <div style="width: 0px; color:gray">{{ item.likeNum }}</div>
                             </div>
                         </div>
                     </div>
@@ -50,56 +53,90 @@
 
 <script>
 import LoadRefresh from '@/components/LoadRefresh.vue'
+import { GetPosts } from '@/api/UserApi'
+import config from '@/api/config'
+import { LikePost, CancelLike } from '@/api/PostApi'
 export default {
     name: "PostPage",
     data() {
         return {
-            PostList: [
-                { pid: 1, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 2, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 3, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 4, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-            ]
+            PostList: null,
+            url: config.url,
+            user: {
+                uid: 9,
+                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjowLFwiZm9sbG93TnVtXCI6MCxcImF2YXRhclwiOlwiL2ltYWdlL2UyMDAwMzE1LTgyN2UtNDI4NC1iYjVmLWQyN2ZmNThlOGE1Ni5qcGdcIixcImJhY2tncm91bmRcIjpudWxsLFwidXNlcm5hbWVcIjpcIlNvbmNlXCIsXCJwYXNzd29yZFwiOlwiJDJhJDEyJERYR1hkWlcvTmk3RjBSTzBEYmt5RXVvTnROVXN1NDViTksxNTY4LmwwLm1IbVE0dlJyOXdhXCIsXCJ1aWRcIjo5fSIsInVpZCI6OSwiZXhwIjoxNjU2MTY5MzM4LCJ1c2VybmFtZSI6IlNvbmNlIn0.ol-a9n61OQqFO4yi0sVuqhiDEO_hCvYOw9r2acjyrGE"
+            }
         };
-    },
-    methods: {
-        toPost() {
-            console.log("toPost");
-        },
-        toUser() {
-            console.log("toUser");
-        },
-        addLike() {
-            console.log("addLike");
-        },
-        share() {
-            console.log("share");
-        },
-        refresh() {
-            this.PostList = [
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-            ];
-            console.log("refresh");
-        },
-        additem() {
-            this.PostList.push.apply(this.PostList, [
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-                { pid: 123, title: "感觉不如原神，画质", forum_name: "超级马里奥", post_time: "n天前", like: 1, review: 1, username: "原批", usericon: require("../assets/user_icon.png"), post_img: require("../assets/op.webp") },
-            ]);
-            console.log("load");
-        }
     },
     components: { LoadRefresh },
     mounted() {
+        this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
     unmounted() {
         document.body.removeAttribute('style')
+    },
+    methods: {
+        goToPost(pid){
+            window.jsAdapter.goToPost(pid)
+        },
+        async handleLike(item) {
+            (!item.isLike) ?
+                LikePost({
+                    uid: this.user.uid,
+                    pid: item.pid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = true
+                    item.likeNum++
+                })
+                :
+                CancelLike({
+                    uid: this.user.uid,
+                    pid: item.pid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = false
+                    item.likeNum--
+                })
+        },
+        async refreshEmit() {
+            return await this.getInitData()
+        },
+        async loadingEmit() {
+            return await this.getLoadData()
+        },
+        async getInitData() {
+            GetPosts({
+                pageSize: 10,
+                offset: 0,
+                order: 3,
+                uid: this.user.uid
+            },{
+                token: this.user.token
+            }).then((response) => {
+                this.PostList = response.data.data
+            }).catch(err => console.log(err))
+        },
+        async getLoadData() {
+            GetPosts({
+                pageSize: 10,
+                offset: this.PostList.length,
+                order: 3,
+                uid: this.user.uid
+            },{
+                token: this.user.token
+            }).then((response) => {
+                if (response.data.data == null) {
+                    throw (new Error("没有更多数据了！"))
+                }
+                this.PostList.push.apply(this.PostList, response.data.data)
+            }).catch(err => console.log(err))
+        },
     },
 }
 </script>
@@ -123,6 +160,7 @@ a {
 #post .user_icon {
     width: 50px;
     margin-right: 10px;
+    border-radius: 50px;
 }
 
 #post .post_img {
@@ -147,7 +185,7 @@ a {
 }
 
 #post .button {
-    padding: 10px 40px 10px 40px;
+    padding: 10px 90px 10px 90px;
     display: flex;
     justify-content: space-between;
 }
