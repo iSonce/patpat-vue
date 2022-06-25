@@ -1,6 +1,6 @@
 <template>
   <div class="loading">
-    <router-link :to="'/discover/' + value.name" :key="key" v-for="(value, key) in map">
+    <span :key="key" v-for="(value, key) in map" class="cube">
       <div id="content" v-if="
         [
           '4',
@@ -18,10 +18,12 @@
           '22',
         ].includes(key)
       ">
-        <img :src="value.imgName" alt="MOBA" />
-        <p>{{ value.name }}</p>
+        <router-link :to="'/discover/' + value.name" style="text-decoration:none;text-align: center;">
+          <img :src="value.imgName" alt="MOBA" />
+          <p>{{ value.name }}</p>
+        </router-link>
       </div>
-    </router-link>
+    </span>
   </div>
 </template>
 
@@ -117,7 +119,7 @@ export default {
   grid-gap: 10px;
 }
 
-.loading a {
+.loading .cube {
   text-decoration: none;
   padding: 0;
   margin: 0;
@@ -127,7 +129,7 @@ export default {
   justify-content: center;
 }
 
-.loading a #content {
+.loading .cube #content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,11 +137,11 @@ export default {
   transform: rotate(45deg);
 }
 
-.loading a #content img {
+.loading .cube #content img {
   width: 40px;
 }
 
-.loading a #content p {
+.loading .cube #content p {
   font-size: small;
   padding: 0;
   margin: 0;
@@ -147,27 +149,27 @@ export default {
   font-size: small;
 }
 
-.loading a:nth-child(-n + 5):nth-child(n + 4) {
+.loading .cube:nth-child(-n + 5):nth-child(n + 4) {
   background-color: white;
   box-shadow: var(--shadow);
 }
 
-.loading a:nth-child(-n + 10):nth-child(n + 8) {
+.loading .cube:nth-child(-n + 10):nth-child(n + 8) {
   background-color: white;
   box-shadow: var(--shadow);
 }
 
-.loading a:nth-child(-n + 14):nth-child(n + 12) {
+.loading .cube:nth-child(-n + 14):nth-child(n + 12) {
   background-color: white;
   box-shadow: var(--shadow);
 }
 
-.loading a:nth-child(-n + 18):nth-child(n + 16) {
+.loading .cube:nth-child(-n + 18):nth-child(n + 16) {
   background-color: white;
   box-shadow: var(--shadow);
 }
 
-.loading a:nth-child(-n + 22):nth-child(n + 21) {
+.loading .cube:nth-child(-n + 22):nth-child(n + 21) {
   background-color: white;
   box-shadow: var(--shadow);
 }
