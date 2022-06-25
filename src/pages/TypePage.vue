@@ -1,6 +1,6 @@
 <template>
   <div class="type">
-    <simple-list :rankShow="false" :type="$route.params.type" v-if="false"></simple-list>
+    <simple-list :rankShow="false" :type="$route.params.type"></simple-list>
   </div>
 </template>
 
