@@ -1,8 +1,17 @@
 import instance from "./axios";
 
-export function Reply(data) {
+export function NewReply(data, headers) {
     return instance.request({
         method: "post",
+        url: "/reply",
+        params: data,
+        headers: headers
+    })
+}
+
+export function GetReplyList(data) {
+    return instance.request({
+        method: "get",
         url: "/reply",
         params: data
     })

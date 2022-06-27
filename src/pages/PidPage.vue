@@ -4,83 +4,69 @@
             <img v-lazy='(PostInfo.avatar) ? (url + PostInfo.avatar) : require("../assets/icon.png")' alt="user_icon"
                 style="width:50px;height: 50px;margin-right: 10px;border-radius: 50px;">
             <div>
-                <div style="font-size:large;font-weight: 800;margin-bottom: 4px;">{{ PostInfo.nickname }}</div>
+                <div style="display:flex;text-align: center;align-items: center;">
+                    <div style="font-size:large;font-weight: 800;margin-bottom: 4px;margin-right: 5px;">{{
+                            PostInfo.nickname
+                    }}</div>
+                    <img :src="require('../assets/Level/Level' + PostInfo.level + '.png')" alt="level"
+                        style="width:20px;height: 20px;">
+                </div>
                 <div style="display:flex;color: gray;font-size:small">
-                    <div style="margin-right: 5px;">{{ PostInfo.postTime }}</div>
-                    <div>{{ PostInfo.readingNum }}</div>
+                    <div style="margin-right: 5px;">{{ ComputedTime(PostInfo.postTime) }}</div>
+                    <div>{{ PostInfo.readingNum }}浏览</div>
                 </div>
             </div>
             <div style="display:flex;margin-left: auto;align-items: center;">
                 <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
                     style="width:40px;height: 40px;margin-right: 15px;" @click="backToPostList()">
-                <button id="script_button">{{ (PostInfo.isFollowed) ? '已关注 ' : '关注' }}</button>
+                <button id="subsribe_button" @click="handleFollow(PostInfo)">{{ (PostInfo.isFollowed) ? '已关注 ' : '关注'
+                }}</button>
             </div>
         </header>
-        <div class="main">
-            <div class="content">
-                <div class="text">{{ PostInfo.content }}</div>
-                <img v-lazy='url + PostInfo.picture' alt="op" class="img" v-if="PostInfo.picture">
-                <div class="forum" v-if="ForumInfo">
-                    <img v-lazy='(ForumInfo.icon) ? (url + ForumInfo.icon) : require("../assets/icon.png")' alt="op"
-                        class="picture">
-                    <div style="margin-left:8px">
-                        <div>{{ ForumInfo.name }}</div>
-                        <div style="display:flex">
+        <load-refresh @refresh="refreshEmit()" @load="loadingEmit()">
+            <div class="main">
+                <div class="content">
+                    <div class="text">{{ PostInfo.content }}</div>
+                    <img v-lazy='url + PostInfo.picture' alt="op" class="img" v-if="PostInfo.picture">
+                    <div class="forum" v-if="ForumInfo">
+                        <img v-lazy='(ForumInfo.icon) ? (url + ForumInfo.icon) : require("../assets/icon.png")' alt="op"
+                            class="picture">
+                        <div style="margin-left:8px">
+                            <div>{{ ForumInfo.name }}</div>
                             <div style="display:flex">
-                                <div>关注</div>
-                                <div>{{ ForumInfo.followNum }}</div>
-                            </div>
-                            <div style="padding:0 5px 0 5px">·</div>
-                            <div style="display:flex">
-                                <div>帖子</div>
-                                <div>{{ ForumInfo.postNum }}</div>
+                                <div style="display:flex">
+                                    <div>关注</div>
+                                    <div>{{ ForumInfo.followNum }}</div>
+                                </div>
+                                <div style="padding:0 5px 0 5px">·</div>
+                                <div style="display:flex">
+                                    <div>帖子</div>
+                                    <div>{{ ForumInfo.postNum }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="review_list">
-                <div class="review_header">
-                    <div style="padding-right:8px">评论</div>
-                    <div>{{ PostInfo.replyNum }}</div>
-                </div>
-                <div :key="reply" v-for="reply in ReplyList" class="review_item">
-                    <div style="display:flex">
-                        <img v-lazy='url + reply.avatar' alt="icon"
-                            style="width:50px;height: 50px;margin-right: 8px;border-radius: 50px;">
-                        <div style="flex:100%">
-                            <div style="margin-bottom: 5px;color: gray;">{{ reply.nickname }}</div>
-                            <div style="margin-bottom: 10px;">{{ reply.content }}
-                            </div>
-                            <div style="display:flex">
-                                <div style="display:flex;margin-right: 50px;">
-                                    <img src="../assets/ButtonUI/ReviewButton.png" alt="review_button"
-                                        id="review_button" style="margin-right:5px">
-                                    <div style="font-size:13px">{{ reply.replyNum }}</div>
-                                </div>
-                                <div style="display:flex" @click="handleLikeReply(reply)">
-                                    <img :src='(reply.isLike) ? require("../assets/ButtonUI/LikeButtonOn.png") : require("../assets/ButtonUI/LikeButton.png")' alt="like_button" id="like_button"
-                                        style="margin-right:5px">
-                                    <div style="font-size:13px;color: gray;">{{ reply.likeNum }}</div>
-                                </div>
-                                <div style="margin-left: auto;font-size:13px;color: gray;">{{ reply.postTime }}</div>
-                            </div>
-                        </div>
+                <div>
+                    <div class="reply_header">
+                        <div style="padding-right:8px">评论</div>
+                        <div>{{ PostInfo.replyNum }}</div>
                     </div>
-                    <hr style="background-color: rgb(214, 214, 214); border-width:0px; height: 1px;margin:20px 0 0 0">
+                    <reply-list :ReplyList="ReplyList" @handleLikeReply="handleLikeReply"></reply-list>
                 </div>
             </div>
-        </div>
+        </load-refresh>
         <div class="footer">
-            <button id="review">发表你的看法</button>
-            <div id="button" style="flex:50%;justify-content: space-evenly;">
+            <input id="reply" type="text" placeholder="发表你的看法" style="padding:10px" @input="handleInput" v-model="input"
+                @focus="focusInput()" @blur="blurInput()">
+            <div id="button" style="flex:50%;justify-content: space-evenly;" v-show="(buttonShow) && (input == '')">
                 <div style="text-align:center" @click="handleCollectPost(PostInfo)">
                     <img :src='(PostInfo.isCollect) ? require("../assets/ButtonUI/StarOn.png") : require("../assets/ButtonUI/Star.png")'
                         alt="star_button" id="star_button">
                     <div style="font-size:13px;color: gray;">{{ PostInfo.collectNum }}</div>
                 </div>
                 <div style="text-align:center">
-                    <img src="../assets/ButtonUI/ReviewButton.png" alt="review_button" id="review_button">
+                    <img src="../assets/ButtonUI/ReviewButton.png" alt="reply_button" id="reply_button">
                     <div style="font-size:13px;color: gray;">{{ PostInfo.replyNum }}</div>
                 </div>
                 <div style="text-align:center" @click="handleLikePost(PostInfo)">
@@ -89,16 +75,22 @@
                     <div style="font-size:13px;color: gray;">{{ PostInfo.likeNum }}</div>
                 </div>
             </div>
+            <button v-show="(!buttonShow) || (input != '')"
+                style="padding:8px;flex:20%;border-radius: 25px;background-color: #FFECED;margin-left:5px"
+                @click="handleSend">发送</button>
         </div>
     </div>
 </template>
 
 <script>
 import config from '@/api/config'
-import { GetPost, GetPostReply } from '@/api/PostApi'
 import { GetForum } from '@/api/ForumApi'
-import { LikePost, CancelLikePost, CollectPost, CancelCollectPost } from '@/api/PostApi'
-import {LikeReply,CancelLikeReply} from '@/api/ReplyApi'
+import { LikePost, CancelLikePost, CollectPost, CancelCollectPost, AddRead, GetPost, GetPostReply } from '@/api/PostApi'
+import { LikeReply, CancelLikeReply, NewReply } from '@/api/ReplyApi'
+import { ConcernUser, CancelConcernUser } from '@/api/UserApi'
+import ReplyList from '@/components/ReplyList.vue'
+import LoadRefresh from '@/components/LoadRefresh.vue'
+
 export default {
     data() {
         return {
@@ -108,26 +100,111 @@ export default {
             ReplyList: [],
             GameList: [],
             url: config.url,
-            user: {
-                uid: 9,
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjowLFwiZm9sbG93TnVtXCI6MCxcImF2YXRhclwiOlwiL2ltYWdlL2UyMDAwMzE1LTgyN2UtNDI4NC1iYjVmLWQyN2ZmNThlOGE1Ni5qcGdcIixcImJhY2tncm91bmRcIjpudWxsLFwidXNlcm5hbWVcIjpcIlNvbmNlXCIsXCJwYXNzd29yZFwiOlwiJDJhJDEyJERYR1hkWlcvTmk3RjBSTzBEYmt5RXVvTnROVXN1NDViTksxNTY4LmwwLm1IbVE0dlJyOXdhXCIsXCJ1aWRcIjo5fSIsInVpZCI6OSwiZXhwIjoxNjU2MTc0NTAxLCJ1c2VybmFtZSI6IlNvbmNlIn0.0sj5n5RRLdOS8XoGdcR5w3BJNGGrWpqG5x_UR7_MUVU"
-            }
+            user: config.user,
+            input: '',
+            buttonShow: true
         }
     },
-    created() {
-        this.getInitData()
+    components: {
+        ReplyList,
+        LoadRefresh
     },
     mounted() {
+        AddRead({
+            pid: this.$route.params.pid
+        }, {
+            token: this.user.token
+        }).then(() => {
+
+        })
+        this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0;')
     },
     unmounted() {
         document.body.removeAttribute('style')
     },
     methods: {
-        backToPostList(){
+        handleFollow(item) {
+            (!item.isFollowed) ?
+                ConcernUser({
+                    followedId: item.uid,
+                    followingId: this.user.uid
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    item.isFollowed = true
+                    console.log(response)
+                })
+                :
+                CancelConcernUser({
+                    followedId: item.uid,
+                    followingId: this.user.uid
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    item.isFollowed = false
+                    console.log(response)
+                })
+        },
+        ComputedTime(time) {
+            let dateBegin = new Date(time.replace(/-/g, '/'))
+            let dateEnd = new Date()
+            let dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
+            let dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
+            if (dayDiff > 7) {
+                return time.split(' ')[0]
+            }
+            if (dayDiff > 0) {
+                return dayDiff + '天前'
+            }
+            let hourDiff = Math.floor(dateDiff / (3600 * 1000))//计算出相差小时数
+            if (dayDiff > 0) {
+                return hourDiff + '小时前'
+            }
+            let minutesDiff = Math.floor(dateDiff / (60 * 1000))//计算出相差分钟数
+            if (minutesDiff > 0) {
+                return minutesDiff + '分钟前'
+            }
+            let secondsDiff = Math.floor(dateDiff / 1000)//计算出相差秒数
+            if (secondsDiff > 0) {
+                return secondsDiff + '秒前'
+            }
+        },
+        focusInput() {
+            this.buttonShow = false
+        },
+        blurInput() {
+            this.buttonShow = true
+        },
+        async handleSend() {
+            NewReply({
+                uid: this.user.uid,
+                fid: this.ForumInfo.fid,
+                pid: this.PostInfo.pid,
+                content: this.input
+            }, {
+                token: this.user.token
+            }).then(() => {
+                this.input = ''
+                GetPostReply({
+                    pid: this.$route.params.pid,
+                    uid: this.user.uid,
+                    offset: this.ReplyList.length,
+                    pageSize: 1,
+                    order: 0,
+                    token: this.user.token
+                }).then(response => {
+                    this.ReplyList.push.apply(this.ReplyList, response.data.data)
+                }).catch(err => console.log(err))
+                this.PostInfo.replyNum++
+            }
+            ).catch(err => console.log(err))
+            console.log('send')
+        },
+        backToPostList() {
             window.jsAdapter.finishCurrentActivity()
         },
-        async handleLikeReply(item){
+        async handleLikeReply(item) {
             (!item.isLike) ?
                 LikeReply({
                     uid: this.user.uid,
@@ -241,7 +318,7 @@ export default {
                 order: 0,
                 token: this.user.token
             }).then(response => {
-                this.ReplyList = response.data.data
+                this.ReplyList.push.apply(this.ReplyList, response.data.data)
             }).catch(err => console.log(err))
         },
     }
@@ -260,6 +337,7 @@ export default {
     background-color: white;
     position: sticky;
     top: 0;
+    z-index: 1;
 }
 
 .main {
@@ -277,7 +355,7 @@ export default {
     padding: 10px 10px;
 }
 
-.footer #review {
+.footer #reply {
     background-color: #FFECED;
     border-radius: 25px;
     flex: 80%;
@@ -312,20 +390,7 @@ export default {
     height: 42px;
 }
 
-.review_list .review_header {
-    display: flex;
-    width: 100vw;
-    padding: 10px;
-    background-color: #FFECED;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px
-}
-
-.review_list .review_item {
-    padding: 10px;
-}
-
-#review_button {
+#reply_button {
     width: 18px;
     height: 18px;
 }
@@ -340,7 +405,7 @@ export default {
     height: 18px;
 }
 
-#script_button {
+#subsribe_button {
     width: 50px;
     border-radius: 20px;
     background-color: #FFECED;
@@ -348,5 +413,14 @@ export default {
     border-style: hidden;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
     padding: 5px;
+}
+
+.reply_header {
+    display: flex;
+    width: 100vw;
+    padding: 10px;
+    background-color: #FFECED;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px
 }
 </style>

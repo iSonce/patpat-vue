@@ -7,10 +7,14 @@
                         <img v-lazy='(item.avatar) ? (url + item.avatar) : require("../assets/icon.png")'
                             alt="user_icon" class="user_icon">
                         <div style="padding-top: 2px">
-                            <div id="user_name">{{ item.nickname }}</div>
+                            <div style="display:flex;text-align: center;align-items: center;">
+                                <div style="margin-right:5px">{{ item.nickname }}</div>
+                                <img :src="require('../assets/Level/Level' + item.level + '.png')" alt="level"
+                                    style="width:20px;height: 20px;">
+                            </div>
                             <div style="display:flex">
                                 <div class="time">
-                                    {{ item.postTime }}
+                                    {{ ComputedTime(item.postTime) }}
                                 </div>
                                 <div class="forum">
                                     {{ item.forumName }}
@@ -19,13 +23,13 @@
                         </div>
                     </div>
                     <div>
-                        <a @click="goToPost(item.pid)">
+                        <a @click="goToPost(item.pid, item.fid)">
                             <div class="title">
                                 {{ item.title }}
                             </div>
                             <img v-lazy='url + item.picture' alt="post_img" class="post_img" v-if="item.picture">
                         </a>
-                        <div class="button">
+                        <div class="button" v-if="!this.$route.params.uid">
                             <!-- <div style="display: flex" @click="collect(item)">
                                 <img src="../assets/ButtonUI/Star.png" alt="star_button"
                                     style="width:20px;padding-right: 5px;">
@@ -47,7 +51,6 @@
                 <hr class="line">
             </div>
         </LoadRefresh>
-
     </div>
 </template>
 
@@ -55,17 +58,15 @@
 import LoadRefresh from '@/components/LoadRefresh.vue'
 import { GetPosts } from '@/api/UserApi'
 import config from '@/api/config'
-import { LikePost, CancelLikePost } from '@/api/PostApi'
+import { LikePost, CancelLikePost, GetPostsByRelated } from '@/api/PostApi'
+import { GetForumPosts } from "@/api/ForumApi"
 export default {
     name: "PostPage",
     data() {
         return {
             PostList: null,
             url: config.url,
-            user: {
-                uid: 9,
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjowLFwiZm9sbG93TnVtXCI6MCxcImF2YXRhclwiOlwiL2ltYWdlL2UyMDAwMzE1LTgyN2UtNDI4NC1iYjVmLWQyN2ZmNThlOGE1Ni5qcGdcIixcImJhY2tncm91bmRcIjpudWxsLFwidXNlcm5hbWVcIjpcIlNvbmNlXCIsXCJwYXNzd29yZFwiOlwiJDJhJDEyJERYR1hkWlcvTmk3RjBSTzBEYmt5RXVvTnROVXN1NDViTksxNTY4LmwwLm1IbVE0dlJyOXdhXCIsXCJ1aWRcIjo5fSIsInVpZCI6OSwiZXhwIjoxNjU2MTY5MzM4LCJ1c2VybmFtZSI6IlNvbmNlIn0.ol-a9n61OQqFO4yi0sVuqhiDEO_hCvYOw9r2acjyrGE"
-            }
+            user: config.user
         };
     },
     components: { LoadRefresh },
@@ -77,8 +78,32 @@ export default {
         document.body.removeAttribute('style')
     },
     methods: {
-        goToPost(pid){
-            window.jsAdapter.goToPost(pid)
+        ComputedTime(time) {
+            let dateBegin = new Date(time.replace(/-/g, '/'))
+            let dateEnd = new Date()
+            let dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
+            let dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
+            if (dayDiff > 7) {
+                return time.split(' ')[0]
+            }
+            if (dayDiff > 0) {
+                return dayDiff + '天前'
+            }
+            let hourDiff = Math.floor(dateDiff / (3600 * 1000))//计算出相差小时数
+            if (hourDiff > 0) {
+                return hourDiff + '小时前'
+            }
+            let minutesDiff = Math.floor(dateDiff / (60 * 1000))//计算出相差分钟数
+            if (minutesDiff > 0) {
+                return minutesDiff + '分钟前'
+            }
+            let secondsDiff = Math.floor(dateDiff / 1000)//计算出相差秒数
+            if (secondsDiff > 0) {
+                return secondsDiff + '秒前'
+            }
+        },
+        goToPost(pid, fid) {
+            window.jsAdapter.goToPost(pid, fid)
         },
         async handleLike(item) {
             (!item.isLike) ?
@@ -111,31 +136,82 @@ export default {
             return await this.getLoadData()
         },
         async getInitData() {
-            GetPosts({
-                pageSize: 10,
-                offset: 0,
-                order: 3,
-                uid: this.user.uid
-            },{
-                token: this.user.token
-            }).then((response) => {
-                this.PostList = response.data.data
-            }).catch(err => console.log(err))
+            if (this.$route.params.related_uid) {
+                GetPostsByRelated({
+                    uid: this.user.uid,
+                    offset: 0,
+                    pageSize: 10
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    this.PostList = response.data.data
+                }).catch(err => console.log(err))
+            } else {
+                (this.$route.params.fid) ?
+                    GetForumPosts({
+                        uid: this.user.uid,
+                        fid: this.$route.params.fid,
+                        offset: 0,
+                        pageSize: 10,
+                        order: 1,
+                    }, {
+                        token: this.user.token
+                    }).then((response) => {
+                        this.PostList = response.data.data
+                    }).catch(err => console.log(err))
+                    :
+                    GetPosts({
+                        pageSize: 10,
+                        offset: 0,
+                        order: (this.$route.params.uid) ? 1 : 3,
+                        uid: (this.$route.params.uid) ? this.$route.params.uid : this.user.uid
+                    }, {
+                        token: this.user.token
+                    }).then((response) => {
+                        this.PostList = response.data.data
+                    }).catch(err => console.log(err))
+            }
         },
         async getLoadData() {
-            GetPosts({
-                pageSize: 10,
-                offset: this.PostList.length,
-                order: 3,
-                uid: this.user.uid
-            },{
-                token: this.user.token
-            }).then((response) => {
-                if (response.data.data == null) {
-                    throw (new Error("没有更多数据了！"))
-                }
-                this.PostList.push.apply(this.PostList, response.data.data)
-            }).catch(err => console.log(err))
+            if (this.$route.params.related_uid) {
+                GetPostsByRelated({
+                    uid: this.user.uid,
+                    offset: 0,
+                    pageSize: this.PostList.length
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    this.PostList.push.apply(this.PostList, response.data.data)
+                }).catch(err => console.log(err))
+            } else {
+                (this.$route.params.fid) ?
+                    GetForumPosts({
+                        uid: this.user.uid,
+                        fid: this.$route.params.fid,
+                        offset: this.PostList.length,
+                        pageSize: 10,
+                        order: 1,
+                    }, {
+                        token: this.user.token
+                    }).then((response) => {
+                        this.PostList.push.apply(this.PostList, response.data.data)
+                    }).catch(err => console.log(err))
+                    :
+                    GetPosts({
+                        pageSize: 10,
+                        offset: this.PostList.length,
+                        order: (this.$route.params.uid) ? 1 : 3,
+                        uid: (this.$route.params.uid) ? this.$route.params.uid : this.user.uid
+                    }, {
+                        token: this.user.token
+                    }).then((response) => {
+                        if (response.data.data == null) {
+                            throw (new Error("没有更多数据了！"))
+                        }
+                        this.PostList.push.apply(this.PostList, response.data.data)
+                    }).catch(err => console.log(err))
+            }
+
         },
     },
 }
@@ -159,6 +235,7 @@ a {
 
 #post .user_icon {
     width: 50px;
+    height: 50px;
     margin-right: 10px;
     border-radius: 50px;
 }

@@ -1,3 +1,7 @@
 export default {
-    url: "http://172.21.140.162"
+    url: "http://172.21.140.162",
+    user: {
+        uid: 9,
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjowLFwiZm9sbG93TnVtXCI6MCxcImF2YXRhclwiOlwiL2ltYWdlL2UyMDAwMzE1LTgyN2UtNDI4NC1iYjVmLWQyN2ZmNThlOGE1Ni5qcGdcIixcImJhY2tncm91bmRcIjpudWxsLFwidXNlcm5hbWVcIjpcIlNvbmNlXCIsXCJwYXNzd29yZFwiOlwiJDJhJDEyJERYR1hkWlcvTmk3RjBSTzBEYmt5RXVvTnROVXN1NDViTksxNTY4LmwwLm1IbVE0dlJyOXdhXCIsXCJ1aWRcIjo5fSIsInVpZCI6OSwiZXhwIjoxNjU2MzQyNDA0LCJ1c2VybmFtZSI6IlNvbmNlIn0.WrxNH3ZOiTlmM8jN5DbYm-f-QmntbUR_pIKQ0sczWF0"
+    }
 }

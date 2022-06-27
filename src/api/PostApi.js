@@ -8,12 +8,13 @@ export function GetPost(data) {
     })
 }
 
-export function GetPostsByRelated(data) {
+export function GetPostsByRelated(data, headers) {
     return instance.request({
         method: "get",
         url: "/post/related",
         // data examle { uid: 6, fid: 4, offset: 0, pageSize: 10, order: 0 }
-        params: data
+        params: data,
+        headers: headers
     })
 }
 
@@ -69,10 +70,11 @@ export function CancelLikePost(data, headers) {
     })
 }
 
-export function AddRead(data) {
+export function AddRead(data, headers) {
     return instance.request({
         method: "post",
         url: "/post/read",
-        params: data
+        params: data,
+        headers: headers
     })
 }

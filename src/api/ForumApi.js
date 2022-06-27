@@ -1,10 +1,11 @@
 import instance from "./axios";
 
-export function GetPosts(data) {
+export function GetForumPosts(data, headers) {
     return instance.request({
         method: "get",
-        url: "user/post",
-        params: data
+        url: "forum/post",
+        params: data,
+        headers: headers
     })
 }
 
