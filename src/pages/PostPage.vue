@@ -5,7 +5,7 @@
                 <div style="padding: 0px 10px;">
                     <div class="user_info">
                         <img v-lazy='(item.avatar) ? (url + item.avatar) : require("../assets/icon.png")'
-                            alt="user_icon" class="user_icon">
+                            alt="user_icon" class="user_icon" @click="this.console.log('123')">
                         <div style="padding-top: 2px">
                             <div style="display:flex;text-align: center;align-items: center;">
                                 <div style="margin-right:5px">{{ item.nickname }}</div>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div>
-                        <a @click="goToPost(item.pid, item.fid)">
+                        <a @click="goToPost(item.pid)">
                             <div class="title">
                                 {{ item.title }}
                             </div>
@@ -66,11 +66,20 @@ export default {
         return {
             PostList: null,
             url: config.url,
-            user: config.user
+            user: {
+                uid: 9,
+                token: null
+            }
         };
+    },
+    computed: {
+        console: () => console,
+        window: () => window,
     },
     components: { LoadRefresh },
     mounted() {
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
@@ -102,8 +111,8 @@ export default {
                 return secondsDiff + '秒前'
             }
         },
-        goToPost(pid, fid) {
-            window.jsAdapter.goToPost(pid, fid)
+        goToPost(pid) {
+            window.jsAdapter.goToPost(pid)
         },
         async handleLike(item) {
             (!item.isLike) ?

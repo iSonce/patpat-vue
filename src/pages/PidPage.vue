@@ -100,7 +100,10 @@ export default {
             ReplyList: [],
             GameList: [],
             url: config.url,
-            user: config.user,
+            user: {
+                uid: 9,
+                token: null
+            },
             input: '',
             buttonShow: true
         }
@@ -110,6 +113,8 @@ export default {
         LoadRefresh
     },
     mounted() {
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         AddRead({
             pid: this.$route.params.pid
         }, {
@@ -284,6 +289,7 @@ export default {
             return await this.getLoadData()
         },
         async getInitData() {
+            console.log()
             await GetPost({
                 pid: this.$route.params.pid,
                 uid: this.user.uid,
@@ -292,7 +298,7 @@ export default {
                 this.PostInfo = response.data.data
             }).catch(err => console.log(err))
             await GetForum({
-                id: this.$route.params.pid,
+                id: this.PostInfo.fid,
                 uid: this.user.uid,
                 token: this.user.token
             }, this.PostInfo.fid).then(response => {
