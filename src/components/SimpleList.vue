@@ -1,7 +1,7 @@
 <template>
   <div class="top-list" id="top-list">
-    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
-      <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList"  @click="goToUrl(game.url)">
+    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :can-load="canLoad">
+      <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList" @click="goToUrl(game.url)">
         <p id="rank" v-if="rankShow">{{ index1 + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
         <div class="content">
@@ -40,15 +40,14 @@ export default {
         head: false,
         end: false,
       },
-      loadBusy: false,
-      isRefresh: false,
+      canLoad: true
     };
   },
   mounted() {
     this.getInitData()
   },
   methods: {
-    goToUrl(url){
+    goToUrl(url) {
       window.jsAdapter.goToUrl(url)
     },
     divideTypes(types) {
@@ -58,6 +57,7 @@ export default {
       return types.split(',')
     },
     async refreshEmit() {
+      this.canLoad = true
       return await this.getInitData()
     },
     async loadingEmit() {
@@ -89,7 +89,8 @@ export default {
           offset: this.GameList.length
         }).then((response) => {
           if (response.data.data == null) {
-            throw (new Error("没有更多数据了！"))
+            this.canLoad = false
+            throw (new Error(response.data.message))
           }
           //拼接上新数据
           this.GameList.push.apply(this.GameList, response.data.data)
@@ -100,6 +101,10 @@ export default {
           pageSize: 15,
           offset: this.offset,
         }).then((response) => {
+          if (response.data.data == null) {
+            this.canLoad = false
+            throw (new Error(response.data.message))
+          }
           //拼接上新数据
           this.GameList.push.apply(this.GameList, response.data.data)
         })

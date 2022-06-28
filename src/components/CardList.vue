@@ -1,6 +1,6 @@
 <template>
   <div class="game-cards" id="rcmd-cards">
-    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
+    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :can-load="canLoad">
       <a class="game-card" :key="game.gid" v-for="game in GameList" @click="goToUrl(game.url)">
         <img v-lazy="game.picture" alt="Game Poster" id="poster" />
         <div class="content">
@@ -27,6 +27,7 @@ export default {
     return {
       GameList: [],
       offset: 0,
+      canLoad: true
     };
   },
   async mounted() {
@@ -37,6 +38,7 @@ export default {
       window.jsAdapter.goToUrl(url)
     },
     async refreshEmit() {
+      this.canLoad = true
       return await this.getInitData()
     },
     async loadingEmit() {
@@ -60,7 +62,8 @@ export default {
       }).then((response) => {
         //GameList重设为结果
         if (response.data.data == null) {
-          throw (new Error("没有更多数据了！"))
+          this.canLoad = false
+          throw (new Error(response.data.message))
         }
         this.GameList.push.apply(this.GameList, response.data.data)
       }).catch(err => console.log(err))

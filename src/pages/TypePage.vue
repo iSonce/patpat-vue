@@ -11,7 +11,7 @@ export default {
   name: "TypePage",
   mounted() {
     console.log('goToGameList: ', this.$route.params.type)
-    window.jsAdapter.goToGameList(this.$route.params.type)
+    // window.jsAdapter.goToGameList(this.$route.params.type)
   },
   unmounted(){
     console.log('backToAllType')
