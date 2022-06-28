@@ -8,11 +8,11 @@
                             alt="user_icon" class="user_icon" @click="this.console.log('123')">
                         <div>
                             <div style="display:flex;text-align: center;align-items: center;">
-                                <div style="margin-right:5px;font-size: smaller;">{{ item.nickname }}</div>
+                                <div style="margin-right:5px;font-size: 15px;">{{ item.nickname }}</div>
                                 <img :src="require('../assets/Level/Level' + item.level + '.png')" alt="level"
                                     style="width:20px;height: 20px;">
                             </div>
-                            <div style="display:flex">
+                            <div style="display:flex;text-align: center;align-items: center;">
                                 <div class="time">
                                     {{ ComputedTime(item.postTime) }}
                                 </div>
@@ -278,12 +278,12 @@ a {
 #post .time {
     color: gray;
     margin-right: 10px;
-    font-size: smaller;
+    font-size: 9px;
 }
 
 #post .forum {
     color: red;
-    font-size: smaller;
+    font-size: 9px;
 }
 
 #post .button {

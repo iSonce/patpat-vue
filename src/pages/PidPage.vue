@@ -35,24 +35,14 @@
                     <div class="forum" v-if="ForumInfo">
                         <img v-lazy='(ForumInfo.icon) ? (url + ForumInfo.icon) : require("../assets/icon.png")' alt="op"
                             class="picture">
-                        <div style="margin-left:8px">
+                        <div style="margin-left:8px;margin:auto 0 auto 0;padding:5px;font-size: smaller;">
                             <div>{{ ForumInfo.name }}</div>
-                            <div style="display:flex">
-                                <div style="display:flex">
-                                    <div>关注</div>
-                                    <div>{{ ForumInfo.followNum }}</div>
-                                </div>
-                                <div style="padding:0 5px 0 5px">·</div>
-                                <div style="display:flex">
-                                    <div>帖子</div>
-                                    <div>{{ ForumInfo.postNum }}</div>
-                                </div>
-                            </div>
+                            <div>{{ '关注' + ForumInfo.followNum + ' · ' + '帖子' + ForumInfo.postNum }}</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div class="reply_header">
+                    <div class=" reply_header">
                         <div style="padding-right:8px">评论</div>
                         <div>{{ PostInfo.replyNum }}</div>
                     </div>
@@ -416,7 +406,8 @@ export default {
 }
 
 .content .forum .picture {
-    height: 42px;
+    margin: auto 0 auto 0;
+    height: 40px;
 }
 
 #reply_button {

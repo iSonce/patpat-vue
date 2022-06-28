@@ -1,5 +1,5 @@
 <template>
-  <div class="top-list" id="top-list">
+  <div class="top-list" id="top-list" v-if="GameList.length">
     <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :can-load="canLoad">
       <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList" @click="goToUrl(game.url)">
         <p id="rank" v-if="rankShow">{{ index1 + 1 }}</p>
@@ -10,9 +10,8 @@
             <img src="../assets/heart.png" alt="heart" id="heart" />
             <p id="num">{{ (game.score).toFixed(1) }}</p>
             <div id="type_container">
-              <div :key="index2" v-for="(value, index2) in divideTypes(game.types)">
-                <div v-if="index2 == 0 || index2 == 1" class="type">{{ (index2 == 0) ? value + ' · ' : value }}
-                </div>
+              <div class="type">
+                {{divideTypes(game.types)}}
               </div>
             </div>
           </div>
@@ -54,7 +53,8 @@ export default {
       if (types == null) {
         return null
       }
-      return types.split(',')
+      let arr = types.split(',')
+      return arr[0]+' · '+arr[1]
     },
     async refreshEmit() {
       this.canLoad = true
@@ -163,6 +163,7 @@ export default {
 
 .top-item .content .score {
   display: flex;
+  text-align: center;
   align-items: center;
 }
 
@@ -170,12 +171,13 @@ export default {
 .top-item .content .score #type_container {
   margin-left: 10px;
   display: flex;
+  text-align: center;
+  align-items: center;
 }
 
 .top-item .content .score #type_container .type {
   color: gray;
   font-size: 12px;
-  padding-right: 3px;
 }
 
 .top-item .content .score #heart {
