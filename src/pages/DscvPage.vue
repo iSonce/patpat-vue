@@ -112,8 +112,8 @@ export default {
 <style scoped>
 .loading {
   transform: rotate(-45deg);
-  width: 440px;
-  height: 440px;
+  width: 430px;
+  height: 430px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 10px;
