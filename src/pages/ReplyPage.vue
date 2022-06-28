@@ -11,7 +11,7 @@
             <div class="main">
                 <div id="main_reply" v-if="main_reply">
                     <img v-lazy='url + main_reply.avatar' alt="icon"
-                        style="width:50px;height: 50px;margin-right: 8px;border-radius: 50px;">
+                        style="width:45px;height: 45px;margin-right: 8px;border-radius: 50px;">
                     <div style="flex:100%">
                         <div style="display:flex;text-align: center;align-items: center;">
                             <div style="font-weight:800;margin-bottom:5px;margin-right:5px">{{ main_reply.nickname }}

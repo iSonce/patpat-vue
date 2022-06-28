@@ -1,8 +1,12 @@
 <template>
     <div class="Pid" v-if="PostInfo">
         <header class="header">
+            <div style="text-align:center;align-items:center;display: flex;">
+                <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
+                    style="width:35px;height: 35px;margin-right: 15px;" @click="backToPostList()">
+            </div>
             <img v-lazy='(PostInfo.avatar) ? (url + PostInfo.avatar) : require("../assets/icon.png")' alt="user_icon"
-                style="width:50px;height: 50px;margin-right: 10px;border-radius: 50px;">
+                style="width:45px;height: 45px;margin-right: 10px;border-radius: 50px;">
             <div>
                 <div style="display:flex;text-align: center;align-items: center;">
                     <div style="font-size:large;font-weight: 800;margin-bottom: 4px;margin-right: 5px;">{{
@@ -17,8 +21,6 @@
                 </div>
             </div>
             <div style="display:flex;margin-left: auto;align-items: center;">
-                <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
-                    style="width:40px;height: 40px;margin-right: 15px;" @click="backToPostList()">
                 <button v-show="user.uid != PostInfo.uid" id="subsribe_button" @click="handleFollow(PostInfo)">{{
                         (PostInfo.isFollowed) ? '已关注 ' : '关注'
                 }}</button>
@@ -27,6 +29,7 @@
         <load-refresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
             <div class="main">
                 <div class="content">
+                    <div style="font-size:25px;font-weight: 800;padding-bottom: 10px;">{{ PostInfo.title }}</div>
                     <div class="text">{{ PostInfo.content }}</div>
                     <img v-lazy='url + PostInfo.picture' alt="op" class="img" v-if="PostInfo.picture">
                     <div class="forum" v-if="ForumInfo">
@@ -264,8 +267,7 @@ export default {
                     pid: this.PostInfo.pid,
                 }, {
                     token: this.user.token
-                }).then((response) => {
-                    console.log(response)
+                }).then(() => {
                     item.isLike = false
                     item.likeNum--
                 })
@@ -329,7 +331,7 @@ export default {
             }).catch(err => console.log(err))
         },
         async getLoadData() {
-            if(!this.canLoad){
+            if (!this.canLoad) {
                 return
             }
             GetPostReply({
@@ -408,7 +410,7 @@ export default {
     display: flex;
     border-radius: 20px;
     padding: 10px;
-    background-color: #eec7c8;
+    background-color: #fde3e4;
     margin-top: 10px;
 }
 
