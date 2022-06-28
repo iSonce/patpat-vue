@@ -160,7 +160,7 @@ export default {
             const headers = {
                 token: this.user.token
             }
-            GetPostsByOneApi(GetPostsType, data, headers, this.PostList)
+            GetPostsByOneApi(GetPostsType, data, headers)
                 .then((response) => {
                     console.log(response)
                     this.PostList = response.data.data
