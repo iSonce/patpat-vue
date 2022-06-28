@@ -19,7 +19,7 @@
             <div style="display:flex;margin-left: auto;align-items: center;">
                 <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
                     style="width:40px;height: 40px;margin-right: 15px;" @click="backToPostList()">
-                <button id="subsribe_button" @click="handleFollow(PostInfo)">{{ (PostInfo.isFollowed) ? '已关注 ' : '关注'
+                <button v-show="user.uid!=PostInfo.uid" id="subsribe_button" @click="handleFollow(PostInfo)">{{ (PostInfo.isFollowed) ? '已关注 ' : '关注'
                 }}</button>
             </div>
         </header>
@@ -102,7 +102,7 @@ export default {
             url: config.url,
             user: {
                 uid: 9,
-                token: null
+                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjoxLFwiZm9sbG93TnVtXCI6MSxcImF2YXRhclwiOlwiL2ltYWdlLzBkY2Q3YzI1LTZlMzktNGE2Zi05YTBmLTkwOTU2NmE0ODJjZC5qcGdcIixcImJhY2tncm91bmRcIjpcIi9pbWFnZS8yNjA3YWJmNi1lNDRlLTQxNDEtYWRiMi1lYTIzNjQxZmJjNTMuanBnXCIsXCJ1c2VybmFtZVwiOlwiU29uY2VcIixcInBhc3N3b3JkXCI6XCIkMmEkMTIkRFhHWGRaVy9OaTdGMFJPMERia3lFdW9OdE5Vc3U0NWJOSzE1NjgubDAubUhtUTR2UnI5d2FcIixcInVpZFwiOjl9IiwidWlkIjo5LCJleHAiOjE2NTY0MDk1OTEsInVzZXJuYW1lIjoiU29uY2UifQ.X3xbeb17XD4etZd9XktXqOpW739WZrz9jNSSFGAfdyQ"
             },
             input: '',
             buttonShow: true
@@ -137,8 +137,13 @@ export default {
                 }, {
                     token: this.user.token
                 }).then((response) => {
+                    if (response.data.code == -1) {
+                        throw new Error(response.data.message)
+                    }
                     item.isFollowed = true
                     console.log(response)
+                }).catch((err) => {
+                    console.log(err)
                 })
                 :
                 CancelConcernUser({
@@ -147,8 +152,13 @@ export default {
                 }, {
                     token: this.user.token
                 }).then((response) => {
+                    if (response.data.code == -1) {
+                        throw new Error(response.data.message)
+                    }
                     item.isFollowed = false
                     console.log(response)
+                }).catch((err) => {
+                    console.log(err)
                 })
         },
         ComputedTime(time) {
