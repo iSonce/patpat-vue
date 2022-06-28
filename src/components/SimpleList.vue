@@ -136,10 +136,10 @@ export default {
 }
 
 .top-item #icon {
-  width: 65px;
-  height: 65px;
+  width: 52px;
+  height: 52px;
   border-radius: 15px;
-  margin: 0 10px 0 0px;
+  margin: 0 8px 0 0px;
 }
 
 .top-item #download {
@@ -150,7 +150,7 @@ export default {
   background-color: #ffeced;
   border-radius: 18px;
   text-align: center;
-  width: 80px;
+  width: 70px;
   padding: 5px 0px 5px 0px;
   font-size: 16px;
   font-weight: bolder;
@@ -159,6 +159,7 @@ export default {
 .top-item .content #name {
   color: black;
   margin: 0 0 10px 0;
+  font-size: medium;
 }
 
 .top-item .content .score {
