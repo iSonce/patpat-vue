@@ -387,6 +387,7 @@ export default {
     background-color: #FFECED;
     border-radius: 25px;
     flex: 80%;
+    outline: none;
 }
 
 .footer #button {
@@ -441,6 +442,7 @@ export default {
     border-style: hidden;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
     padding: 5px;
+    outline: none;
 }
 
 .reply_header {
