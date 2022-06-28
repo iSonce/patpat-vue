@@ -94,10 +94,7 @@ export default {
             ReplyList: [],
             GameList: [],
             url: config.url,
-            user: {
-                uid: 9,
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjoxLFwiZm9sbG93TnVtXCI6MSxcImF2YXRhclwiOlwiL2ltYWdlLzBkY2Q3YzI1LTZlMzktNGE2Zi05YTBmLTkwOTU2NmE0ODJjZC5qcGdcIixcImJhY2tncm91bmRcIjpcIi9pbWFnZS8yNjA3YWJmNi1lNDRlLTQxNDEtYWRiMi1lYTIzNjQxZmJjNTMuanBnXCIsXCJ1c2VybmFtZVwiOlwiU29uY2VcIixcInBhc3N3b3JkXCI6XCIkMmEkMTIkRFhHWGRaVy9OaTdGMFJPMERia3lFdW9OdE5Vc3U0NWJOSzE1NjgubDAubUhtUTR2UnI5d2FcIixcInVpZFwiOjl9IiwidWlkIjo5LCJleHAiOjE2NTY0MDk1OTEsInVzZXJuYW1lIjoiU29uY2UifQ.X3xbeb17XD4etZd9XktXqOpW739WZrz9jNSSFGAfdyQ"
-            },
+            user: config.user,
             input: '',
             buttonShow: true,
             canLoad: true
@@ -108,8 +105,8 @@ export default {
         LoadRefresh
     },
     mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         AddRead({
             pid: this.$route.params.pid
         }, {
@@ -168,7 +165,7 @@ export default {
                 return dayDiff + '天前'
             }
             let hourDiff = Math.floor(dateDiff / (3600 * 1000))//计算出相差小时数
-            if (dayDiff > 0) {
+            if (hourDiff > 0) {
                 return hourDiff + '小时前'
             }
             let minutesDiff = Math.floor(dateDiff / (60 * 1000))//计算出相差分钟数

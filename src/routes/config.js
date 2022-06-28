@@ -22,6 +22,21 @@ const routes = [
     { path: '/post/:pid', name: 'pid', component: PidPage },
     { path: '/post/:pid/reply/:rid/:floorNum', name: 'rid', component: ReplyPage },
 
+    //输入关键字搜索帖子
+    { path: '/search/:key/post', name: 'search_post', component: PostPage },
+    { path: '/search/:key/post/:pid', name: 'search_pid', component: PidPage },
+    { path: '/search/:key/post/:pid/reply/:rid/:floorNum', name: 'search_rid', component: ReplyPage },
+
+    //已点赞帖子
+    { path: '/like/:like_uid/post', name: 'like_post', component: PostPage },
+    { path: '/like/:like_uid/post/:pid', name: 'like_pid', component: PidPage },
+    { path: '/like/:like_uid/post/:pid/reply/:rid/:floorNum', name: 'like_rid', component: ReplyPage },
+
+    //已收藏帖子
+    { path: '/collect/:collect_uid/post', name: 'collect_post', component: PostPage },
+    { path: '/collect/:collect_uid/post/:pid', name: 'collect_pid', component: PidPage },
+    { path: '/collect/:collect_uid/post/:pid/reply/:rid/:floorNum', name: 'collect_rid', component: ReplyPage },
+
     //关注帖子的信息,related_id为当前用户id
     { path: '/related/:related_uid/post', name: ':related_post', component: PostPage },
     { path: '/related/:related_uid/post/:pid', name: ':related_pid', component: PidPage },

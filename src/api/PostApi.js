@@ -8,6 +8,24 @@ export function GetPost(data) {
     })
 }
 
+export function GetLikePosts(data, headers) {
+    return instance.request({
+        method: "get",
+        url: "/post/like",
+        params: data,
+        headers: headers
+    })
+}
+
+export function GetCollectPosts(data, headers) {
+    return instance.request({
+        method: "get",
+        url: "/post/collect",
+        params: data,
+        headers: headers
+    })
+}
+
 export function GetPostsByRelated(data, headers) {
     return instance.request({
         method: "get",
@@ -22,14 +40,6 @@ export function GetPostReply(data) {
     return instance.request({
         method: "get",
         url: "/post/reply",
-        params: data
-    })
-}
-
-export function PublishPost(data) {
-    return instance.request({
-        method: "post",
-        url: "/post",
         params: data
     })
 }

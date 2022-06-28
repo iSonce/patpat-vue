@@ -55,10 +55,7 @@ export default {
     data() {
         return {
             ReplyList: [],
-            user: {
-                uid: 9,
-                token: null
-            },
+            user: config.user,
             main_reply: null,
             url: config.url,
             input: '',
