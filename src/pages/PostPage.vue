@@ -1,6 +1,6 @@
 <template>
     <div id="post" style="margin-top:10px" v-if="PostList">
-        <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()">
+        <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
             <div :key="item.pid" v-for="item in PostList" class="post_item">
                 <div style="padding: 0px 10px;">
                     <div class="user_info">
@@ -69,7 +69,8 @@ export default {
             user: {
                 uid: 9,
                 token: null
-            }
+            },
+            canLoad: true
         };
     },
     computed: {
@@ -78,8 +79,8 @@ export default {
     },
     components: { LoadRefresh },
     mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
@@ -139,6 +140,7 @@ export default {
                 })
         },
         async refreshEmit() {
+            this.canLoad = true
             return await this.getInitData()
         },
         async loadingEmit() {
@@ -182,6 +184,9 @@ export default {
             }
         },
         async getLoadData() {
+            if (!this.canLoad) {
+                return
+            }
             if (this.$route.params.related_uid) {
                 GetPostsByRelated({
                     uid: this.user.uid,
@@ -190,6 +195,10 @@ export default {
                 }, {
                     token: this.user.token
                 }).then((response) => {
+                    if (response.data.data == null) {
+                        this.canLoad = false
+                        throw new Error(response.data.message)
+                    }
                     this.PostList.push.apply(this.PostList, response.data.data)
                 }).catch(err => console.log(err))
             } else {
@@ -203,6 +212,10 @@ export default {
                     }, {
                         token: this.user.token
                     }).then((response) => {
+                        if (response.data.data == null) {
+                            this.canLoad = false
+                            throw new Error(response.data.message)
+                        }
                         this.PostList.push.apply(this.PostList, response.data.data)
                     }).catch(err => console.log(err))
                     :
@@ -215,7 +228,8 @@ export default {
                         token: this.user.token
                     }).then((response) => {
                         if (response.data.data == null) {
-                            throw (new Error("没有更多数据了！"))
+                            this.canLoad = false
+                            throw new Error(response.data.message)
                         }
                         this.PostList.push.apply(this.PostList, response.data.data)
                     }).catch(err => console.log(err))

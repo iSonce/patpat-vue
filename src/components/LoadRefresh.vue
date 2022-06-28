@@ -14,6 +14,7 @@
 <script>
 export default {
     emits: ['refresh', 'load'],
+    props:['canLoad'],
     data() {
         return {
             load_refresh_img_show: {
@@ -23,7 +24,7 @@ export default {
             //用于防止加载两次，相当于加个锁
             is_load_busy: false,
             //判断是否刷新
-            is_refresh: false,
+            is_refresh: false
         };
     },
     mounted() {
@@ -31,7 +32,7 @@ export default {
             let scrollTop = document.documentElement.scrollTop;
             let scrollHeight = document.documentElement.scrollHeight;
             let clientHeight = document.documentElement.clientHeight;
-            if (scrollHeight - clientHeight - scrollTop < 1 && !this.is_load_busy) {
+            if (scrollHeight - clientHeight - scrollTop < 1 && !this.is_load_busy && this.canLoad) {
                 //加锁
                 this.is_load_busy = true
                 this.load_refresh_img_show.end = true;

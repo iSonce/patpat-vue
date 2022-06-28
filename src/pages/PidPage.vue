@@ -19,11 +19,12 @@
             <div style="display:flex;margin-left: auto;align-items: center;">
                 <img src="../assets/ButtonUI/BackButton.png" alt="back_button"
                     style="width:40px;height: 40px;margin-right: 15px;" @click="backToPostList()">
-                <button v-show="user.uid!=PostInfo.uid" id="subsribe_button" @click="handleFollow(PostInfo)">{{ (PostInfo.isFollowed) ? '已关注 ' : '关注'
+                <button v-show="user.uid != PostInfo.uid" id="subsribe_button" @click="handleFollow(PostInfo)">{{
+                        (PostInfo.isFollowed) ? '已关注 ' : '关注'
                 }}</button>
             </div>
         </header>
-        <load-refresh @refresh="refreshEmit()" @load="loadingEmit()">
+        <load-refresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
             <div class="main">
                 <div class="content">
                     <div class="text">{{ PostInfo.content }}</div>
@@ -105,7 +106,8 @@ export default {
                 token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjoxLFwiZm9sbG93TnVtXCI6MSxcImF2YXRhclwiOlwiL2ltYWdlLzBkY2Q3YzI1LTZlMzktNGE2Zi05YTBmLTkwOTU2NmE0ODJjZC5qcGdcIixcImJhY2tncm91bmRcIjpcIi9pbWFnZS8yNjA3YWJmNi1lNDRlLTQxNDEtYWRiMi1lYTIzNjQxZmJjNTMuanBnXCIsXCJ1c2VybmFtZVwiOlwiU29uY2VcIixcInBhc3N3b3JkXCI6XCIkMmEkMTIkRFhHWGRaVy9OaTdGMFJPMERia3lFdW9OdE5Vc3U0NWJOSzE1NjgubDAubUhtUTR2UnI5d2FcIixcInVpZFwiOjl9IiwidWlkIjo5LCJleHAiOjE2NTY0MDk1OTEsInVzZXJuYW1lIjoiU29uY2UifQ.X3xbeb17XD4etZd9XktXqOpW739WZrz9jNSSFGAfdyQ"
             },
             input: '',
-            buttonShow: true
+            buttonShow: true,
+            canLoad: true
         }
     },
     components: {
@@ -113,8 +115,8 @@ export default {
         LoadRefresh
     },
     mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         AddRead({
             pid: this.$route.params.pid
         }, {
@@ -293,6 +295,7 @@ export default {
                 })
         },
         async refreshEmit() {
+            this.canLoad = true
             return await this.getInitData()
         },
         async loadingEmit() {
@@ -326,6 +329,9 @@ export default {
             }).catch(err => console.log(err))
         },
         async getLoadData() {
+            if(!this.canLoad){
+                return
+            }
             GetPostReply({
                 pid: this.$route.params.pid,
                 uid: this.user.uid,
@@ -334,6 +340,10 @@ export default {
                 order: 0,
                 token: this.user.token
             }).then(response => {
+                if (response.data.data == null) {
+                    this.canLoad = false
+                    throw new Error(response.data.message)
+                }
                 this.ReplyList.push.apply(this.ReplyList, response.data.data)
             }).catch(err => console.log(err))
         },

@@ -2,13 +2,12 @@
     <div class="rid" v-if="main_reply">
         <header class="reply_header">
             <img src="../assets/ButtonUI/BackButton.png" alt="back_button" style="width:40px;display: block;"
-                @click="this.$router.back(-1)"
-            >
+                @click="this.$router.back(-1)">
             <div style="font-size:20px;margin: auto;">{{ reply_num }}回复
             </div>
             <div style="width:50px;"></div>
         </header>
-        <load-refresh @refresh="refreshEmit()" @load="loadingEmit()">
+        <load-refresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
             <div class="main">
                 <div id="main_reply" v-if="main_reply">
                     <img v-lazy='url + main_reply.avatar' alt="icon"
@@ -64,7 +63,8 @@ export default {
             url: config.url,
             input: '',
             fid: 0,
-            reply_num: 0
+            reply_num: 0,
+            canLoad: true
         }
     },
     components: {
@@ -73,8 +73,8 @@ export default {
     },
     mounted() {
         document.querySelector('body').setAttribute('style', 'margin:0;')
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         // document.querySelector('html').setAttribute('style', 'height:100vh;')
         this.getInitData()
     },
@@ -107,6 +107,7 @@ export default {
             }
         },
         async refreshEmit() {
+            this.canLoad = true
             return await this.getInitData()
         },
         async loadingEmit() {
@@ -154,6 +155,9 @@ export default {
             }).catch(err => console.log(err))
         },
         async getLoadData() {
+            if (!this.canLoad) {
+                return
+            }
             GetReplyList({
                 rid: this.$route.params.rid,
                 uid: this.user.uid,
@@ -161,6 +165,10 @@ export default {
                 pageSize: 10,
                 order: 1,
             }).then(response => {
+                if (response.data.data == null) {
+                    this.canLoad = false
+                    throw new Error(response.data.message)
+                }
                 this.ReplyList.push.apply(this.ReplyList, response.data.data)
             }).catch(err => console.log(err))
         },
