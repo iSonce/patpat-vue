@@ -34,7 +34,7 @@
         </load-refresh>
         <div class="reply_footer">
             <input id="reply" type="text" placeholder="发表你的看法"
-                style="padding:10px;border-radius: 25px;flex: 80;background-color: #FFECED;" @input="handleInput"
+                style="outline: none; padding:10px;border-radius: 25px;flex: 80;background-color: #FFECED;" @input="handleInput"
                 v-model="input">
             <button style="padding:8px;flex:20%;border-radius: 25px;background-color: #FFECED;margin-left:5px"
                 @click="handleSend">发送</button>
