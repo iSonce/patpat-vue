@@ -115,8 +115,8 @@ export default {
         LoadRefresh
     },
     mounted() {
-        // this.user.uid = window.jsAdapter.getUid()
-        // this.user.token = window.jsAdapter.getToken()
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         AddRead({
             pid: this.$route.params.pid
         }, {

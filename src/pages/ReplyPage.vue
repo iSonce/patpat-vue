@@ -73,9 +73,8 @@ export default {
     },
     mounted() {
         document.querySelector('body').setAttribute('style', 'margin:0;')
-        // this.user.uid = window.jsAdapter.getUid()
-        // this.user.token = window.jsAdapter.getToken()
-        // document.querySelector('html').setAttribute('style', 'height:100vh;')
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         this.getInitData()
     },
     unmounted() {

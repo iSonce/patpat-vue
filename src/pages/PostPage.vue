@@ -79,8 +79,8 @@ export default {
     },
     components: { LoadRefresh },
     mounted() {
-        // this.user.uid = window.jsAdapter.getUid()
-        // this.user.token = window.jsAdapter.getToken()
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
