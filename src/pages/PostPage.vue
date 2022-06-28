@@ -6,9 +6,9 @@
                     <div class="user_info">
                         <img v-lazy='(item.avatar) ? (url + item.avatar) : require("../assets/icon.png")'
                             alt="user_icon" class="user_icon" @click="this.console.log('123')">
-                        <div style="padding-top: 2px">
+                        <div>
                             <div style="display:flex;text-align: center;align-items: center;">
-                                <div style="margin-right:5px">{{ item.nickname }}</div>
+                                <div style="margin-right:5px;font-size: smaller;">{{ item.nickname }}</div>
                                 <img :src="require('../assets/Level/Level' + item.level + '.png')" alt="level"
                                     style="width:20px;height: 20px;">
                             </div>
@@ -257,8 +257,8 @@ a {
 }
 
 #post .user_icon {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     margin-right: 10px;
     border-radius: 50px;
 }
@@ -278,10 +278,12 @@ a {
 #post .time {
     color: gray;
     margin-right: 10px;
+    font-size: smaller;
 }
 
 #post .forum {
     color: red;
+    font-size: smaller;
 }
 
 #post .button {
