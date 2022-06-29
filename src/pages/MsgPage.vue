@@ -14,7 +14,7 @@
                             </div>
                         </div>
                         <div>
-                            <div style="margin-bottom: 5px;">这句话说的好</div>
+                            <div style="margin-bottom: 5px;">{{msg.content}}</div>
                             <div style="display:flex;color:gray;margin-bottom: 5px;">
                                 <div class="bar"></div>
                                 <div>我的{{ (msg.type[0] == 'r') ? "回复" + "：" + msg.ucontent : "帖子" + "：《" + msg.utitle
