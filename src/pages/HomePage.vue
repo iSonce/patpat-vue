@@ -19,7 +19,7 @@ a {
     color: black;
 }
 
-#title>>>.highlight_text {
+#title :deep(.highlight_text) {
     color: red
 }
 </style>

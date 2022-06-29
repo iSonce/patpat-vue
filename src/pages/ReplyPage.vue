@@ -11,7 +11,8 @@
             <div class="main">
                 <div id="main_reply" v-if="main_reply">
                     <img v-lazy='url + main_reply.avatar' alt="icon"
-                        style="width:45px;height: 45px;margin-right: 8px;border-radius: 50px;">
+                        style="width:45px;height: 45px;margin-right: 8px;border-radius: 50px;"
+                        @click="goToUser(main_reply.uid)">
                     <div style="flex:100%">
                         <div style="display:flex;text-align: center;align-items: center;">
                             <div style="font-weight:800;margin-bottom:5px;margin-right:5px">{{ main_reply.nickname }}
@@ -20,8 +21,7 @@
                                 style="width:20px;height: 20px;">
                         </div>
                         <div style="display:flex;color:gray;margin-bottom:10px;font-size: small;">
-                            <div style="margin-right:10px">{{ this.$route.params.floorNum }}楼</div>
-                            <div>{{ ComputedTime(main_reply.postTime) }}</div>
+                            {{ ComputedTime(main_reply.postTime) }}
                         </div>
                         <div>
                             {{ main_reply.content }}
@@ -34,8 +34,8 @@
         </load-refresh>
         <div class="reply_footer">
             <input id="reply" type="text" placeholder="发表你的看法"
-                style="outline: none; padding:10px;border-radius: 25px;flex: 80;background-color: #FFECED;" @input="handleInput"
-                v-model="input">
+                style="outline: none; padding:10px;border-radius: 25px;flex: 80;background-color: #FFECED;"
+                @input="handleInput" v-model="input">
             <button style="padding:8px;flex:20%;border-radius: 25px;background-color: #FFECED;margin-left:5px"
                 @click="handleSend">发送</button>
         </div>
@@ -77,7 +77,14 @@ export default {
     unmounted() {
         document.body.removeAttribute('style')
     },
+    computed: {
+        console: () => console,
+        window: () => window,
+    },
     methods: {
+        goToUser(uid) {
+            this.window.jsAdapter.goToUser(uid)
+        },
         ComputedTime(time) {
             let dateBegin = new Date(time.replace(/-/g, '/'))
             let dateEnd = new Date()
@@ -90,7 +97,7 @@ export default {
                 return dayDiff + '天前'
             }
             let hourDiff = Math.floor(dateDiff / (3600 * 1000))//计算出相差小时数
-            if (dayDiff > 0) {
+            if (hourDiff > 0) {
                 return hourDiff + '小时前'
             }
             let minutesDiff = Math.floor(dateDiff / (60 * 1000))//计算出相差分钟数
@@ -116,7 +123,8 @@ export default {
                 pid: this.$route.params.pid,
                 content: this.input,
                 replyToUid: this.main_reply.uid,
-                floorNum: this.$route.params.floorNum
+                floorNum: this.$route.params.floorNum,
+                replyToRid: this.$route.params.rid
             }, {
                 token: this.user.token
             }).then((response => {

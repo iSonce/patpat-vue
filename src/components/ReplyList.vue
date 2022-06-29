@@ -3,14 +3,15 @@
         <div :key="reply.rid" v-for="reply in ReplyList" class="reply_item">
             <div style="display:flex">
                 <img v-lazy='url + reply.avatar' alt="icon"
-                    style="width:45px;height: 45px;margin-right: 8px;border-radius: 50px;">
+                    style="width:45px;height: 45px;margin-right: 8px;border-radius: 50px;" @click="goToUser(reply.uid)">
                 <div style="flex:100%">
-                <div style="display:flex;text-align: center;align-items: center;">
-                    <div style="margin-bottom: 5px;color: gray;margin-right: 5px;">{{ reply.nickname }}</div>
-                    <img :src="require('../assets/Level/Level' + reply.level + '.png')" alt="level" style="width:20px;height: 20px;">
-                </div>
-                    
-                    <router-link :to="{ path: this.$route.path + '/reply/' + reply.rid + '/' + reply.floorNum }"
+                    <div style="display:flex;text-align: center;align-items: center;">
+                        <div style="margin-bottom: 5px;color: gray;margin-right: 5px;">{{ reply.nickname }}</div>
+                        <img :src="require('../assets/Level/Level' + reply.level + '.png')" alt="level"
+                            style="width:20px;height: 20px;">
+                    </div>
+
+                    <router-link :to="{ path: this.$route.path + '/reply/' + reply.rid + '/' + reply.floorNum}"
                         style="text-decoration:none;color: black;" v-if="!this.$route.params.rid">
                         <div style="margin-bottom: 10px;">{{ reply.content }}
                         </div>
@@ -30,7 +31,9 @@
                                 alt="like_button" id="like_button" style="margin-right:5px">
                             <div style="font-size:13px;color: gray;">{{ reply.likeNum }}</div>
                         </div>
-                        <div style="margin-left: auto;font-size:13px;color: gray;margin-right: 5px;">{{ComputedTime( reply.postTime) }}</div>
+                        <div style="margin-left: auto;font-size:13px;color: gray;margin-right: 5px;">{{ ComputedTime(
+                                reply.postTime)
+                        }}</div>
                     </div>
                 </div>
             </div>
@@ -52,7 +55,15 @@ export default {
     props: {
         ReplyList: Array
     },
+    computed: {
+        console: () => console,
+        window: () => window,
+    },
     methods: {
+        goToUser(uid) {
+            this.console.log(uid)
+            this.window.jsAdapter.goToUser(uid)
+        },
         ComputedTime(time) {
             let dateBegin = new Date(time.replace(/-/g, '/'))
             let dateEnd = new Date()
@@ -77,8 +88,6 @@ export default {
                 return secondsDiff + '秒前'
             }
         },
-    },
-    mounted() {
     }
 }
 </script>

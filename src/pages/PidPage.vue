@@ -6,7 +6,7 @@
                     style="width:35px;height: 35px;margin-right: 15px;" @click="backToPostList()">
             </div>
             <img v-lazy='(PostInfo.avatar) ? (url + PostInfo.avatar) : require("../assets/icon.png")' alt="user_icon"
-                style="width:45px;height: 45px;margin-right: 10px;border-radius: 50px;">
+                style="width:45px;height: 45px;margin-right: 10px;border-radius: 50px;" @click="goToUser(PostInfo.uid)">
             <div>
                 <div style="display:flex;text-align: center;align-items: center;">
                     <div style="font-size:large;font-weight: 800;margin-bottom: 4px;margin-right: 5px;">{{
@@ -32,7 +32,7 @@
                     <div style="font-size:25px;font-weight: 800;padding-bottom: 10px;">{{ PostInfo.title }}</div>
                     <div class="text">{{ PostInfo.content }}</div>
                     <img v-lazy='url + PostInfo.picture' alt="op" class="img" v-if="PostInfo.picture">
-                    <div class="forum" v-if="ForumInfo">
+                    <div class="forum" v-if="ForumInfo" @click="goToForum(ForumInfo.fid)">
                         <img v-lazy='(ForumInfo.icon) ? (url + ForumInfo.icon) : require("../assets/icon.png")' alt="op"
                             class="picture">
                         <div style="margin-left:8px;margin:auto 0 auto 0;padding:5px;font-size: smaller;">
@@ -105,8 +105,8 @@ export default {
         LoadRefresh
     },
     mounted() {
-        // this.user.uid = window.jsAdapter.getUid()
-        // this.user.token = window.jsAdapter.getToken()
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         AddRead({
             pid: this.$route.params.pid
         }, {
@@ -121,6 +121,14 @@ export default {
         document.body.removeAttribute('style')
     },
     methods: {
+        goToUser(uid) {
+            console.log(uid)
+            window.jsAdapter.goToUser(uid)
+        },
+        goToForum(fid) {
+            console.log(fid)
+            window.jsAdapter.startForumActivity(fid)
+        },
         handleFollow(item) {
             (!item.isFollowed) ?
                 ConcernUser({

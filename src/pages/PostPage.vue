@@ -5,7 +5,7 @@
                 <div style="padding: 0px 10px;">
                     <div class="user_info">
                         <img v-lazy='(item.avatar) ? (url + item.avatar) : require("../assets/icon.png")'
-                            alt="user_icon" class="user_icon" @click="this.console.log('123')">
+                            alt="user_icon" class="user_icon" @click="goToUser(item.uid)">
                         <div>
                             <div style="display:flex;text-align: center;align-items: center;">
                                 <div style="margin-right:5px;font-size: 15px;">{{ item.nickname }}</div>
@@ -75,8 +75,8 @@ export default {
     },
     components: { LoadRefresh },
     mounted() {
-        // this.user.uid = window.jsAdapter.getUid()
-        // this.user.token = window.jsAdapter.getToken() 
+        this.user.uid = window.jsAdapter.getUid()
+        this.user.token = window.jsAdapter.getToken()
         this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
@@ -84,6 +84,10 @@ export default {
         document.body.removeAttribute('style')
     },
     methods: {
+        goToUser(uid) {
+            this.console.log(uid)
+            this.window.jsAdapter.goToUser(uid)
+        },
         ComputedTime(time) {
             let dateBegin = new Date(time.replace(/-/g, '/'))
             let dateEnd = new Date()

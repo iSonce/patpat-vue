@@ -53,7 +53,7 @@ const routes = [
     { path: '/user/:uid/post/:pid', name: 'user_pid', component: PidPage },
     { path: '/user/:uid/post/:pid/reply/:rid/:floorNum', name: 'user_rid', component: ReplyPage },
 
-    //消息
+    //消息 type为消息类型，type=like为点赞消息 type=reply为回复消息
     { path: '/message/:type', name: 'like_message', component: MsgPage },
     { path: '/message/:type', name: 'reply_message', component: MsgPage }
 ]

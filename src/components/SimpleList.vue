@@ -24,8 +24,9 @@
 
 <script>
 import { GetGamesByRank, GetGamesByType } from '@/api/GameApi';
-import { GetPostsBySearch } from '@/api/SearchApi'
+import { Search } from '@/api/SearchApi'
 import LoadRefresh from './LoadRefresh.vue';
+import config from '@/api/config';
 export default {
   name: "SimpleList",
   props: {
@@ -40,7 +41,8 @@ export default {
         head: false,
         end: false,
       },
-      canLoad: true
+      canLoad: true,
+      user: config.user
     };
   },
   mounted() {
@@ -66,11 +68,16 @@ export default {
     },
     async getInitData() {
       if (this.keyWord) {
-        GetPostsBySearch({
-          //more params to be define
+        console.log('search' + this.keyWord)
+        Search({
+          type: "game",
+          key: this.keyWord,
           pageSize: 15,
           offset: 0,
+        }, {
+          token: this.user.token
         }).then((response) => {
+          console.log(response)
           this.GameList = response.data.data
         })
       } else {
@@ -93,38 +100,41 @@ export default {
     },
     async getLoadData() {
       if (this.keyWord) {
-        GetPostsBySearch({
-          //more params to be define
+        Search({
+          type: "game",
+          key: this.keyWord,
           pageSize: 15,
           offset: this.GameList.length,
+        }, {
+          token: this.user.token
         }).then((response) => {
           this.GameList.push.apply(this.GameList, response.data.data)
         })
       }
       else {
         (this.type == undefined) ?
-        GetGamesByRank({
-          pageSize: 15,
-          offset: this.GameList.length
-        }).then((response) => {
-          if (response.data.data == null) {
-            this.canLoad = false
-            throw (new Error(response.data.message))
-          }
-          this.GameList.push.apply(this.GameList, response.data.data)
-        }).catch(err => console.log(err))
-        :
-        GetGamesByType({
-          type: this.type,
-          pageSize: 15,
-          offset: this.offset,
-        }).then((response) => {
-          if (response.data.data == null) {
-            this.canLoad = false
-            throw (new Error(response.data.message))
-          }
-          this.GameList.push.apply(this.GameList, response.data.data)
-        })
+          GetGamesByRank({
+            pageSize: 15,
+            offset: this.GameList.length
+          }).then((response) => {
+            if (response.data.data == null) {
+              this.canLoad = false
+              throw (new Error(response.data.message))
+            }
+            this.GameList.push.apply(this.GameList, response.data.data)
+          }).catch(err => console.log(err))
+          :
+          GetGamesByType({
+            type: this.type,
+            pageSize: 15,
+            offset: this.offset,
+          }).then((response) => {
+            if (response.data.data == null) {
+              this.canLoad = false
+              throw (new Error(response.data.message))
+            }
+            this.GameList.push.apply(this.GameList, response.data.data)
+          })
       }
     },
   },
