@@ -1,6 +1,6 @@
 <template>
   <div class="top-list" id="top-list" v-if="GameList.length">
-    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :can-load="canLoad">
+    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
       <a class="top-item" :key="game.gid" v-for="(game, index1) in GameList" @click="goToUrl(game.url)">
         <p id="rank" v-if="rankShow">{{ index1 + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />

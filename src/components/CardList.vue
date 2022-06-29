@@ -1,6 +1,6 @@
 <template>
   <div class="game-cards" id="rcmd-cards">
-    <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :can-load="canLoad">
+    <load-refresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
       <a class="game-card" :key="game.gid" v-for="game in GameList" @click="goToUrl(game.url)">
         <img v-lazy="game.picture" alt="Game Poster" id="poster" />
         <div class="content">
@@ -14,7 +14,7 @@
           </div>
         </div>
       </a>
-    </LoadRefresh>
+    </load-refresh>
   </div>
 </template>
 

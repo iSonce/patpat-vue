@@ -1,6 +1,6 @@
 <template>
     <div id="post" style="margin-top:10px" v-if="PostList">
-        <LoadRefresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
+        <load-refresh @refresh="refreshEmit()" @load="loadingEmit()" :canLoad="canLoad">
             <div :key="item.pid" v-for="item in PostList" class="post_item">
                 <div style="padding: 0px 10px;">
                     <div class="user_info">
@@ -50,7 +50,7 @@
                 </div>
                 <hr class="line">
             </div>
-        </LoadRefresh>
+        </load-refresh>
     </div>
 </template>
 
