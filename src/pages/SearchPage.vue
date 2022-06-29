@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <simple-list :rankShow='false'></simple-list>
+        <simple-list :rankShow='false' :keyWord="this.$route.params.key"></simple-list>
     </div>
 </template>
 

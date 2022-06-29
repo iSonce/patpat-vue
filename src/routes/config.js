@@ -15,7 +15,7 @@ const routes = [
     { path: '/discover', name: 'discover', component: DscvPage },
     { path: '/discover/:type', name: 'type', component: TypePage },
     { path: '/recommend', name: 'recommend', component: RcmdPage },
-    { path: '/search', name: 'search', component: SearchPage },
+    { path: '/search/:key/game', name: 'search_game', component: SearchPage },
     { path: '/top', name: 'top', component: TopPage },
 
     //随机帖子信息

@@ -11,7 +11,7 @@
             <p id="num">{{ (game.score).toFixed(1) }}</p>
             <div id="type_container">
               <div class="type">
-                {{divideTypes(game.types)}}
+                {{ divideTypes(game.types) }}
               </div>
             </div>
           </div>
@@ -24,6 +24,7 @@
 
 <script>
 import { GetGamesByRank, GetGamesByType } from '@/api/GameApi';
+import { GetPostsBySearch } from '@/api/SearchApi'
 import LoadRefresh from './LoadRefresh.vue';
 export default {
   name: "SimpleList",
@@ -54,7 +55,7 @@ export default {
         return null
       }
       let arr = types.split(',')
-      return arr[0]+' · '+arr[1]
+      return arr[0] + ' · ' + arr[1]
     },
     async refreshEmit() {
       this.canLoad = true
@@ -64,26 +65,44 @@ export default {
       return await this.getLoadData()
     },
     async getInitData() {
-      (this.type == undefined) ?
-        GetGamesByRank({
+      if (this.keyWord) {
+        GetPostsBySearch({
+          //more params to be define
           pageSize: 15,
           offset: 0,
         }).then((response) => {
-          //GameList重设为结果
           this.GameList = response.data.data
         })
-        :
-        GetGamesByType({
-          type: this.type,
-          pageSize: 15,
-          offset: 0,
-        }).then((response) => {
-          //GameList重设为结果
-          this.GameList = response.data.data
-        })
+      } else {
+        (this.type == undefined) ?
+          GetGamesByRank({
+            pageSize: 15,
+            offset: 0,
+          }).then((response) => {
+            this.GameList = response.data.data
+          })
+          :
+          GetGamesByType({
+            type: this.type,
+            pageSize: 15,
+            offset: 0,
+          }).then((response) => {
+            this.GameList = response.data.data
+          })
+      }
     },
     async getLoadData() {
-      (this.type == undefined) ?
+      if (this.keyWord) {
+        GetPostsBySearch({
+          //more params to be define
+          pageSize: 15,
+          offset: this.GameList.length,
+        }).then((response) => {
+          this.GameList.push.apply(this.GameList, response.data.data)
+        })
+      }
+      else {
+        (this.type == undefined) ?
         GetGamesByRank({
           pageSize: 15,
           offset: this.GameList.length
@@ -92,7 +111,6 @@ export default {
             this.canLoad = false
             throw (new Error(response.data.message))
           }
-          //拼接上新数据
           this.GameList.push.apply(this.GameList, response.data.data)
         }).catch(err => console.log(err))
         :
@@ -105,9 +123,9 @@ export default {
             this.canLoad = false
             throw (new Error(response.data.message))
           }
-          //拼接上新数据
           this.GameList.push.apply(this.GameList, response.data.data)
         })
+      }
     },
   },
   components: { LoadRefresh }
