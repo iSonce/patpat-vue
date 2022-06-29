@@ -7,6 +7,7 @@ import PostPage from '../pages/PostPage.vue'
 import PidPage from '../pages/PidPage.vue'
 import HomePage from '../pages/HomePage.vue'
 import ReplyPage from '../pages/ReplyPage.vue'
+import MsgPage from '../pages/MsgPage.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
@@ -51,6 +52,10 @@ const routes = [
     { path: '/user/:uid/post', name: 'user_post', component: PostPage },
     { path: '/user/:uid/post/:pid', name: 'user_pid', component: PidPage },
     { path: '/user/:uid/post/:pid/reply/:rid/:floorNum', name: 'user_rid', component: ReplyPage },
+
+    //消息
+    { path: '/message/:type', name: 'like_message', component: MsgPage },
+    { path: '/message/:type', name: 'reply_message', component: MsgPage }
 ]
 
 export const router = createRouter({
