@@ -44,3 +44,12 @@ export function GetPostsBySearch(data, headers) {
         headers: headers
     })
 }
+
+export function GetUserReply(data, headers) {
+    return instance.request({
+        method: "get",
+        url: "/user/reply",
+        params: data,
+        headers: headers
+    })
+}

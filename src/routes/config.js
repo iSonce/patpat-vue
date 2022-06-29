@@ -8,6 +8,7 @@ import PidPage from '../pages/PidPage.vue'
 import HomePage from '../pages/HomePage.vue'
 import ReplyPage from '../pages/ReplyPage.vue'
 import MsgPage from '../pages/MsgPage.vue'
+import UserReplyPage from '../pages/UserReplyPage.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
@@ -55,7 +56,10 @@ const routes = [
 
     //消息 type为消息类型，type=like为点赞消息 type=reply为回复消息
     { path: '/message/:type', name: 'like_message', component: MsgPage },
-    { path: '/message/:type', name: 'reply_message', component: MsgPage }
+    { path: '/message/:type', name: 'reply_message', component: MsgPage },
+
+    //用户发表的回复列表
+    { path: '/user/:uid/reply', name: 'user_reply', component: UserReplyPage }
 ]
 
 export const router = createRouter({

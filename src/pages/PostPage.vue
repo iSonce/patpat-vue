@@ -160,6 +160,15 @@ export default {
                 page: 0,
                 size: 10,
             }
+            if (this.$route.params.uid) {
+                data.uid = this.$route.params.uid
+            }
+            if (this.$route.params.like_uid) {
+                data.uid = this.$route.params.like_uid
+            }
+            if (this.$route.params.collect_uid) {
+                data.uid = this.$route.params.collect_uid
+            }
             const headers = {
                 token: this.user.token
             }
@@ -182,6 +191,15 @@ export default {
                 key: this.$route.params.key,
                 page: 0,
                 size: 10,
+            }
+            if (this.$route.params.uid) {
+                data.uid = this.$route.params.uid
+            }
+            if (this.$route.params.like_uid) {
+                data.uid = this.$route.params.like_uid
+            }
+            if (this.$route.params.collect_uid) {
+                data.uid = this.$route.params.collect_uid
             }
             const headers = {
                 token: this.user.token
