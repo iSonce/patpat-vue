@@ -65,10 +65,7 @@ export default {
         return {
             PostList: null,
             url: config.url,
-            user: {
-                uid: 9,
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJuaWNrbmFtZVwiOlwiU29uY2VcIixcImludHJvXCI6XCLlj6_ku6XkuI3niLHvvIzor7fliKvkvKTlrrNcIixcImdlbmRlclwiOjAsXCJyZWdpc3RlclRpbWVcIjpcIjIwMjItMDYtMjQgMTU6MTc6NTNcIixcImZhbnNOdW1cIjoyLFwiZm9sbG93TnVtXCI6NCxcImF2YXRhclwiOlwiL2ltYWdlLzBkY2Q3YzI1LTZlMzktNGE2Zi05YTBmLTkwOTU2NmE0ODJjZC5qcGdcIixcImJhY2tncm91bmRcIjpcIi9pbWFnZS8xZmJhMjMwZS01OTIxLTQwNjktYjZhYi01ZGFhN2JmNDIzM2EuanBnXCIsXCJ1c2VybmFtZVwiOlwiU29uY2VcIixcInBhc3N3b3JkXCI6XCIkMmEkMTIkRFhHWGRaVy9OaTdGMFJPMERia3lFdW9OdE5Vc3U0NWJOSzE1NjgubDAubUhtUTR2UnI5d2FcIixcInVpZFwiOjl9IiwidWlkIjo5LCJleHAiOjE2NTY0NTY5NjEsInVzZXJuYW1lIjoiU29uY2UifQ.pddIvNoaFbhseVaKTbkR_EEfVuEMo7ywRwGCoQe9IF0"
-            },
+            user: config.user,
             canLoad: true
         };
     },
@@ -155,7 +152,9 @@ export default {
                 offset: 0,
                 pageSize: 10,
                 type: "post",
-                key: this.$route.params.key
+                key: this.$route.params.key,
+                page: 0,
+                size: 10,
             }
             const headers = {
                 token: this.user.token
@@ -173,9 +172,12 @@ export default {
                 uid: this.user.uid,
                 fid: this.$route.params.fid,
                 order: (this.$route.params.uid != undefined) ? 0 : 3,
-                offset: 0,
+                offset: this.PostList.length,
                 pageSize: 10,
                 type: "post",
+                key: this.$route.params.key,
+                page: 0,
+                size: 10,
             }
             const headers = {
                 token: this.user.token
