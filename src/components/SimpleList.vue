@@ -5,7 +5,9 @@
         <p id="rank" v-if="rankShow">{{ index1 + 1 }}</p>
         <img v-lazy="game.icon" alt="icon" id="icon" />
         <div class="content">
-          <h3 id="name">{{ (game.name.length > 8) ? game.name.substr(0, 8) + '...' : game.name }}</h3>
+          <h3 id="name" v-if="this.keyWord" v-html="game.name"></h3>
+          <h3 id="name" v-if="!this.keyWord">{{ (game.name.length > 8) ? game.name.substr(0, 8) + '...' : game.name }}
+          </h3>
           <div class="score">
             <img src="../assets/heart.png" alt="heart" id="heart" />
             <p id="num">{{ (game.score).toFixed(1) }}</p>
@@ -219,5 +221,9 @@ export default {
   font-weight: 800;
   margin: 0;
   width: auto;
+}
+
+.highlight_text {
+  color: red
 }
 </style>
