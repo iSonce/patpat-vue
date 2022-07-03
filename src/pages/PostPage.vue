@@ -30,11 +30,6 @@
                             <img v-lazy='url + item.picture' alt="post_img" class="post_img" v-if="item.picture">
                         </a>
                         <div class="button" v-if="!this.$route.params.uid">
-                            <!-- <div style="display: flex" @click="collect(item)">
-                                <img src="../assets/ButtonUI/Star.png" alt="star_button"
-                                    style="width:20px;padding-right: 5px;">
-                                <div style="width: 0px; color:gray">{{ 0 }}</div>
-                            </div> -->
                             <a @click="goToPost(item.pid)" style="display: flex">
                                 <img src="../assets/ButtonUI/ReviewButton.png" alt="message"
                                     style="width:20px;padding-right: 5px;">
@@ -147,7 +142,7 @@ export default {
             return await this.getLoadData()
         },
         async getInitData() {
-            //post   forum   related   like   collect   user   search
+            //post   forum   related   like   collect   user
             const GetPostsType = this.$route.fullPath.split('/')[1]
             const data = {
                 uid: this.user.uid,
@@ -155,10 +150,7 @@ export default {
                 order: (this.$route.params.uid != undefined) ? 0 : 3,
                 offset: 0,
                 pageSize: 10,
-                type: "post",
-                key: this.$route.params.key,
-                page: 0,
-                size: 10,
+                type: "post"
             }
             if (this.$route.params.uid) {
                 data.uid = this.$route.params.uid
@@ -187,10 +179,7 @@ export default {
                 order: (this.$route.params.uid != undefined) ? 0 : 3,
                 offset: this.PostList.length,
                 pageSize: 10,
-                type: "post",
-                key: this.$route.params.key,
-                page: 0,
-                size: 10,
+                type: "post"
             }
             if (this.$route.params.uid) {
                 data.uid = this.$route.params.uid
@@ -204,7 +193,7 @@ export default {
             const headers = {
                 token: this.user.token
             }
-            GetPostsByOneApi(GetPostsType, data, headers, this.PostList)
+            GetPostsByOneApi(GetPostsType, data, headers)
                 .then((response) => {
                     console.log(response)
                     if (response.data.data == null) {

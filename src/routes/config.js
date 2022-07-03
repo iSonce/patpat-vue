@@ -1,7 +1,8 @@
 import DscvPage from '../pages/DscvPage.vue'
 import TypePage from '../pages/TypePage.vue'
 import RcmdPage from '../pages/RcmdPage.vue'
-import SearchPage from '../pages/SearchPage.vue'
+import SearchGamePage from '../pages/SearchGamePage.vue'
+import SearchPostPage from '../pages/SearchPostPage.vue'
 import TopPage from '../pages/TopPage.vue'
 import PostPage from '../pages/PostPage.vue'
 import PidPage from '../pages/PidPage.vue'
@@ -16,18 +17,20 @@ const routes = [
     { path: '/discover', name: 'discover', component: DscvPage },
     { path: '/discover/:type', name: 'type', component: TypePage },
     { path: '/recommend', name: 'recommend', component: RcmdPage },
-    { path: '/search/:key/game', name: 'search_game', component: SearchPage },
     { path: '/top', name: 'top', component: TopPage },
+
+    //搜索
+    { path: '/search/:key/game', name: 'search_game', component: SearchGamePage },
+    { path: '/search/:key/post', name: 'search_post', component: SearchPostPage },
+    { path: '/search/:key/post/:pid', name: 'search_pid', component: PidPage },
+    { path: '/search/:key/post/:pid/reply/:rid/:floorNum', name: 'search_rid', component: ReplyPage },
 
     //随机帖子信息
     { path: '/post', name: 'post', component: PostPage },
     { path: '/post/:pid', name: 'pid', component: PidPage },
     { path: '/post/:pid/reply/:rid/:floorNum', name: 'rid', component: ReplyPage },
 
-    //输入关键字搜索帖子
-    { path: '/search/:key/post', name: 'search_post', component: PostPage },
-    { path: '/search/:key/post/:pid', name: 'search_pid', component: PidPage },
-    { path: '/search/:key/post/:pid/reply/:rid/:floorNum', name: 'search_rid', component: ReplyPage },
+
 
     //已点赞帖子
     { path: '/like/:like_uid/post', name: 'like_post', component: PostPage },

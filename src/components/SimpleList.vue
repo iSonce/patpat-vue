@@ -144,7 +144,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .top-list {
   padding: 5px;
 }
@@ -224,6 +224,6 @@ export default {
 }
 
 .highlight_text {
-  color: red
+  color: rgb(254, 145, 163)
 }
 </style>
