@@ -4,12 +4,10 @@
         <router-link to="/post">post</router-link>
         <router-link to="/top">top</router-link>
         <router-link to="/discover">discover</router-link>
-        <div v-html="title" id="title"></div>
     </div>
 </template>
 
 <script setup>
-const title = `王<span class="highlight_text">者荣</span>耀`
 </script>
 
 <style scoped>
