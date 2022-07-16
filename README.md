@@ -61,7 +61,7 @@ The project root directory will generate a folder named dist, open ```dist/index
 
 ### Router
 
-You can check the ```routes/config.js``` to know more about the correspondence between paths and pages
+You can check the ```src/routes/config.js``` to know more about the correspondence between paths and pages
 
 ## license
 
