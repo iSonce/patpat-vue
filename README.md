@@ -1,6 +1,6 @@
 <div align='center'>
-    <img src='./src/assets/patpat.png' style='width:150px; border-radius:150px'/>
-    <h1 style='width:200px; margin:auto; text-align:center'>patpat-vue</h1>
+    <img src='./src/assets/patpat.png' width='200' style='border-radius:50%'/>
+    <h1>patpat-vue</h1>
 </div>
 
 <p align='center'>
