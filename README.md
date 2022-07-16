@@ -18,38 +18,50 @@ The front end of a game community app named patpat power by <a href='https://vue
 </p>
 
 ## Background
-This project is just part of the application of patpat, there are the other parts of the patpat project, and the GUI style of patpat is learned from [TapTap](https://taptap.com)
+This project is just part of the application of patpat, there are the other parts of the patpat project.
 
 * [patpatAndroid](https://gitee.com/lin_po_sheng/patpat-android) made by [kudou-lbs](https://gitee.com/lin_po_sheng) and [Anomaly_Ruby](https://gitee.com/Anomaly_Ruby)
 * [patpatBackend](https://gitee.com/lin_po_sheng/patpat-backend) made by [光海](https://gitee.com/hide_and_see) and [“](mailto:994097470@qq.com)
 * [patpatDesign](https://gitee.com/lin_po_sheng/patpat-design) made by [LeoVincent](https://gitee.com/leovincent)
 
+The GUI style of patpat is learned from [TapTap](https://taptap.com).
+
 ## Install
 
-This project uses [node](http://nodejs.org) and [npm](https://npmjs.com). Go check them out if you don't have them locally installed. (The current version of node is 16.15.1)
+This project uses [node](http://nodejs.org) and [npm](https://npmjs.com). Go check them out if you don't have them locally installed. (My current version of node is 16.15.1)
 
 ```sh
-git clone https://github.com/iSonce/patpat-vue.git
-npm install
+$ git clone https://github.com/iSonce/patpat-vue.git
+$ cd patpat-vue
+$ npm install
 ```
 
 ## Usage
 
+***This project depend on the android application, so the usage is just for development***
+
 ### Start
 
-After install the dependencies, start the project, and it will run at port 8080 by default.
+After install the dependencies, start the project.
 
 ```sh
 $ npm run serve
 ```
 
+It will run at port 8080 by default.
+
 ### Build
 
-Create a production build
+Create a production build.
 
 ```sh
 $ npm run build
 ```
+The project root directory will generate a folder named dist, open ```dist/index.html``` in your browser.
+
+### Router
+
+You can check the ```routes/config.js``` to know more about the correspondence between paths and pages
 
 ## license
 
