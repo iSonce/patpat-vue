@@ -105,8 +105,8 @@ export default {
         LoadRefresh
     },
     mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         AddRead({
             pid: this.$route.params.pid
         }, {
@@ -213,136 +213,137 @@ export default {
             }).catch(err => console.log(err))
             this.PostInfo.replyNum++
             console.log('send')
-    },
-    backToPostList() {
-        window.jsAdapter.finishCurrentActivity()
-    },
-    async handleLikeReply(item) {
-        (!item.isLike) ?
-            LikeReply({
-                uid: this.user.uid,
-                rid: item.rid,
-            }, {
-                token: this.user.token
-            }).then((response) => {
-                console.log(response)
-                item.isLike = true
-                item.likeNum++
-            })
-            :
-            CancelLikeReply({
-                uid: this.user.uid,
-                rid: item.rid,
-            }, {
-                token: this.user.token
-            }).then((response) => {
-                console.log(response)
-                item.isLike = false
-                item.likeNum--
-            })
-    },
+        },
+        backToPostList() {
+            window.jsAdapter.finishCurrentActivity()
+        },
+        async handleLikeReply(item) {
+            (!item.isLike) ?
+                LikeReply({
+                    uid: this.user.uid,
+                    rid: item.rid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = true
+                    item.likeNum++
+                })
+                :
+                CancelLikeReply({
+                    uid: this.user.uid,
+                    rid: item.rid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = false
+                    item.likeNum--
+                })
+        },
 
-    async handleLikePost(item) {
-        (!item.isLike) ?
-            LikePost({
+        async handleLikePost(item) {
+            (!item.isLike) ?
+                LikePost({
+                    uid: this.user.uid,
+                    pid: this.PostInfo.pid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isLike = true
+                    item.likeNum++
+                })
+                :
+                CancelLikePost({
+                    uid: this.user.uid,
+                    pid: this.PostInfo.pid,
+                }, {
+                    token: this.user.token
+                }).then(() => {
+                    item.isLike = false
+                    item.likeNum--
+                })
+        },
+        async handleCollectPost(item) {
+            (!item.isCollect) ?
+                CollectPost({
+                    uid: this.user.uid,
+                    pid: this.PostInfo.pid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isCollect = true
+                    item.collectNum++
+                })
+                :
+                CancelCollectPost({
+                    uid: this.user.uid,
+                    pid: this.PostInfo.pid,
+                }, {
+                    token: this.user.token
+                }).then((response) => {
+                    console.log(response)
+                    item.isCollect = false
+                    item.collectNum--
+                })
+        },
+        async refreshEmit() {
+            this.canLoad = true
+            return await this.getInitData()
+        },
+        async loadingEmit() {
+            return await this.getLoadData()
+        },
+        async getInitData() {
+            await GetPost({
+                pid: this.$route.params.pid,
                 uid: this.user.uid,
-                pid: this.PostInfo.pid,
-            }, {
                 token: this.user.token
-            }).then((response) => {
-                console.log(response)
-                item.isLike = true
-                item.likeNum++
-            })
-            :
-            CancelLikePost({
+            }).then(response => {
+                this.PostInfo = response.data.data
+            }).catch(err => console.log(err))
+            await GetForum({
+                id: this.PostInfo.fid,
                 uid: this.user.uid,
-                pid: this.PostInfo.pid,
-            }, {
                 token: this.user.token
-            }).then(() => {
-                item.isLike = false
-                item.likeNum--
-            })
-    },
-    async handleCollectPost(item) {
-        (!item.isCollect) ?
-            CollectPost({
+            }, this.PostInfo.fid).then(response => {
+                this.ForumInfo = response.data.data
+            }).catch(err => console.log(err))
+            await GetPostReply({
+                pid: this.$route.params.pid,
                 uid: this.user.uid,
-                pid: this.PostInfo.pid,
-            }, {
+                offset: 0,
+                pageSize: 10,
+                order: 0,
                 token: this.user.token
-            }).then((response) => {
-                console.log(response)
-                item.isCollect = true
-                item.collectNum++
-            })
-            :
-            CancelCollectPost({
-                uid: this.user.uid,
-                pid: this.PostInfo.pid,
-            }, {
-                token: this.user.token
-            }).then((response) => {
-                console.log(response)
-                item.isCollect = false
-                item.collectNum--
-            })
-    },
-    async refreshEmit() {
-        this.canLoad = true
-        return await this.getInitData()
-    },
-    async loadingEmit() {
-        return await this.getLoadData()
-    },
-    async getInitData() {
-        console.log()
-        await GetPost({
-            pid: this.$route.params.pid,
-            uid: this.user.uid,
-            token: this.user.token
-        }).then(response => {
-            this.PostInfo = response.data.data
-        }).catch(err => console.log(err))
-        await GetForum({
-            id: this.PostInfo.fid,
-            uid: this.user.uid,
-            token: this.user.token
-        }, this.PostInfo.fid).then(response => {
-            this.ForumInfo = response.data.data
-        }).catch(err => console.log(err))
-        await GetPostReply({
-            pid: this.$route.params.pid,
-            uid: this.user.uid,
-            offset: 0,
-            pageSize: 10,
-            order: 0,
-            token: this.user.token
-        }).then(response => {
-            this.ReplyList = response.data.data
-        }).catch(err => console.log(err))
-    },
-    async getLoadData() {
-        if (!this.canLoad) {
-            return
-        }
-        GetPostReply({
-            pid: this.$route.params.pid,
-            uid: this.user.uid,
-            offset: this.ReplyList.length,
-            pageSize: 10,
-            order: 0,
-            token: this.user.token
-        }).then(response => {
-            if (response.data.data == null) {
-                this.canLoad = false
-                throw new Error(response.data.message)
+            }).then(response => {
+                if(response.data.data){
+                    this.ReplyList = response.data.data
+                }
+            }).catch(err => console.log(err))
+        },
+        async getLoadData() {
+            if (!this.canLoad) {
+                return
             }
-            this.ReplyList.push.apply(this.ReplyList, response.data.data)
-        }).catch(err => console.log(err))
-    },
-}
+            GetPostReply({
+                pid: this.$route.params.pid,
+                uid: this.user.uid,
+                offset: this.ReplyList.length,
+                pageSize: 10,
+                order: 0,
+                token: this.user.token
+            }).then(response => {
+                if (response.data.data == null) {
+                    this.canLoad = false
+                    throw new Error(response.data.message)
+                }
+                this.ReplyList.push.apply(this.ReplyList, response.data.data)
+            }).catch(err => console.log(err))
+        },
+    }
 }
 </script>
 

@@ -14,7 +14,7 @@
                             </div>
                             <div style="display:flex;text-align: center;align-items: center;">
                                 <div class="time">
-                                    {{ ComputedTime(item.postTime) }}
+                                    {{ item.postTime }}
                                 </div>
                                 <div class="forum">
                                     {{ item.forumName }}
@@ -54,6 +54,7 @@ import LoadRefresh from '@/components/LoadRefresh.vue'
 import config from '@/api/config'
 import { LikePost, CancelLikePost } from '@/api/PostApi'
 import { GetPostsByOneApi } from "@/api/AllPostListApi"
+import ComputedTime from '@/utils/ComputedTime'
 export default {
     name: "PostPage",
     data() {
@@ -65,13 +66,11 @@ export default {
         };
     },
     computed: {
-        console: () => console,
-        window: () => window,
     },
     components: { LoadRefresh },
     mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
@@ -80,32 +79,11 @@ export default {
     },
     methods: {
         goToUser(uid) {
-            this.console.log(uid)
-            this.window.jsAdapter.goToUser(uid)
+            console.log(uid)
+            window.jsAdapter.goToUser(uid)
         },
         ComputedTime(time) {
-            let dateBegin = new Date(time.replace(/-/g, '/'))
-            let dateEnd = new Date()
-            let dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
-            let dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
-            if (dayDiff > 7) {
-                return time.split(' ')[0]
-            }
-            if (dayDiff > 0) {
-                return dayDiff + '天前'
-            }
-            let hourDiff = Math.floor(dateDiff / (3600 * 1000))//计算出相差小时数
-            if (hourDiff > 0) {
-                return hourDiff + '小时前'
-            }
-            let minutesDiff = Math.floor(dateDiff / (60 * 1000))//计算出相差分钟数
-            if (minutesDiff > 0) {
-                return minutesDiff + '分钟前'
-            }
-            let secondsDiff = Math.floor(dateDiff / 1000)//计算出相差秒数
-            if (secondsDiff > 0) {
-                return secondsDiff + '秒前'
-            }
+            return ComputedTime(time)
         },
         goToPost(pid) {
             window.jsAdapter.goToPost(pid)
@@ -142,7 +120,6 @@ export default {
             return await this.getLoadData()
         },
         async getInitData() {
-            //post   forum   related   like   collect   user
             const GetPostsType = this.$route.fullPath.split('/')[1]
             const data = {
                 uid: this.user.uid,
@@ -166,8 +143,11 @@ export default {
             }
             GetPostsByOneApi(GetPostsType, data, headers)
                 .then((response) => {
-                    console.log(response)
-                    this.PostList = response.data.data
+                    let result = response.data.data
+                    for (let key in result) {
+                        result[key].postTime = ComputedTime(result[key].postTime)
+                    }
+                    this.PostList = result
                 })
                 .catch(err => console.log(err))
         },
@@ -195,12 +175,15 @@ export default {
             }
             GetPostsByOneApi(GetPostsType, data, headers)
                 .then((response) => {
-                    console.log(response)
                     if (response.data.data == null) {
                         this.canLoad = false
                         throw new Error(response.data.message)
                     }
-                    this.PostList.push.apply(this.PostList, response.data.data)
+                    let result = response.data.data
+                    for (let key in result) {
+                        result[key].postTime = ComputedTime(result[key].postTime)
+                    }
+                    this.PostList.push.apply(this.PostList, result)
                 }).catch(err => console.log(err))
         },
     },
