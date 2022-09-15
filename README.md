@@ -20,9 +20,9 @@ The front end of a game community app named patpat power by <a href='https://vue
 ## Background
 This project is just part of the application of patpat, there are the other parts of the patpat project.
 
-* [patpatAndroid](https://gitee.com/lin_po_sheng/patpat-android) made by [kudou-lbs](https://gitee.com/lin_po_sheng) and [Anomaly_Ruby](https://gitee.com/Anomaly_Ruby)
-* [patpatBackend](https://gitee.com/lin_po_sheng/patpat-backend) made by [光海](https://gitee.com/hide_and_see) and [“](mailto:994097470@qq.com)
-* [patpatDesign](https://gitee.com/lin_po_sheng/patpat-design) made by [LeoVincent](https://gitee.com/leovincent)
+* [patpatAndroid](https://github.com/kudou-lbs/PatPat_Android) made by [kudou-lbs](https://gitee.com/lin_po_sheng) and [Anomaly_Ruby](https://gitee.com/Anomaly_Ruby)
+* [patpatBackend](https://github.com/kudou-lbs/PatPat_Backend) made by [光海](https://gitee.com/hide_and_see) and [“](mailto:994097470@qq.com)
+* [patpatDesign](https://github.com/kudou-lbs/Patpat_Design) made by [LeoVincent](https://gitee.com/leovincent)
 
 The GUI style of patpat is learned from [TapTap](https://taptap.com).
 
