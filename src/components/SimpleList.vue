@@ -47,7 +47,7 @@ export default {
       user: config.user
     };
   },
-  mounted() {
+  created() {
     this.getInitData()
   },
   methods: {

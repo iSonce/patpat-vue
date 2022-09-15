@@ -68,10 +68,12 @@ export default {
     computed: {
     },
     components: { LoadRefresh },
-    mounted() {
+    created() {
         // this.user.uid = window.jsAdapter.getUid()
         // this.user.token = window.jsAdapter.getToken()
         this.getInitData()
+    },
+    mounted() {
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
     unmounted() {

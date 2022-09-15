@@ -13,7 +13,8 @@
                     </p>
                     <div class="end">
                         <p v-html="item.forumName" style="margin-right:3px"></p>
-                        <p> · {{ (item.likeNum) ? item.likeNum : 0 }} 赞 · {{ (item.replyNum) ? item.replyNum : 0 }} 回复</p>
+                        <p> · {{ (item.likeNum) ? item.likeNum : 0 }} 赞 · {{ (item.replyNum) ? item.replyNum : 0 }} 回复
+                        </p>
                     </div>
                 </div>
             </div>
@@ -34,10 +35,12 @@ export default {
             PostList: []
         }
     },
-    mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+    created() {
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         this.getInitData()
+    },
+    mounted() {
         document.querySelector('body').setAttribute('style', 'margin:0')
     },
     unmounted() {

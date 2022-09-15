@@ -104,9 +104,12 @@ export default {
         ReplyList,
         LoadRefresh
     },
-    mounted() {
+    created() {
         // this.user.uid = window.jsAdapter.getUid()
         // this.user.token = window.jsAdapter.getToken()
+        this.getInitData()
+    },
+    mounted() {
         AddRead({
             pid: this.$route.params.pid
         }, {
@@ -114,7 +117,6 @@ export default {
         }).then(() => {
 
         })
-        this.getInitData()
         document.querySelector('body').setAttribute('style', 'margin:0;')
     },
     unmounted() {

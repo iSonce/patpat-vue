@@ -68,11 +68,13 @@ export default {
         ReplyList,
         LoadRefresh
     },
+    created() {
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
+        this.getInitData()
+    },
     mounted() {
         document.querySelector('body').setAttribute('style', 'margin:0;')
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
-        this.getInitData()
     },
     unmounted() {
         document.body.removeAttribute('style')

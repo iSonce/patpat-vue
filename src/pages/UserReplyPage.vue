@@ -7,7 +7,7 @@
                         style="height:45px;width:45px;border-radius: 45px;margin-right:5px">
                     <div @click="goToReply(reply.rid)">
                         <div style="margin-bottom:5px;color:gray">{{ (this.$route.params.uid == user.uid) ? '你' :
-                                reply.nickname
+                        reply.nickname
                         }}
                         </div>
                         <div style="margin-bottom:5px">{{ reply.content }}</div>
@@ -44,9 +44,9 @@ export default {
             url: config.url
         }
     },
-    mounted() {
-        this.user.uid = window.jsAdapter.getUid()
-        this.user.token = window.jsAdapter.getToken()
+    created() {
+        // this.user.uid = window.jsAdapter.getUid()
+        // this.user.token = window.jsAdapter.getToken()
         this.getInitData()
     },
     components: {

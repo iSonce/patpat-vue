@@ -30,11 +30,11 @@ export default {
       canLoad: true
     };
   },
-  async mounted() {
+  created() {
     this.getInitData()
   },
   methods: {
-    goToUrl(url){
+    goToUrl(url) {
       window.jsAdapter.goToUrl(url)
     },
     async refreshEmit() {
